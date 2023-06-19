@@ -41,7 +41,7 @@ const Login = () => {
                 />
                 {errors.password && (
                     <span>
-                    Password is required, must be at least 8 characters long, and cannot contain white spaces.
+                        Password is required, must be at least 8 characters long, and cannot contain white spaces.
                     </span>
                 )}
             </div>
