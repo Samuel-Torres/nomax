@@ -8,3 +8,5 @@ CREATE TABLE "Post" (
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
 );
+
+DROP TABLE IF EXISTS Post;
