@@ -1,10 +1,10 @@
 "use client"
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 
 const Login = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit,  formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         // Handle form submission
         console.log(data);
     };
