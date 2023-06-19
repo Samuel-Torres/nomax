@@ -1,0 +1,25 @@
+$lightShade: #F9F8F8;
+$lightAccent: #DCA26C;
+$mainBrandColor: #93B1C1;
+$mainBrandColorRgba: rgba(147, 177, 193, .8);
+$darkAccent: #BC5968;
+$darkShade: #3B5875;
+$brandBlack: #191919;
+$success: #5ea25d;
+$warning: #db9225;
+$danger: #FF5733;
+
+// responsive breakpoints:
+
+:export {
+    lighShade: $lightShade;
+    lightAccent: $lightAccent;
+    mainBrandColor: $mainBrandColor;
+    mainBrandColorRgba: $mainBrandColorRgba;
+    darkAccent:  $darkAccent;
+    darkShade: $darkShade;
+    brandBlack: $brandBlack;
+    success: $success;
+    warning: $warning;
+    danger: $danger;
+  }
