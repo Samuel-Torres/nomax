@@ -10,10 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String  
-  content   String?  @db.Text
+enum personaTypes {
+  PASSPORTBRO
+  DIGITALNOMAD
+  EXPAT
+  TOURIST
+  BACKPACKER
+}
+
+model Users {
+  id            Int       @id @default(autoincrement()) @unique
+  email         String    @unique
+  password      String 
+  created_At    DateTime  @default(now())
+  bio           String    @db.Text
+  persona       personaTypes?
+  jobTitle      String
+  companyName   String
 }
