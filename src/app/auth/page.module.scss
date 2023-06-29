@@ -1,28 +1,28 @@
 .container {
-    position: relative;
+  position: relative;
 
-    h1 {
-        position: relative;
-    }
-    .divImage {
-        position: relative;
-        height: 100vh;
-    }
-    
-    .divImage::before {
-        padding: 0px 100px;
-        content: '';
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
-        background-image: url("https://res.cloudinary.com/dvz91qyth/image/upload/v1687205440/Nomex/auth%20page%20assets/11mag-nomadism1-superJumbo_xixnpm.jpg");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        background-size: cover;
-        background-position: center center;
-        opacity: .8;
-        height: 100vh;
-    }
+  h1 {
+    position: relative;
+  }
+  .divImage {
+    position: relative;
+    height: 100vh;
+  }
+
+  .divImage::before {
+    padding: 0px 100px;
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-image: url("https://res.cloudinary.com/dvz91qyth/image/upload/v1687205440/Nomex/auth%20page%20assets/11mag-nomadism1-superJumbo_xixnpm.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.8;
+    height: 100vh;
+  }
 }
