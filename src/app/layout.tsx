@@ -18,7 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }

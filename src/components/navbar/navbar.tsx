@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <div className={styles.container}>
       <h1>Nomex</h1>
-      <Link href="/auth">
+      <Link href="/auth/login">
         <button>Login</button>
       </Link>
     </div>
