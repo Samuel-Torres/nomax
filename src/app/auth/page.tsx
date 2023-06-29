@@ -1,18 +1,12 @@
-"use client"
 import Login from "./loginForm/login";
-
-// styles:
-import {
-  AuthPageContainer,
-  AuthPageImage
-} from "./styles";
+import styles from "./page.module.scss";
 
 export default function Auth() {
     return (
-      <AuthPageContainer>
-        <AuthPageImage>
+      <div className={styles.container}>
+        <div className={styles.divImage}>
           <Login />
-        </AuthPageImage>
-      </AuthPageContainer>
+        </div>
+      </div>
     )
 }

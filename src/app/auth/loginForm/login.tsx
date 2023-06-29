@@ -1,10 +1,6 @@
 "use client"
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-
-// styled definitions:
-import {
-    StyledForm
-} from '../styles';
+import styles from "./login.module.scss";
 
 const Login = () => {
     const { register, handleSubmit,  formState: { errors } } = useForm();
@@ -14,11 +10,12 @@ const Login = () => {
         console.log(data);
     };
     return (
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <div className="inputContainer">
+        <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.inputContainer}>
                 <h1>LOGIN</h1>
                 <label>Email</label>
                 <input
+                    className={styles.input}
                     type="email"
                     {...register('email', {
                     required: true,
@@ -27,11 +24,9 @@ const Login = () => {
                     })}
                 />
                 {errors.email && <span>Email is required and must be valid.</span>}
-            </div>
-    
-            <div className="inputContainer">
                 <label>Password</label>
                 <input
+                    className={styles.input}
                     type="password"
                     {...register('password', {
                     required: true,
@@ -49,7 +44,7 @@ const Login = () => {
             <button type="submit" disabled={Object.keys(errors).length > 0}>
                 Submit
             </button>
-      </StyledForm>
+      </form>
     )
 }
 
