@@ -27,7 +27,7 @@
     opacity: 0.8;
     height: 100vh;
   }
-  
+
   .formContainer {
     display: flex;
     flex-direction: column;
@@ -59,4 +59,7 @@
   label {
     position: relative;
   } 
+  .socialBtn {
+    z-index: 1000;
+  }
 }

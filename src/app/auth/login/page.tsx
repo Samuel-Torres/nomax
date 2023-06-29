@@ -25,6 +25,7 @@ export default function LoginForm() {
     try {
       const { email, password } = data;
       await signIn("credentials", { email, password });
+      router?.push("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -48,48 +49,58 @@ export default function LoginForm() {
     return (
       <div className={styles.container}>
         <div className={styles.divImage}>
-          <form className={styles.formContainer}>
-            <div className={styles.inputContainer}>
-              <h1>LOGIN</h1>
-              <label>Email</label>
-              <input
-                className={styles.input}
-                type="email"
-                {...register("email", {
-                  required: true,
-                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  minLength: 1,
-                })}
-              />
-              {errors.email && (
-                <span>Email is required and must be valid.</span>
-              )}
-              <label>Password</label>
-              <input
-                className={styles.input}
-                type="password"
-                {...register("password", {
-                  required: true,
-                  minLength: 8,
-                  validate: (value) => value.trim().length > 0,
-                })}
-              />
-              {errors.password && (
-                <span>
-                  Password is required, must be at least 8 characters long, and
-                  cannot contain white spaces.
-                </span>
-              )}
-            </div>
-
-            <button
-              disabled={Object.keys(errors).length > 0}
-              onClick={handleSubmit(onSubmit)}
+          <div>
+            <form
+              className={styles.formContainer}
+              onSubmit={handleSubmit(onSubmit)}
             >
-              Submit
-            </button>
-            <button onClick={() => signIn("google")}>Login with Google</button>
-          </form>
+              <div className={styles.inputContainer}>
+                <h1>LOGIN</h1>
+                <label>Email</label>
+                <input
+                  className={styles.input}
+                  type="email"
+                  {...register("email", {
+                    required: true,
+                    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    minLength: 1,
+                  })}
+                />
+                {errors.email && (
+                  <span>Email is required and must be valid.</span>
+                )}
+                <label>Password</label>
+                <input
+                  className={styles.input}
+                  type="password"
+                  {...register("password", {
+                    required: true,
+                    minLength: 8,
+                    validate: (value) => value.trim().length > 0,
+                  })}
+                />
+                {errors.password && (
+                  <span>
+                    Password is required, must be at least 8 characters long,
+                    and cannot contain white spaces.
+                  </span>
+                )}
+              </div>
+
+              <button
+                // disabled={Object.keys(errors).length > 0}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Submit
+              </button>
+              <button
+                className={styles.socialBtn}
+                onClick={() => console.log("RAN")}
+              >
+                Login with Google
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     );
