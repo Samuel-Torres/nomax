@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const users: Prisma.UsersCreateInput[] = [
+  const users = [
     {
       email: "first@gmail.com",
       password: "123",
