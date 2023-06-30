@@ -95,7 +95,8 @@ export default function LoginForm() {
               </button>
               <button
                 className={styles.socialBtn}
-                onClick={() => console.log("RAN")}
+                // onClick={() => console.log("RAN")}
+                onClick={() => signIn("google")}
               >
                 Login with Google
               </button>
