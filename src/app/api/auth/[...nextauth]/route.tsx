@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -13,17 +12,17 @@ interface Auth {
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID as Auth["clientId"],
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as Auth["clientSecret"],
     }),
-    Credentials({
-      id: "credentials",
-      name: "Credentials",
-      async authorize(credentials) {
-        try {
-        } catch (error) {}
-      },
-    }),
+    // Credentials({
+    //   id: "credentials",
+    //   name: "Credentials",
+    //   async authorize(credentials) {
+    //     try {
+    //     } catch (error) {}
+    //   },
+    // }),
   ],
   pages: {
     error: "/auth/login",
