@@ -1,12 +1,12 @@
 @import "../../styles/variables.module.scss";
 
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background-color: $brandBlack;
-    height: 80px;
-    h1{
-        color: $mainBrandColor;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: $brandBlack;
+  height: 80px;
+  h1 {
+    color: $mainBrandColor;
+  }
 }
