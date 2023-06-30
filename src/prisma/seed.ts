@@ -1,10 +1,8 @@
 import { Prisma, PrismaClient, Users } from '@prisma/client';
 const prisma = new PrismaClient();
 
-type UsersCreateInput = Omit<Users, "id">;
-
 async function main() {
-    const users: UsersCreateInput[] = [
+    const users: Omit<Users, "id">[] = [
         {
             email: "first@gmail.com",
             password: "123",
