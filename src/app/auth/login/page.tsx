@@ -12,25 +12,23 @@ type LoginFormValues = {
 export default function LoginForm() {
   const session = useSession();
   const router = useRouter();
-
+  console.log("SESSION: ", session);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormValues>();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-    // Handle form submission
-    console.log(data);
+  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
+    console.log("LOGIN FORM DATA: ", data);
     try {
       const { email, password } = data;
-      await signIn("credentials", { email, password });
-      router?.push("/dashboard");
+      signIn("credentials", { email, password });
     } catch (error) {
       console.error("Login error:", error);
     }
   };
-  console.log("SESSION: ", session);
+
   if (session.status === "loading") {
     return (
       <div className={styles.container}>
@@ -75,7 +73,7 @@ export default function LoginForm() {
                   type="password"
                   {...register("password", {
                     required: true,
-                    minLength: 8,
+                    // minLength: 8,
                     validate: (value) => value.trim().length > 0,
                   })}
                 />
@@ -89,12 +87,13 @@ export default function LoginForm() {
 
               <button
                 // disabled={Object.keys(errors).length > 0}
-                onClick={handleSubmit(onSubmit)}
+                // onClick={handleSubmit(onSubmit)}
+                className={styles.authBtn}
               >
-                Submit
+                Login
               </button>
               <button
-                className={styles.socialBtn}
+                className={styles.authBtn}
                 // onClick={() => console.log("RAN")}
                 onClick={() => signIn("google")}
               >
