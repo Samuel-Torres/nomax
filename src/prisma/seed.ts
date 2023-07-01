@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
 
@@ -7,7 +8,7 @@ async function main() {
     data: [
       {
         email: "first@gmail.com",
-        password: "123",
+        password: await bcrypt.hash("123", 5),
         created_At: new Date(),
         bio: "New Bio",
         persona: "PASSPORTBRO",
@@ -16,7 +17,7 @@ async function main() {
       },
       {
         email: "second@gmail.com",
-        password: "123",
+        password: await bcrypt.hash("123", 5),
         created_At: new Date(),
         bio: "I'm new here",
         persona: "EXPAT",
@@ -25,7 +26,7 @@ async function main() {
       },
       {
         email: "third@gmail.com",
-        password: "123",
+        password: await bcrypt.hash("123", 5),
         created_At: new Date(),
         bio: "Another one",
         persona: "BACKPACKER",
@@ -34,7 +35,7 @@ async function main() {
       },
       {
         email: "fourth@gmail.com",
-        password: "123",
+        password: await bcrypt.hash("123", 5),
         created_At: new Date(),
         bio: "Hello Governor",
         persona: "DIGITALNOMAD",
@@ -44,8 +45,6 @@ async function main() {
     ],
     skipDuplicates: true,
   });
-
-  console.log("Users created:", users);
 }
 
 main()
