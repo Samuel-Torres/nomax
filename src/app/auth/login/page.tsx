@@ -1,34 +1,18 @@
 "use client";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import styles from "./page.module.scss";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+// components:
+import LoginForm from "@/components/loginForm/login";
 
-export default function LoginForm() {
+// error handling for password doesn't work properly allows for white spaces
+// doesn't handle errors for user not found or improper credentials
+export default function LoginPage() {
   const session = useSession();
   const router = useRouter();
-  console.log("SESSION: ", session);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
-    console.log("LOGIN FORM DATA: ", data);
-    try {
-      const { email, password } = data;
-      signIn("credentials", { email, password });
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
-
+  // Use React Suspense here:
   if (session.status === "loading") {
     return (
       <div className={styles.container}>
@@ -48,58 +32,7 @@ export default function LoginForm() {
       <div className={styles.container}>
         <div className={styles.divImage}>
           <div>
-            <form
-              className={styles.formContainer}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className={styles.inputContainer}>
-                <h1>LOGIN</h1>
-                <label>Email</label>
-                <input
-                  className={styles.input}
-                  type="email"
-                  {...register("email", {
-                    required: true,
-                    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    minLength: 1,
-                  })}
-                />
-                {errors.email && (
-                  <span>Email is required and must be valid.</span>
-                )}
-                <label>Password</label>
-                <input
-                  className={styles.input}
-                  type="password"
-                  {...register("password", {
-                    required: true,
-                    // minLength: 8,
-                    validate: (value) => value.trim().length > 0,
-                  })}
-                />
-                {errors.password && (
-                  <span>
-                    Password is required, must be at least 8 characters long,
-                    and cannot contain white spaces.
-                  </span>
-                )}
-              </div>
-
-              <button
-                // disabled={Object.keys(errors).length > 0}
-                // onClick={handleSubmit(onSubmit)}
-                className={styles.authBtn}
-              >
-                Login
-              </button>
-              <button
-                className={styles.authBtn}
-                // onClick={() => console.log("RAN")}
-                onClick={() => signIn("google")}
-              >
-                Login with Google
-              </button>
-            </form>
+            <LoginForm />
           </div>
         </div>
       </div>

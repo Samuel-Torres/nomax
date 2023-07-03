@@ -13,21 +13,26 @@ interface Auth {
 
 const handler = NextAuth({
   providers: [
+    // Google Authentication Validaton:
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as Auth["clientId"],
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as Auth["clientSecret"],
     }),
+    // Username & Password Validation:
     Credentials({
       id: "credentials",
       name: "Credentials",
       // @ts-ignore
       async authorize(credentials) {
+        // check if user exists on database:
         try {
           const user = await prisma.users.findUnique({
             where: {
               email: credentials?.email,
             },
           });
+          // if user is found credentials were passed into the form & password on db & form match
+          // return user object
           if (
             user &&
             credentials &&
