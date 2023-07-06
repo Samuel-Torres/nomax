@@ -1,5 +1,5 @@
 // components:
-import DashboardComponent from "@/components/dashboardComponent/dashBoardComponent";
+import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
 
 export default function Dashboard() {
   return (
