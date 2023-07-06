@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import styles from "./navbarstyles.module.scss";
+import styles from "./landingNavbarstyles.module.scss";
 import { signOut } from "next-auth/react";
 
 export default function Navbar() {
