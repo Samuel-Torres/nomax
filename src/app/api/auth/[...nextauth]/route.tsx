@@ -19,6 +19,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as Auth["clientSecret"],
     }),
     // Username & Password Validation:
+    // @ts-ignore
     Credentials({
       id: "credentials",
       name: "Credentials",
