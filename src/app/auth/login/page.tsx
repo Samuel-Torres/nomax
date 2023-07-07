@@ -12,17 +12,6 @@ export default function LoginPage() {
   const session = useSession();
   const router = useRouter();
 
-  // Use React Suspense here:
-  if (session.status === "loading") {
-    return (
-      <div className={styles.container}>
-        <div className={styles.divImage}>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (session.status === "authenticated") {
     router?.push("/dashboard");
   }
