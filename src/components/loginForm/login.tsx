@@ -68,11 +68,7 @@ const LoginForm = () => {
         >
           Login
         </button>
-        <button
-          className={styles.authBtn}
-          // onClick={() => console.log("RAN")}
-          onClick={() => signIn("google")}
-        >
+        <button className={styles.authBtn} onClick={() => signIn("google")}>
           Login with Google
         </button>
       </form>

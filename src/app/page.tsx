@@ -5,9 +5,11 @@ import Navbar from "../components/navbar/navbar";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main>
       <Navbar />
-      <h1>MAIN PAGE</h1>
+      <div className={styles.container}>
+        <h1>MAIN PAGE</h1>
+      </div>
     </main>
   );
 }

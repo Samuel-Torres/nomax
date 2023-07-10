@@ -21,10 +21,16 @@ export default function DashboardClient() {
     if (isAuthenticated !== "authenticated") {
       router.push("/auth/login");
     }
-  }, [isAuthenticated, router]);
+    // push to onboarding:
+    // if (data?.newUser) {
+    //   router.push("/onboarding");
+    // }
+  }, [isAuthenticated, router, data]);
 
   console.log("FETCHED CLIENT DATA: ", data);
   console.log("AUTH STATUS: ", isAuthenticated);
+
+  // change to suspense loading component with page layout:
   if (isLoading) {
     return (
       <div>
