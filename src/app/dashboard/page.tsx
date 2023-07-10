@@ -4,7 +4,6 @@ import DashboardComponent from "@/components/dashboardComponent/dashboardCompone
 export default function Dashboard() {
   return (
     <div>
-      <h1>DASHBOARD PAGE</h1>
       <DashboardComponent />
     </div>
   );
