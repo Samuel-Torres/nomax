@@ -56,7 +56,7 @@ const handler = NextAuth({
       },
     }),
     // Username & Password Validation:
-    // @ts-ignore
+
     Credentials({
       id: "credentials",
       name: "Credentials",
