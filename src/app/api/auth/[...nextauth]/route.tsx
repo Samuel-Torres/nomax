@@ -3,7 +3,6 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaClient } from "@prisma/client";
 import { validatePassword } from "../../middleware/validatePassword";
-import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
@@ -36,23 +35,18 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as Auth["clientSecret"],
       // @ts-ignore
       async profile(profile: GoogleOathUserObject) {
-        console.log("CLIENT ID: ", this.clientId, this.clientSecret);
-        console.log("RAN GOOGLE AUTH COND: ");
-
         try {
           const user = await prisma.users.findUnique({
             where: {
               email: profile.email,
             },
           });
-          console.log("USER FOUND: ", user);
           if (!user) {
             const createdUser = await prisma.users.create({
               data: {
                 email: profile.email,
               },
             });
-            console.log("RETURNED GOOGLE AUTH COND: ");
             return createdUser;
           }
           return user;
@@ -80,7 +74,6 @@ const handler = NextAuth({
           const storedPassword: string | null = user?.password || "";
           // if user is found credentials were passed into the form & password on db & form match
           // return user object
-          console.log("USER: ", user);
           if (
             user &&
             credentials &&
