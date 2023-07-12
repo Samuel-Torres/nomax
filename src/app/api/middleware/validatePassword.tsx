@@ -9,5 +9,6 @@ export async function validatePassword(
     storedPassword
   );
 
+  console.log("middleware ran... result: ", isPasswordCorrect);
   return isPasswordCorrect;
 }

@@ -36,6 +36,9 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as Auth["clientSecret"],
       // @ts-ignore
       async profile(profile: GoogleOathUserObject) {
+        console.log("CLIENT ID: ", this.clientId, this.clientSecret);
+        console.log("RAN GOOGLE AUTH COND: ");
+
         try {
           const user = await prisma.users.findUnique({
             where: {
@@ -49,6 +52,7 @@ const handler = NextAuth({
                 email: profile.email,
               },
             });
+            console.log("RETURNED GOOGLE AUTH COND: ");
             return createdUser;
           }
           return user;
@@ -66,7 +70,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         // check if user exists on database:
         try {
-          const email = credentials?.email ?? "";
+          const email = credentials?.email;
           const user = await prisma.users.findUnique({
             where: {
               email: email,
@@ -74,23 +78,20 @@ const handler = NextAuth({
           });
           // if user is found credentials were passed into the form & password on db & form match
           // return user object
+          console.log("USER: ", user);
           if (
             user &&
             credentials &&
-            (await validatePassword(
-              credentials?.password,
-              user?.password ?? ""
-            ))
+            (await validatePassword(credentials.password, user.password))
           ) {
-            return NextResponse.json({ user: user, status: 200 });
-          } else {
-            return NextResponse.json({
-              error:
-                "An Error occurred please check the information you've provided and try again. Thank you!",
-            });
+            console.log("condition passed");
+            return user;
           }
+          throw new Error("Invalid credentials");
         } catch (error: unknown) {
-          return NextResponse.json({ error: "Error: " + error, status: 500 });
+          throw new Error(
+            "An error occurred while trying to login you in. Please, check your credentials and try again!"
+          );
         }
       },
     }),

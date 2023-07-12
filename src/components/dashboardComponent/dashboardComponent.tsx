@@ -28,7 +28,7 @@ export default function DashboardClient() {
   }, [isAuthenticated, router, data]);
 
   console.log("FETCHED CLIENT DATA: ", data);
-  console.log("AUTH STATUS: ", isAuthenticated);
+  console.log("AUTH STATUS: ", isAuthenticated, session);
 
   // change to suspense loading component with page layout:
   if (isLoading) {
