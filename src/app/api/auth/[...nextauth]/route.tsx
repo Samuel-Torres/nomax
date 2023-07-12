@@ -79,7 +79,6 @@ const handler = NextAuth({
             credentials &&
             (await validatePassword(requestPassword, storedPassword))
           ) {
-            console.log("condition passed");
             return user;
           }
           throw new Error("Invalid credentials");
