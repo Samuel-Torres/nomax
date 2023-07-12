@@ -15,7 +15,7 @@ export default function LoginPage() {
   if (session.status === "authenticated") {
     router?.push("/dashboard");
   }
-  console.log("LOGIN SESH DATA: ", session);
+
   if (session.status === "unauthenticated") {
     return (
       <div className={styles.container}>
