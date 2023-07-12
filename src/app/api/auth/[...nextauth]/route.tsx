@@ -76,14 +76,15 @@ const handler = NextAuth({
               email: email,
             },
           });
-          const password: string | null = user?.password || "";
+          const requestPassword: string = credentials?.password || "";
+          const storedPassword: string | null = user?.password || "";
           // if user is found credentials were passed into the form & password on db & form match
           // return user object
           console.log("USER: ", user);
           if (
             user &&
             credentials &&
-            (await validatePassword(credentials.password, password))
+            (await validatePassword(requestPassword, storedPassword))
           ) {
             console.log("condition passed");
             return user;
