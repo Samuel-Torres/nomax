@@ -8,6 +8,5 @@ export async function validatePassword(
     requestPassword,
     storedPassword
   );
-
   return isPasswordCorrect;
 }

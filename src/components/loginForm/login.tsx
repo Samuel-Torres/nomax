@@ -1,15 +1,18 @@
 "use client";
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import styles from "./login.module.scss";
+
+type LoginFormProps = {
+  loginError: string;
+};
 
 type LoginFormValues = {
   email: string;
   password: string;
 };
 
-const LoginForm = () => {
+const LoginForm = ({ loginError }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -17,13 +20,8 @@ const LoginForm = () => {
   } = useForm<LoginFormValues>();
 
   const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
-    console.log("LOGIN FORM DATA: ", data);
-    try {
-      const { email, password } = data;
-      signIn("credentials", { email, password });
-    } catch (error) {
-      console.error("Login error:", error);
-    }
+    const { email, password } = data;
+    signIn("credentials", { email, password });
   };
 
   return (
@@ -49,7 +47,6 @@ const LoginForm = () => {
             type="password"
             {...register("password", {
               required: true,
-              // minLength: 8,
               validate: (value) => value.trim().length > 0,
             })}
           />
@@ -60,10 +57,10 @@ const LoginForm = () => {
             </span>
           )}
         </div>
-
+        {loginError?.length !== 0 ? <p>{loginError}</p> : null}
         <button
-          // disabled={Object.keys(errors).length > 0}
-          // onClick={handleSubmit(onSubmit)}
+          disabled={Object.keys(errors).length > 0}
+          onClick={handleSubmit(onSubmit)}
           className={styles.authBtn}
         >
           Login

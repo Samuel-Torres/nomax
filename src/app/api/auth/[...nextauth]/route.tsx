@@ -3,7 +3,6 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaClient } from "@prisma/client";
 import { validatePassword } from "../../middleware/validatePassword";
-import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
@@ -42,7 +41,6 @@ const handler = NextAuth({
               email: profile.email,
             },
           });
-          console.log("USER FOUND: ", user);
           if (!user) {
             const createdUser = await prisma.users.create({
               data: {
@@ -53,12 +51,14 @@ const handler = NextAuth({
           }
           return user;
         } catch (error) {
-          return { error: error, status: 500 };
+          throw new Error(
+            `${error}, An error occurred while trying to login you in. Please, check your credentials and try again!`
+          );
         }
       },
     }),
     // Username & Password Validation:
-    // @ts-ignore
+
     Credentials({
       id: "credentials",
       name: "Credentials",
@@ -66,31 +66,28 @@ const handler = NextAuth({
       async authorize(credentials) {
         // check if user exists on database:
         try {
-          const email = credentials?.email ?? "";
+          const email = credentials?.email;
           const user = await prisma.users.findUnique({
             where: {
               email: email,
             },
           });
+          const requestPassword: string = credentials?.password || "";
+          const storedPassword: string | null = user?.password || "";
           // if user is found credentials were passed into the form & password on db & form match
           // return user object
           if (
             user &&
             credentials &&
-            (await validatePassword(
-              credentials?.password,
-              user?.password ?? ""
-            ))
+            (await validatePassword(requestPassword, storedPassword))
           ) {
-            return NextResponse.json({ user: user, status: 200 });
-          } else {
-            return NextResponse.json({
-              error:
-                "An Error occurred please check the information you've provided and try again. Thank you!",
-            });
+            return user;
           }
+          throw new Error(
+            "An error occurred while trying to login you in. Please, check your credentials and try again!"
+          );
         } catch (error: unknown) {
-          return NextResponse.json({ error: "Error: " + error, status: 500 });
+          throw new Error(`${error}`);
         }
       },
     }),
