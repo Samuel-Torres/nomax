@@ -47,7 +47,6 @@ const LoginForm = ({ loginError }: LoginFormProps) => {
             type="password"
             {...register("password", {
               required: true,
-              // minLength: 8,
               validate: (value) => value.trim().length > 0,
             })}
           />
