@@ -51,7 +51,9 @@ const handler = NextAuth({
           }
           return user;
         } catch (error) {
-          return { error: error, status: 500 };
+          throw new Error(
+            `${error}, An error occurred while trying to login you in. Please, check your credentials and try again!`
+          );
         }
       },
     }),
@@ -81,11 +83,11 @@ const handler = NextAuth({
           ) {
             return user;
           }
-          throw new Error("Invalid credentials");
-        } catch (error: unknown) {
           throw new Error(
             "An error occurred while trying to login you in. Please, check your credentials and try again!"
           );
+        } catch (error: unknown) {
+          throw new Error(`${error}`);
         }
       },
     }),
