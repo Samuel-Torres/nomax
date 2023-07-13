@@ -9,11 +9,13 @@ export default function Navbar() {
       <div>
         <h1>Nomex</h1>
       </div>
-      <div>
+      <div className={styles.btnContainer}>
         <Link href="/auth/login">
-          <button>Login</button>
+          <button className={styles.btn}>Login</button>
         </Link>
-        <button onClick={() => signOut()}>log out</button>
+        <button className={styles.btn} onClick={() => signOut()}>
+          log out
+        </button>
       </div>
     </div>
   );

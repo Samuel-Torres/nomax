@@ -1,3 +1,36 @@
+@import "./variables.module.scss";
+
 @mixin flexibleBackgroundColor($r, $g, $b, $a) {
   background-color: rgba($r, $g, $b, $a);
+}
+
+@mixin btnStyles(
+  $boderColor: $mainBrandColor,
+  $borderThickness: 3px,
+  $fontColor: $lightShade,
+  $btnWidth: 100px,
+  $margin: none,
+  $fontWeight: bold,
+  $height: 30px
+) {
+  all: unset;
+  border: $borderThickness solid $boderColor;
+  color: $fontColor;
+  padding: 10px;
+  width: $btnWidth;
+  height: $height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+  opacity: 0.5;
+  margin: $margin;
+
+  &:hover {
+    cursor: pointer;
+    transition-timing-function: ease-in;
+    transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(-3px);
+    opacity: 1;
+  }
 }

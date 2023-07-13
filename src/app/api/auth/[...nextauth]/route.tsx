@@ -73,7 +73,7 @@ const handler = NextAuth({
             },
           });
           const requestPassword: string = credentials?.password || "";
-          const storedPassword: string | null = user?.password || "";
+          const storedPassword: string = user?.password || "";
           // if user is found credentials were passed into the form & password on db & form match
           // return user object
           if (

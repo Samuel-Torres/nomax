@@ -10,6 +10,12 @@ $warning: #db9225;
 $danger: #ff5733;
 
 // responsive breakpoints:
+$miniMobile: 150px;
+$smallMobile: 320px;
+$Mobile: 481px;
+$tablet: 769px;
+$smallDesktop: 1025px;
+$desktop: 1201px;
 
 :export {
   lighShade: $lightShade;

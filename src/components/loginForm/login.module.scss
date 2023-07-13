@@ -1,15 +1,16 @@
 @import "../../styles/mixins.module.scss";
+@import "../../styles/variables.module.scss";
+
 .formContainer {
   display: flex;
   flex-direction: column;
   padding: 15px;
   position: relative;
   margin: 0 auto;
-  top: 250px;
-  left: 450px;
-  width: 30%;
+  width: 90%;
   border-radius: 20px;
-  @include flexibleBackgroundColor(147, 177, 193, 0.8);
+  top: 100px;
+  @include flexibleBackgroundColor(147, 177, 193, 0.85);
 
   .inputContainer {
     display: flex;
@@ -17,9 +18,15 @@
     flex-direction: column;
   }
 
+  label {
+    margin-top: 20px;
+  }
+
   .input {
     background-color: transparent;
     border: 2px solid gray;
+    height: 30px;
+    font-size: 18px;
   }
 
   h1 {
@@ -29,8 +36,36 @@
   label {
     position: relative;
   }
+
   .authBtn {
-    z-index: 1000;
-    margin-bottom: 20px;
+    @include btnStyles($darkShade, 3px, $brandBlack, 90%, 10px auto);
+  }
+  .icon {
+    margin-right: 10px;
+  }
+  .warning {
+    color: $warning;
+    background-color: $darkShade;
+    padding: 5px;
+    border-radius: 3.5px;
+  }
+  .error {
+    padding: 5px;
+    border-radius: 3.5px;
+    color: $danger;
+  }
+}
+
+@media (min-width: $tablet) {
+  .formContainer {
+    width: 70%;
+  }
+}
+
+@media (min-width: $desktop) {
+  .formContainer {
+    top: 250px;
+    left: 400px;
+    width: 30%;
   }
 }
