@@ -58,7 +58,6 @@ const handler = NextAuth({
       },
     }),
     // Username & Password Validation:
-
     Credentials({
       id: "credentials",
       name: "Credentials",
