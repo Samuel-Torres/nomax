@@ -1,25 +1,18 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "personaTypes" AS ENUM ('PASSPORTBRO', 'DIGITALNOMAD', 'EXPAT', 'TOURIST', 'BACKPACKER');
-
--- DropTable
-DROP TABLE "Post";
 
 -- CreateTable
 CREATE TABLE "Users" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "password" TEXT,
     "created_At" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "bio" TEXT NOT NULL,
+    "bio" TEXT,
     "persona" "personaTypes",
-    "jobTitle" TEXT NOT NULL,
-    "companyName" TEXT NOT NULL,
+    "jobTitle" TEXT,
+    "companyName" TEXT,
+    "userName" TEXT,
+    "newUser" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
