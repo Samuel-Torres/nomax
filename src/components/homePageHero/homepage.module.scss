@@ -1,0 +1,45 @@
+.container {
+  border: 2px solid red;
+  height: calc(100vh - 80px);
+  .imgContainer {
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: absolute;
+    z-index: -1;
+  }
+  .contentContainer {
+    display: flex;
+    height: 100%;
+  }
+  .headerContainer {
+    border: 2px solid red;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .headerContainer h1 {
+    color: white;
+    font-size: 50px;
+  }
+  .iconContainer {
+    border: 2px solid yellow;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .iconComponent {
+    border: 2px solid green;
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 10px;
+    width: 70%;
+    margin-bottom: 20px;
+  }
+  .iconImage {
+    z-index: 1;
+    height: 100px;
+  }
+}
