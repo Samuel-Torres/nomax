@@ -26,7 +26,9 @@ const HomePageHero = ({ heroImage, alt, header, icons }: heroData) => {
         </div>
         <div className={styles.iconContainer}>
           {icons.map((item) => (
-            <div className={styles.iconComponent}>
+            // add dynamic div
+            // break into its own component
+            <div key={item.id} className={styles.iconComponent}>
               <Image
                 className={styles.iconImage}
                 src={item.iconImage}
