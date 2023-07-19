@@ -15,7 +15,7 @@
     "migrate:reset": "npx dotenv -e .env.local -- prisma migrate reset",
     "db:seed": "npx dotenv -e .env.local -- ts-node /Users/rilla/Projects/Nomex/nomex/src/prisma/seed.ts",
     "prisma:generate": "npx dotenv -e .env.local -- prisma generate --schema=/Users/rilla/Projects/Nomex/nomex/src/prisma/schema.prisma",
-    "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
+    "prisma:studio": "npx dotenv -e .env.local -- prisma studio  --schema=/Users/rilla/Projects/Nomex/nomex/src/prisma/schema.prisma",
     "production:build": "npx prisma generate && npx prisma migrate deploy && next build",
     "postinstall": "npx prisma generate --schema=./src/prisma/schema.prisma"
   },
