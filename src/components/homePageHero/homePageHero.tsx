@@ -18,7 +18,7 @@ const HomePageHero = ({ heroImage, alt, header, icons }: heroData) => {
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
-        <Image src={heroImage} alt="hero" fill={true} />
+        <Image src={heroImage} alt={alt} fill={true} />
       </div>
       <div className={styles.contentContainer}>
         <div className={styles.headerContainer}>
