@@ -2,23 +2,39 @@
 @import "../../styles/variables.module.scss";
 
 .container {
-  height: calc(100vh - 80px);
   .contentContainer {
+    height: calc(100vh - 80px);
     background: linear-gradient(to bottom, #f9f8f8, #93b1c1);
     display: flex;
-    height: 100%;
-    @include componentPadding(100px);
-  }
-  .headerContainer {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: space-around;
+  }
+  .heroImgContainer {
+    width: 100%;
   }
   .imgContainer {
-    width: 80%;
-    height: 60%;
     position: relative;
+    margin: 0 auto;
+    width: 90%;
+    height: 300px;
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: $Mobile) {
+}
+
+@media (min-width: $desktop) {
+  .container {
+    .contentContainer {
+      flex-direction: row;
+      align-items: center;
+    }
+    .heroImgContainer {
+      width: 50%;
+    }
+    .imgContainer {
+      height: 600px;
+    }
   }
 }

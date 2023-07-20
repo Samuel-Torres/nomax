@@ -1,26 +1,49 @@
+@import "../../../styles/mixins.module.scss";
+@import "../../../styles/variables.module.scss";
+
 .container {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  width: 90%;
+  margin: 0 auto;
   h1 {
-    font-size: 50px;
+    margin-top: 10px;
     margin-bottom: 40px;
-  }
-  .iconImgContainer {
-    position: relative;
-    width: 100px;
-    height: 100px;
   }
   .iconComponent {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
   }
-  .iconImage {
-    z-index: 1;
-    height: 100px;
+  .iconImgContainer {
+    position: relative;
+    height: 60px;
+    width: 100px;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: $Mobile) {
+}
+
+@media (min-width: $desktop) {
+  .container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    h1 {
+      font-size: 5rem;
+    }
+    .iconImgContainer {
+      width: 100px;
+      height: 100px;
+    }
+    .iconImage {
+      height: 100px;
+    }
   }
 }
