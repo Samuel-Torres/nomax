@@ -1,6 +1,21 @@
+@import "../styles/mixins.module.scss";
+@import "../styles/variables.module.scss";
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+// @media (min-width: $Mobile) {
+
+// }
+
+@media (min-width: $desktop) {
+  .container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
 }

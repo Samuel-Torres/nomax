@@ -1,5 +1,9 @@
 @import "./variables.module.scss";
 
+@mixin componentPadding($amount) {
+  padding: 0 $amount;
+}
+
 @mixin flexibleBackgroundColor($r, $g, $b, $a) {
   background-color: rgba($r, $g, $b, $a);
 }
