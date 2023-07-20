@@ -14,32 +14,19 @@ type heroData = {
   }>;
 };
 
+// sub component:
+import IconCard from "./iconCard/iconCard";
+
 const HomePageHero = ({ heroImage, alt, header, icons }: heroData) => {
   return (
     <div className={styles.container}>
-      <div className={styles.imgContainer}>
-        <Image src={heroImage} alt={alt} fill={true} />
-      </div>
       <div className={styles.contentContainer}>
         <div className={styles.headerContainer}>
-          <h1>{header}</h1>
+          <div className={styles.imgContainer}>
+            <Image src={heroImage} alt={alt} fill={true} />
+          </div>
         </div>
-        <div className={styles.iconContainer}>
-          {icons.map((item) => (
-            // add dynamic div
-            // break into its own component
-            <div key={item.id} className={styles.iconComponent}>
-              <Image
-                className={styles.iconImage}
-                src={item.iconImage}
-                alt="icon"
-                width={100}
-                height={100}
-              />
-              <h2>{item.text}</h2>
-            </div>
-          ))}
-        </div>
+        <IconCard header={header} icons={icons} />
       </div>
     </div>
   );
