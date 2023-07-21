@@ -1,13 +1,18 @@
 "use client";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
+
+// sub components:
+import OnBoardingForm from "../../components/onBoardingForm/onBoardingForm";
 
 export default function DashboardClient() {
   const session = useSession();
   const router = useRouter();
   const isAuthenticated: string = session.status;
+
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
@@ -22,10 +27,10 @@ export default function DashboardClient() {
       router.push("/auth/login");
     }
     // push to onboarding:
-    // if (data?.newUser) {
-    //   router.push("/onboarding");
-    // }
-  }, [isAuthenticated, router, data]);
+    if (data?.newUser) {
+      setIsNewUser(true);
+    }
+  }, [isAuthenticated, router, data, isNewUser]);
 
   console.log("FETCHED CLIENT DATA: ", data);
   console.log("AUTH STATUS: ", isAuthenticated, session);
@@ -38,6 +43,15 @@ export default function DashboardClient() {
           <p>Loading...</p>
         </div>
       </div>
+    );
+  }
+
+  if (isNewUser) {
+    return (
+      <>
+        <h1>OnBoarding</h1>
+        <OnBoardingForm />
+      </>
     );
   }
 

@@ -9,9 +9,9 @@ export default function Navbar() {
         <h1>Nomax</h1>
       </div>
       <div className={styles.btnContainer}>
-        {/* <button className={styles.btn} onClick={() => signOut()}>
+        <button className={styles.btn} onClick={() => signOut()}>
           log out
-        </button> */}
+        </button>
       </div>
     </div>
   );
