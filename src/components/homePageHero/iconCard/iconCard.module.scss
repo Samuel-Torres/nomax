@@ -44,19 +44,6 @@
   }
 }
 
-// @media (min-width: $smallDesktop) {
-//   .container {
-//     .btnLink {
-//       text-decoration: none;
-//       color: $brandBlack;
-//       font-weight: bold;
-//     }
-//     .btn {
-//       @include btnStyles($brandBlack, 3px, $brandBlack);
-//     }
-//   }
-// }
-
 @media (min-width: $desktop) {
   .container {
     width: 50%;
