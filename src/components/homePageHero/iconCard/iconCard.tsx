@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./iconCard.module.scss";
+import Link from "next/link";
 
 type cardData = {
   header: string;
@@ -25,9 +26,16 @@ const iconCard = ({ header, icons }: cardData) => {
               fill={true}
             />
           </div>
-          <h3>{item.text}</h3>
+          <div className={styles.textContainer}>
+            <h3>{item.text}</h3>
+          </div>
         </div>
       ))}
+      <div className={styles.btnContainer}>
+        <Link className={styles.btnLink} href="/auth/login">
+          <button className={styles.btn}>Login</button>
+        </Link>
+      </div>
     </div>
   );
 };
