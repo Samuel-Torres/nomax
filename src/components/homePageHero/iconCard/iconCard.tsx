@@ -15,7 +15,6 @@ type cardData = {
 const iconCard = ({ header, icons }: cardData) => {
   return (
     <div className={styles.container}>
-      <h1>{header}</h1>
       {icons.map((item) => (
         <div key={item.id} className={styles.iconComponent}>
           <div className={styles.iconImgContainer}>
@@ -27,7 +26,7 @@ const iconCard = ({ header, icons }: cardData) => {
             />
           </div>
           <div className={styles.textContainer}>
-            <h3>{item.text}</h3>
+            <p>{item.text}</p>
           </div>
         </div>
       ))}

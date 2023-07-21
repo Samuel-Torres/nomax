@@ -21,14 +21,17 @@
   .textContainer {
     width: 80%;
     text-align: left;
+    padding-left: 1.5rem;
+    font-size: 10px;
+  }
+  .textContainer p {
+    font-size: 1.8rem;
+    font-weight: bold;
   }
   .iconImgContainer {
     position: relative;
     height: 60px;
     width: 100px;
-  }
-  h3 {
-    font-size: 2rem;
   }
   .btnContainer {
     display: flex;
