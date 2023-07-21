@@ -59,7 +59,13 @@
     }
   }
 }
+
 @media (min-width: $tablet) {
+  .container {
+    .textContainer p {
+      font-size: 2.4rem;
+    }
+  }
 }
 
 @media (min-width: $desktop) {
