@@ -41,6 +41,7 @@
     text-decoration: none;
     color: $brandBlack;
     font-weight: bold;
+    margin-bottom: 40px;
   }
   .btn {
     @include btnStyles($brandBlack, 3px, $brandBlack);
@@ -77,6 +78,9 @@
     }
     .iconImage {
       height: 100px;
+    }
+    .btnLink {
+      margin-bottom: 0px;
     }
   }
 }
