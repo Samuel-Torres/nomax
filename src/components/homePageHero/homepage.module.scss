@@ -15,6 +15,9 @@
   }
   .heroContainer h1 {
     margin-bottom: 30px;
+    font-size: 2.4rem;
+    padding: 1rem;
+    text-align: center;
   }
   .imgContainer {
     position: relative;
@@ -54,6 +57,9 @@
     .heroContainer {
       width: 50%;
       margin-bottom: 0px;
+    }
+    .heroContainer h1 {
+      font-size: 3.6rem;
     }
     .imgContainer {
       width: 90%;

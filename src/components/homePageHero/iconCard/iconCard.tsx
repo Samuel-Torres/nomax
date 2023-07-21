@@ -3,7 +3,6 @@ import styles from "./iconCard.module.scss";
 import Link from "next/link";
 
 type cardData = {
-  header: string;
   icons: Array<{
     id: number;
     iconImage: string;
@@ -12,7 +11,7 @@ type cardData = {
   }>;
 };
 
-const iconCard = ({ header, icons }: cardData) => {
+const iconCard = ({ icons }: cardData) => {
   return (
     <div className={styles.container}>
       {icons.map((item) => (

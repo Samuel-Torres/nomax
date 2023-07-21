@@ -27,7 +27,7 @@ const HomePageHero = ({ heroImage, alt, header, icons }: heroData) => {
             <Image src={heroImage} alt={alt} fill={true} />
           </div>
         </div>
-        <IconCard header={header} icons={icons} />
+        <IconCard icons={icons} />
       </div>
     </div>
   );

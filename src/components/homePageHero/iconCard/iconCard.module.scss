@@ -25,13 +25,13 @@
     font-size: 10px;
   }
   .textContainer p {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
   }
   .iconImgContainer {
     position: relative;
-    height: 60px;
-    width: 100px;
+    height: 40px;
+    width: 80px;
   }
   .btnContainer {
     display: flex;
@@ -45,6 +45,20 @@
   .btn {
     @include btnStyles($brandBlack, 3px, $brandBlack);
   }
+}
+
+@media (min-width: $Mobile) {
+  .container {
+    .iconImgContainer {
+      height: 60px;
+      width: 100px;
+    }
+    .textContainer p {
+      font-size: 1.8rem;
+    }
+  }
+}
+@media (min-width: $tablet) {
 }
 
 @media (min-width: $desktop) {
