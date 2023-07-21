@@ -15,7 +15,8 @@
   $btnWidth: 100px,
   $margin: none,
   $fontWeight: bold,
-  $height: 30px
+  $height: 30px,
+  $fontSize: 1.8rem
 ) {
   all: unset;
   border: $borderThickness solid $boderColor;
@@ -29,6 +30,7 @@
   transition: all 0.1s ease-in-out;
   opacity: 0.5;
   margin: $margin;
+  font-size: $fontSize;
 
   &:hover {
     cursor: pointer;

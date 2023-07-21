@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "./iconCard.module.scss";
+import Link from "next/link";
 
 type cardData = {
-  header: string;
   icons: Array<{
     id: number;
     iconImage: string;
@@ -11,10 +11,9 @@ type cardData = {
   }>;
 };
 
-const iconCard = ({ header, icons }: cardData) => {
+const iconCard = ({ icons }: cardData) => {
   return (
     <div className={styles.container}>
-      <h1>{header}</h1>
       {icons.map((item) => (
         <div key={item.id} className={styles.iconComponent}>
           <div className={styles.iconImgContainer}>
@@ -25,9 +24,16 @@ const iconCard = ({ header, icons }: cardData) => {
               fill={true}
             />
           </div>
-          <h3>{item.text}</h3>
+          <div className={styles.textContainer}>
+            <p>{item.text}</p>
+          </div>
         </div>
       ))}
+      <div className={styles.btnContainer}>
+        <Link className={styles.btnLink} href="/auth/login">
+          <button className={styles.btn}>Login</button>
+        </Link>
+      </div>
     </div>
   );
 };

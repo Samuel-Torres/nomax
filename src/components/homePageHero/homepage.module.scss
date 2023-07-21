@@ -3,39 +3,69 @@
 
 .container {
   .contentContainer {
-    height: calc(100vh - 80px);
+    margin-top: 30px;
     background: linear-gradient(to bottom, #f9f8f8, #93b1c1);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
-  .heroImgContainer {
-    width: 100%;
+  .heroContainer {
+    width: 90%;
+    margin-bottom: 40px;
+  }
+  .heroContainer h1 {
+    margin-bottom: 30px;
+    font-size: 2.4rem;
+    padding: 1rem;
+    text-align: center;
   }
   .imgContainer {
     position: relative;
     margin: 0 auto;
     width: 90%;
-    height: 300px;
+    height: 200px;
     margin-top: 40px;
   }
 }
 
 @media (min-width: $Mobile) {
+  .container {
+    .imgContainer {
+      margin: 0 auto;
+      width: 90%;
+      height: 300px;
+    }
+  }
+}
+@media (min-width: $tablet) {
+  .container {
+    .imgContainer {
+      width: 70%;
+    }
+  }
 }
 
 @media (min-width: $desktop) {
   .container {
     .contentContainer {
+      margin-top: 0px;
+      height: calc(100vh - 80px);
       flex-direction: row;
       align-items: center;
       padding: 0 5%;
     }
-    .heroImgContainer {
+    .heroContainer {
       width: 50%;
+      margin-bottom: 0px;
+    }
+    .heroContainer h1 {
+      font-size: 3.6rem;
     }
     .imgContainer {
-      height: 600px;
+      width: 90%;
+    }
+    .imgContainer {
+      height: 400px;
     }
   }
 }

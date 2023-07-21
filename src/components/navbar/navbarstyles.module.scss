@@ -22,8 +22,5 @@
     .btnContainer {
       width: 20%;
     }
-    .btn {
-      @include btnStyles();
-    }
   }
 }

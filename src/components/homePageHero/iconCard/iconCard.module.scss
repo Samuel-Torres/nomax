@@ -4,28 +4,68 @@
 .container {
   width: 90%;
   margin: 0 auto;
+
   h1 {
     margin-top: 10px;
     margin-bottom: 40px;
+    font-size: 2.4rem;
   }
   .iconComponent {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    width: 90%;
+  }
+  .textContainer {
+    width: 80%;
+    text-align: left;
+    padding-left: 1.5rem;
+    font-size: 10px;
+  }
+  .textContainer p {
+    font-size: 1.4rem;
+    font-weight: bold;
   }
   .iconImgContainer {
     position: relative;
-    height: 60px;
-    width: 100px;
+    height: 40px;
+    width: 80px;
   }
-  h3 {
-    font-size: 2rem;
+  .btnContainer {
+    display: flex;
+    justify-content: center;
+  }
+  .btnLink {
+    text-decoration: none;
+    color: $brandBlack;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+  .btn {
+    @include btnStyles($brandBlack, 3px, $brandBlack);
   }
 }
 
 @media (min-width: $Mobile) {
+  .container {
+    .iconImgContainer {
+      height: 60px;
+      width: 100px;
+    }
+    .textContainer p {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@media (min-width: $tablet) {
+  .container {
+    .textContainer p {
+      font-size: 2.4rem;
+    }
+  }
 }
 
 @media (min-width: $desktop) {
@@ -44,6 +84,9 @@
     }
     .iconImage {
       height: 100px;
+    }
+    .btnLink {
+      margin-bottom: 0px;
     }
   }
 }
