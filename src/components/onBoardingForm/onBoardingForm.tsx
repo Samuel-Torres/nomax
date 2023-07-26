@@ -54,8 +54,6 @@ const OnBoardingForm = () => {
     <>
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
-          <h1>OnBoarding</h1>
-
           <label>Password</label>
           <input
             className={styles.input}

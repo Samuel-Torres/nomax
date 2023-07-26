@@ -18,7 +18,10 @@ type user = {
   newUser: boolean;
 };
 
-export async function GET(req: NextRequest, { params }: Record<string, any>) {
+export async function GET(
+  req: NextRequest,
+  params: Record<string, user["email"]>
+) {
   const { email } = params;
   try {
     const fetchedUser = await prisma.users.findUnique({
@@ -35,7 +38,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
 
 export async function PUT(
   request: NextRequest,
-  { params }: Record<string, any>
+  params: Record<string, user["email"]>
 ) {
   const { email } = params;
   const updatedUserData: user = await request.json();
