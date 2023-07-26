@@ -5,13 +5,6 @@ export const homePageHeroData = {
   header: "Creating Communities Abroad!",
   icons: [
     {
-      id: 0,
-      iconImage:
-        "https://res.cloudinary.com/dvz91qyth/image/upload/v1689881589/Nomex/landing%20page%20assets/homePageHero/viral-marketing_1_mzcbpm.png",
-      alt: "community",
-      text: "Find your friends circles no matter where in the world you are!",
-    },
-    {
       id: 1,
       iconImage:
         "https://res.cloudinary.com/dvz91qyth/image/upload/v1689963354/Nomex/landing%20page%20assets/homePageHero/destination_xxeqjz.png",
@@ -24,6 +17,13 @@ export const homePageHeroData = {
         "https://res.cloudinary.com/dvz91qyth/image/upload/v1689963775/Nomex/landing%20page%20assets/homePageHero/shield_uwzp1e.png",
       alt: "community",
       text: "Create your safety network, connect with fellow travelers in the same area, providing an extra layer of security during your journeys.",
+    },
+    {
+      id: 0,
+      iconImage:
+        "https://res.cloudinary.com/dvz91qyth/image/upload/v1689881589/Nomex/landing%20page%20assets/homePageHero/viral-marketing_1_mzcbpm.png",
+      alt: "community",
+      text: "Find your friends circles no matter where in the world you are!",
     },
   ],
 };
