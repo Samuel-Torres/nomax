@@ -1,14 +1,10 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { personaTypes } from "@prisma/client";
+import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
-
-enum personaTypes {
-  PASSPORTBRO,
-  DIGITALNOMAD,
-  EXPAT,
-  TOURIST,
-  BACKPACKER,
-}
+import useSWR from "swr";
 
 type FormValues = {
   password: string;
@@ -21,19 +17,37 @@ type FormValues = {
 };
 
 const OnBoardingForm = () => {
+  const session = useSession();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     watch,
   } = useForm<FormValues>();
 
+  // Fetch the data using SWR
+  const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    // const { email, password } = data;
+    const { password, bio, persona, companyName, userName, jobTitle } = data;
+    axios
+      .put(`/api/users/${session.data?.user?.email}`, {
+        password,
+        bio,
+        persona,
+        companyName,
+        userName,
+        jobTitle,
+      })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) =>
+        // find a way to handle errors
+        console.log("CLIENT ERROR: ", err)
+      );
   };
 
   return (
@@ -46,6 +60,7 @@ const OnBoardingForm = () => {
           <input
             className={styles.input}
             type="password"
+            placeholder="create a new password"
             {...register("password", {
               required: true,
               minLength: 8,
@@ -63,6 +78,7 @@ const OnBoardingForm = () => {
           <input
             className={styles.input}
             type="password"
+            placeholder="verify new password"
             {...register("confirmPassword", {
               required: true,
               minLength: 8,
@@ -77,35 +93,10 @@ const OnBoardingForm = () => {
                 : "Passwords do not match."}
             </span>
           )}
-
-          {/* <label>Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            {...register("password", {
-              required: true,
-              validate: (value) => value.trim().length > 0,
-            })}
-          />
-          <label>Confirm Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            {...register("password", {
-              required: true,
-              validate: (value) => value.trim().length > 0,
-            })}
-          />
-          {errors.password && (
-            <span className={styles.warning}>
-              Password is required, must be at least 8 characters long, and
-              cannot contain white spaces.
-            </span>
-          )} */}
-
           <label>Bio</label>
           <textarea
             className={styles.input}
+            placeholder={`${data.bio}`}
             {...register("bio", {
               required: true,
               minLength: 25,
@@ -124,11 +115,11 @@ const OnBoardingForm = () => {
             className={styles.input}
             {...register("persona", { required: true })}
           >
-            <option value={personaTypes.PASSPORTBRO}>PassportBro</option>
-            <option value={personaTypes.DIGITALNOMAD}>DigitalNomad</option>
-            <option value={personaTypes.EXPAT}>Expat</option>
-            <option value={personaTypes.TOURIST}>Tourist</option>
-            <option value={personaTypes.BACKPACKER}>Backpacker</option>
+            <option value={"PASSPORTBRO"}>PassportBro</option>
+            <option value={"DIGITALNOMAD"}>DigitalNomad</option>
+            <option value={"EXPAT"}>Expat</option>
+            <option value={"TOURIST"}>Tourist</option>
+            <option value={"BACKPACKER"}>Backpacker</option>
           </select>
           {errors.persona && (
             <span className={styles.warning}>Please select a persona.</span>
@@ -138,6 +129,7 @@ const OnBoardingForm = () => {
           <input
             className={styles.input}
             type="text"
+            placeholder={`${data.jobTitle}`}
             {...register("jobTitle", {
               required: true,
               minLength: 3,
@@ -154,6 +146,7 @@ const OnBoardingForm = () => {
           <input
             className={styles.input}
             type="text"
+            placeholder={`${data.companyName}`}
             {...register("companyName", {
               required: true,
               validate: (value) => value.trim().length > 0,
@@ -167,6 +160,7 @@ const OnBoardingForm = () => {
           <input
             className={styles.input}
             type="text"
+            placeholder={`${data.userName}`}
             {...register("userName", {
               required: true,
               minLength: 8,

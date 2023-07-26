@@ -18,7 +18,7 @@ export default function DashboardClient() {
     fetch(args.join(",")).then((res) => res.json());
 
   const { data, mutate, error, isLoading } = useSWR(
-    `/api/loggedInUser/${session.data?.user?.email}`,
+    `/api/users/${session.data?.user?.email}`,
     fetcher
   );
 
