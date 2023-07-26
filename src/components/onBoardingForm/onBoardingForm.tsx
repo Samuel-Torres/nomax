@@ -113,11 +113,11 @@ const OnBoardingForm = () => {
             className={styles.input}
             {...register("persona", { required: true })}
           >
-            <option value={"PASSPORTBRO"}>PassportBro</option>
-            <option value={"DIGITALNOMAD"}>DigitalNomad</option>
-            <option value={"EXPAT"}>Expat</option>
-            <option value={"TOURIST"}>Tourist</option>
-            <option value={"BACKPACKER"}>Backpacker</option>
+            {Object.values(personaTypes).map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
           </select>
           {errors.persona && (
             <span className={styles.warning}>Please select a persona.</span>

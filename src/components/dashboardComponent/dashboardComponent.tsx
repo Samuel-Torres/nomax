@@ -28,12 +28,13 @@ export default function DashboardClient() {
     }
     // push to onboarding:
     if (data?.newUser) {
+      console.log("ESEEFFECT: ", data.newUser);
       setIsNewUser(true);
     }
   }, [isAuthenticated, router, data, isNewUser]);
 
   console.log("FETCHED CLIENT DATA: ", data);
-  console.log("AUTH STATUS: ", isAuthenticated, session);
+  console.log("AUTH STATUS: ", isAuthenticated, session, isNewUser);
 
   // change to suspense loading component with page layout:
   if (isLoading) {
