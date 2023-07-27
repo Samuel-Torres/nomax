@@ -26,10 +26,8 @@ const OnBoardingForm = () => {
     watch,
   } = useForm<FormValues>();
 
-  // Fetch the data using SWR
   const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
   const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const { password, bio, persona, companyName, userName, jobTitle } = data;
@@ -54,6 +52,7 @@ const OnBoardingForm = () => {
   return (
     <>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+        <h1>Onboarding</h1>
         <div className={styles.inputContainer}>
           <label>Password</label>
           <input
