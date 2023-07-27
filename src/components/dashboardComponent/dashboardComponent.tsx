@@ -22,6 +22,10 @@ export default function DashboardClient() {
     fetcher
   );
 
+  const handleClick = () => {
+    console.log("BUTTON WAS CLICKED");
+  };
+
   useEffect(() => {
     if (isAuthenticated !== "authenticated") {
       router.push("/auth/login");
@@ -32,8 +36,8 @@ export default function DashboardClient() {
     }
   }, [isAuthenticated, router, data, isNewUser]);
 
-  console.log("FETCHED CLIENT DATA: ", data);
-  console.log("AUTH STATUS: ", isAuthenticated, session);
+  // console.log("FETCHED CLIENT DATA: ", data);
+  // console.log("AUTH STATUS: ", isAuthenticated, session, isNewUser);
 
   // change to suspense loading component with page layout:
   if (isLoading) {
@@ -46,18 +50,10 @@ export default function DashboardClient() {
     );
   }
 
-  if (isNewUser) {
-    return (
-      <>
-        <h1>OnBoarding</h1>
-        <OnBoardingForm />
-      </>
-    );
-  }
-
   return (
     <div>
       <h1>DashboardClient PAGE</h1>
+      {isNewUser && <OnBoardingForm />}
     </div>
   );
 }
