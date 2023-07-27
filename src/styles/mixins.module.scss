@@ -40,3 +40,7 @@
     opacity: 1;
   }
 }
+
+@mixin gradient($from: #f9f8f8, $to: #93b1c1) {
+  background: linear-gradient(to bottom, $from, $to);
+}

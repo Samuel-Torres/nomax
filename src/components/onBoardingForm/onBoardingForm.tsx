@@ -1,5 +1,5 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
@@ -19,6 +19,7 @@ type FormValues = {
 const OnBoardingForm = () => {
   const session = useSession();
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -52,7 +53,7 @@ const OnBoardingForm = () => {
 
   return (
     <>
-      <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label>Password</label>
           <input
@@ -91,37 +92,22 @@ const OnBoardingForm = () => {
                 : "Passwords do not match."}
             </span>
           )}
-          <label>Bio</label>
-          <textarea
-            className={styles.input}
-            placeholder={`${data.bio}`}
-            {...register("bio", {
-              required: true,
-              minLength: 25,
-              maxLength: 500,
-              validate: (value) => value.trim().length > 0,
-            })}
-          />
-          {errors.bio && (
-            <span className={styles.warning}>
-              Bio is required and must be between 25 and 500 characters.
-            </span>
-          )}
-
-          <label>Persona</label>
-          <select
-            className={styles.input}
-            {...register("persona", { required: true })}
-          >
-            {Object.values(personaTypes).map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          {errors.persona && (
-            <span className={styles.warning}>Please select a persona.</span>
-          )}
+          <div className={styles.personaContainer}>
+            <label>Persona</label>
+            <select
+              className={styles.input}
+              {...register("persona", { required: true })}
+            >
+              {Object.values(personaTypes).map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            {errors.persona && (
+              <span className={styles.warning}>Please select a persona.</span>
+            )}
+          </div>
 
           <label>Job Title</label>
           <input
@@ -171,10 +157,55 @@ const OnBoardingForm = () => {
             </span>
           )}
         </div>
+
+        <label>Bio</label>
+        <Controller
+          name="bio"
+          control={control}
+          defaultValue={data?.bio} // Set the initial value from data.bio
+          rules={{
+            required: true,
+            minLength: 25,
+            maxLength: 500,
+            validate: (value) => value.trim().length > 0,
+          }}
+          render={({ field }) => (
+            <>
+              <textarea
+                {...field}
+                className={styles.input}
+                placeholder={`Your current bio: \n \n ${data?.bio}... \n \n keep in mind your bio must be between 25 & 500 characters long.`}
+                onChange={(e) => {
+                  field.onChange(e); // Update the form state when textarea value changes
+                }}
+                onBlur={() => {
+                  field.onBlur(); // Trigger validation when textarea loses focus
+                }}
+              />
+              {/* Display the character count and style it based on the validation */}
+              <div
+                style={{
+                  color:
+                    field.value.length >= 25 && field.value.length <= 500
+                      ? "green"
+                      : "red",
+                }}
+              >
+                <p className={styles.counter}>{field.value.length} / 500</p>
+              </div>
+            </>
+          )}
+        />
+        {errors.bio && (
+          <span className={styles.warning}>
+            Bio is required and must be between 25 and 500 characters.
+          </span>
+        )}
+
         <button
           disabled={Object.keys(errors).length > 0}
           onClick={handleSubmit(onSubmit)}
-          className={styles.authBtn}
+          className={styles.btn}
         >
           Login
         </button>

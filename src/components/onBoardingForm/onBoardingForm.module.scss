@@ -1,0 +1,70 @@
+@import "../../styles/mixins.module.scss";
+@import "../../styles/variables.module.scss";
+
+.container {
+  border: 2px solid black;
+  width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  border-radius: 10px;
+  @include gradient();
+  box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+
+  label {
+    font-size: 1.4rem;
+    margin-left: 10px;
+  }
+
+  .personaContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    width: 100%;
+    margin: 10px;
+    background-color: transparent;
+    border: none;
+    height: 30px;
+    padding: 5px;
+    font-size: 1.6rem;
+  }
+
+  select {
+    width: 100%;
+    margin: 10px;
+    background-color: transparent;
+    border: none;
+    height: 30px;
+    padding: 5px;
+  }
+
+  textarea {
+    width: 100%;
+    margin-top: 10px;
+    background-color: transparent;
+    resize: none;
+    border: none;
+    height: 250px;
+    padding: 10px;
+    margin-bottom: 30px;
+    font-size: 1.6rem;
+  }
+
+  .counter {
+    font-size: 1.6rem;
+  }
+
+  .btn {
+    @include btnStyles($brandBlack, 3px, $brandBlack);
+    margin: 0 auto;
+  }
+}
