@@ -10,7 +10,6 @@
   background-color: rgba(128, 128, 128, 0.5);
 
   .container {
-    border: 2px solid black;
     width: 90%;
     position: relative;
     top: 50%;
@@ -23,9 +22,9 @@
     border-radius: 10px;
     height: 70%;
     @include gradient();
-    box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
-    -webkit-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
-    -moz-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+    box-shadow: -1px 0px 85px -8px rgba(249, 248, 248, 0.61);
+    -webkit-box-shadow: -1px 0px 85px -8px rgba(249, 248, 248, 0.61);
+    -moz-box-shadow: -1px 0px 85px -8px rgba(249, 248, 248, 0.61);
   }
 
   .scrollingContainer {
@@ -50,7 +49,7 @@
   }
 
   input {
-    width: 100%;
+    width: 95%;
     margin: 10px;
     background-color: transparent;
     border: none;
@@ -60,7 +59,7 @@
   }
 
   select {
-    width: 100%;
+    width: 95%;
     margin: 10px;
     background-color: transparent;
     border: none;
