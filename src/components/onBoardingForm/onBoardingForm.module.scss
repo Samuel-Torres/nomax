@@ -1,23 +1,32 @@
 @import "../../styles/mixins.module.scss";
 @import "../../styles/variables.module.scss";
 
-.container {
-  border: 2px solid black;
-  width: 90%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 10px;
-  height: 70%;
-  @include gradient();
-  box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
-  -webkit-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
-  -moz-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(128, 128, 128, 0.5);
+
+  .container {
+    border: 2px solid black;
+    width: 90%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    height: 70%;
+    @include gradient();
+    box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+    -webkit-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+    -moz-box-shadow: -2px 4px 68px -5px rgba(0, 0, 0, 0.23);
+  }
 
   .scrollingContainer {
     overflow-y: scroll;
@@ -92,8 +101,10 @@
 }
 
 @media (min-width: $desktop) {
-  .container {
-    width: 50%;
-    padding: 40px;
+  .overlay {
+    .container {
+      width: 50%;
+      padding: 40px;
+    }
   }
 }

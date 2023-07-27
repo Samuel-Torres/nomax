@@ -22,6 +22,10 @@ export default function DashboardClient() {
     fetcher
   );
 
+  const handleClick = () => {
+    console.log("BUTTON WAS CLICKED");
+  };
+
   useEffect(() => {
     if (isAuthenticated !== "authenticated") {
       router.push("/auth/login");
@@ -49,6 +53,7 @@ export default function DashboardClient() {
   return (
     <div>
       <h1>DashboardClient PAGE</h1>
+      <button onClick={handleClick}>CLICKABLE BUTTON</button>
       {isNewUser && <OnBoardingForm />}
     </div>
   );
