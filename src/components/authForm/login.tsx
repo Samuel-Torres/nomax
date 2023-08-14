@@ -13,7 +13,7 @@ type LoginFormValues = {
   password: string;
 };
 
-const login = ({ error, signIn, toggleMode }: LoginFormProps) => {
+const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -85,4 +85,4 @@ const login = ({ error, signIn, toggleMode }: LoginFormProps) => {
   );
 };
 
-export default login;
+export default Login;

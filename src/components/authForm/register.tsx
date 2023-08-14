@@ -15,7 +15,7 @@ type LoginFormValues = {
   passwordConfirmation: string;
 };
 
-const register = ({ error, signIn, toggleMode }: LoginFormProps) => {
+const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -131,4 +131,4 @@ const register = ({ error, signIn, toggleMode }: LoginFormProps) => {
   );
 };
 
-export default register;
+export default Register;

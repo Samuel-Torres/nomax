@@ -2,8 +2,8 @@ import { useForm, useWatch } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
 // components:
-import Login from "./login";
-import Register from "./register";
+import Login from "./Login";
+import Register from "./Register";
 
 type AuthFormProps = {
   error: string;
