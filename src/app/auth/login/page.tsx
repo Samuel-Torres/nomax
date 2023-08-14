@@ -30,7 +30,7 @@ export default function LoginPage() {
               alt="back button"
             />
           </Link>
-          <AuthForm loginError={loginError} />
+          <AuthForm error={loginError} />
         </div>
       </div>
     );

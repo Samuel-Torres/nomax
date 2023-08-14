@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
 // components:
@@ -6,31 +6,39 @@ import Login from "./login";
 import Register from "./register";
 
 type AuthFormProps = {
-  loginError: string;
+  error: string;
 };
 
 type LoginFormValues = {
   isRegisterMode: boolean;
 };
 
-const AuthForm = ({ loginError }: AuthFormProps) => {
-  // Custom variable in the form state
+const AuthForm = ({ error }: AuthFormProps) => {
   const formCustomData = useForm<LoginFormValues>({
     defaultValues: {
       isRegisterMode: true,
     },
   });
 
+  const isRegisterMode = useWatch({
+    control: formCustomData.control,
+    name: "isRegisterMode",
+    defaultValue: true,
+  });
+
+  const toggleMode = () => {
+    formCustomData.setValue(
+      "isRegisterMode",
+      !formCustomData.getValues("isRegisterMode")
+    );
+  };
+
   return (
     <>
-      {formCustomData.getValues("isRegisterMode") ? (
-        <Register />
+      {isRegisterMode ? (
+        <Register error={error} signIn={signIn} toggleMode={toggleMode} />
       ) : (
-        <Login
-          loginError={loginError}
-          formCustomData={formCustomData}
-          signIn={signIn}
-        />
+        <Login error={error} signIn={signIn} toggleMode={toggleMode} />
       )}
     </>
   );

@@ -1,21 +1,20 @@
 "use client";
 import styles from "./form.module.scss";
-import { useForm, UseFormReturn, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
 type LoginFormProps = {
-  loginError: string;
-  formCustomData: UseFormReturn<any, undefined>;
+  error: string;
   signIn: Function;
+  toggleMode: (event: React.MouseEvent<HTMLParagraphElement>) => void;
 };
 
 type LoginFormValues = {
   email: string;
   password: string;
-  isRegisterMode: boolean;
 };
 
-const login = ({ loginError, signIn }: LoginFormProps) => {
+const login = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -62,9 +61,7 @@ const login = ({ loginError, signIn }: LoginFormProps) => {
           </span>
         )}
       </div>
-      {loginError?.length !== 0 ? (
-        <p className={styles.error}>{loginError}</p>
-      ) : null}
+      {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
       <button
         disabled={Object.keys(errors).length > 0}
         onClick={handleSubmit(onSubmit)}
@@ -82,6 +79,9 @@ const login = ({ loginError, signIn }: LoginFormProps) => {
         />
         Login with Google
       </button>
+      <p className={styles.toggle} onClick={toggleMode}>
+        Don't have an account? Click Here to Sign up.
+      </p>
     </form>
   );
 };
