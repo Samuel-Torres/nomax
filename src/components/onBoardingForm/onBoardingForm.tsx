@@ -1,7 +1,7 @@
 "use client";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { personaTypes, Users } from "@prisma/client";
+import { personaTypes } from "@prisma/client";
 import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
 import useSWR from "swr";

@@ -41,6 +41,19 @@
   }
 }
 
+@mixin hoverEffect() {
+  transition: all 0.1s ease-in-out;
+  opacity: 0.5;
+
+  &:hover {
+    cursor: pointer;
+    transition-timing-function: ease-in;
+    transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
 @mixin gradient($from: #f9f8f8, $to: #93b1c1) {
   background: linear-gradient(to bottom, $from, $to);
 }

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 // components:
-import LoginForm from "@/components/loginForm/login";
+import AuthForm from "@/components/authForm/authForm";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -30,7 +30,7 @@ export default function LoginPage() {
               alt="back button"
             />
           </Link>
-          <LoginForm loginError={loginError} />
+          <AuthForm error={loginError} />
         </div>
       </div>
     );

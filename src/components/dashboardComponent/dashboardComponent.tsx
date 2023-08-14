@@ -11,7 +11,6 @@ export default function DashboardClient() {
   const session = useSession();
   const router = useRouter();
   const isAuthenticated: string = session.status;
-
   const [isNewUser, setIsNewUser] = useState(false);
 
   const fetcher = (...args: string[]): Promise<any> =>
