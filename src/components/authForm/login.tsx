@@ -79,7 +79,7 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
         Login with Google
       </button>
       <p className={styles.toggle} onClick={toggleMode}>
-        Don't have an account? Click Here to Sign up.
+        Don&apos;t have an account? Click Here to Sign up.
       </p>
     </form>
   );
