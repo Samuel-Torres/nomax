@@ -1,4 +1,3 @@
-"use client";
 import styles from "./form.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
