@@ -16,14 +16,14 @@ type LoginFormValues = {
 const AuthForm = ({ error }: AuthFormProps) => {
   const formCustomData = useForm<LoginFormValues>({
     defaultValues: {
-      isRegisterMode: true,
+      isRegisterMode: false,
     },
   });
 
   const isRegisterMode = useWatch({
     control: formCustomData.control,
     name: "isRegisterMode",
-    defaultValue: true,
+    defaultValue: false,
   });
 
   const toggleMode = () => {
