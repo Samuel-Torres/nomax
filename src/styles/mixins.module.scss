@@ -17,7 +17,9 @@
   $fontWeight: bold,
   $height: 30px,
   $fontSize: 1.8rem,
-  $bgColor: none
+  $bgColor: none,
+  $preOpacity: 0.5,
+  $postOpacity: 1
 ) {
   all: unset;
   border: $borderThickness solid $boderColor;
@@ -29,7 +31,7 @@
   justify-content: center;
   align-items: center;
   transition: all 0.1s ease-in-out;
-  opacity: 0.5;
+  opacity: $preOpacity;
   margin: $margin;
   font-size: $fontSize;
   background-color: $bgColor;
@@ -39,7 +41,7 @@
     transition-timing-function: ease-in;
     transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     transform: translateY(-3px);
-    opacity: 1;
+    opacity: $postOpacity;
   }
 }
 

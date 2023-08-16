@@ -10,7 +10,8 @@
   width: 90%;
   border-radius: 20px;
   top: 100px;
-  @include flexibleBackgroundColor(147, 177, 193, 1);
+  // @include flexibleBackgroundColor(147, 177, 193, 1);
+  background-color: white;
 
   .inputContainer {
     display: flex;
@@ -54,28 +55,33 @@
     @include btnStyles(
       $darkShade,
       3px,
-      $brandBlack,
+      white,
       90%,
       10px auto,
       bold,
       30px,
       1.8rem,
-      green
+      $darkShade,
+      1,
+      1
     );
   }
 
   .disabled {
-    @include btnStyles(
-      $darkShade,
-      3px,
-      $brandBlack,
-      90%,
-      10px auto,
-      bold,
-      30px,
-      1.8rem,
-      red
-    );
+    all: unset;
+    border: 3px solid $darkShade;
+    color: $brandBlack;
+    padding: 10px;
+    width: 90%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-in-out;
+    opacity: 0.2;
+    margin: 10px auto;
+    font-size: 1.8rem;
+    background-color: none;
   }
   .icon {
     margin-right: 10px;
@@ -103,6 +109,12 @@
     font-size: 1.4rem;
     text-align: center;
     @include hoverEffect();
+  }
+  .centered {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
   }
 }
 

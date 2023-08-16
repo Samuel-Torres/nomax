@@ -3,6 +3,7 @@ import styles from "./form.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { Users } from "@prisma/client";
+import Loading from "@/app/dashboard/loading";
 
 type LoginFormProps = {
   error: string;
@@ -20,7 +21,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitting },
     watch,
     setError,
   } = useForm<LoginFormValues>({
@@ -172,13 +173,22 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         </div>
       </div>
       {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
-      <button
-        onClick={handleSubmit(onSubmit)}
-        disabled={areFormRequirementsMet() ? false : true}
-        className={areFormRequirementsMet() ? styles.enabled : styles.disabled}
-      >
-        Login
-      </button>
+      <div className={styles.centered}>
+        {isSubmitting ? (
+          <Loading />
+        ) : (
+          <button
+            onClick={handleSubmit(onSubmit)}
+            disabled={areFormRequirementsMet() ? false : true}
+            className={
+              areFormRequirementsMet() ? styles.enabled : styles.disabled
+            }
+          >
+            Submit
+          </button>
+        )}
+      </div>
+
       <p className={styles.toggle} onClick={toggleMode}>
         Already have an account? Click Here to Login.
       </p>
