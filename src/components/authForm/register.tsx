@@ -66,19 +66,19 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
 
   const areFormRequirementsMet = () => {
     if (
-      dirtyFields.email === true &&
-      dirtyFields.password === true &&
-      dirtyFields.passwordConfirmation === true &&
-      Object.keys(errors).length === 0 &&
-      errors.email?.message !== conditionalErrorMsg[0] &&
-      !errors.email &&
-      password.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /[@#$%^&*!]/.test(password) &&
-      password === passwordConfirmation &&
-      /[A-Z]/.test(passwordConfirmation) &&
-      /[@#$%^&*!]/.test(passwordConfirmation) &&
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      dirtyFields.email === true && // user updated email field
+      dirtyFields.password === true && // user updated password field
+      dirtyFields.passwordConfirmation === true && // user updated passwordConfirmation field
+      errors.email?.message !== conditionalErrorMsg[0] && // user with email address doesn't already exist
+      Object.keys(errors).length === 0 && // There are no other errors
+      !errors.email && // no additional email errors
+      password.length >= 8 && // password length greater or equal to 8
+      /[A-Z]/.test(password) && // password contains one capital letter
+      /[@#$%^&*!]/.test(password) && // password containes one special character
+      password === passwordConfirmation && // password and passwordConfirmation both match
+      /[A-Z]/.test(passwordConfirmation) && // passwordConfirmation contains one capital letter
+      /[@#$%^&*!]/.test(passwordConfirmation) && // passwordConfirmation contains one special character
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) // email contains proper format including "@" symbol
     ) {
       return true;
     }
@@ -93,6 +93,8 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputContainer}>
         <h1>Register</h1>
+
+        {/* Email Input */}
         <label>Email</label>
         <input
           className={styles.input}
@@ -112,6 +114,8 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
             be considered valid with no whitespaces.
           </span>
         ) : null}
+
+        {/* Password Input */}
         <label>Password</label>
         <input
           className={styles.input}
@@ -137,6 +141,8 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
             • Must contain at least 1 special character.
           </p>
         </div>
+
+        {/* Password Confirmation Input */}
         <label>Confirm Password</label>
         <input
           className={styles.input}
@@ -173,6 +179,8 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         </div>
       </div>
       {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
+
+      {/* Submit Button */}
       <div className={styles.centered}>
         {isSubmitting ? (
           <Loading />
@@ -189,6 +197,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         )}
       </div>
 
+      {/* Form Login/Registration Toggle  */}
       <p className={styles.toggle} onClick={toggleMode}>
         Already have an account? Click Here to Login.
       </p>
