@@ -41,7 +41,8 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
         />
         {errors.email && (
           <span className={styles.warning}>
-            Email is required and must be valid.
+            {/* Email is required and must be valid. */}
+            {errors.email?.message}
           </span>
         )}
         <label>Password</label>

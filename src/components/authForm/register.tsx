@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./form.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+import { Users } from "@prisma/client";
 
 type LoginFormProps = {
   error: string;
@@ -21,14 +22,42 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm<LoginFormValues>();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
+  const conditionalErrorMsg: [string] = [
+    "A user with that email already exists. Please try logging in or using a different email address.",
+  ];
+
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const { email, password, passwordConfirmation } = data;
     const payload = { email, password, passwordConfirmation };
 
-    if (password === passwordConfirmation) {
-      axios.post("/api/auth/register", payload);
+    try {
+      const registrationResponse = await axios.post(
+        "/api/auth/register",
+        payload
+      );
+      const newRegisteredUser: Users = registrationResponse.data.user;
+      if (newRegisteredUser && registrationResponse.data.status === 200) {
+        try {
+          await signIn("credentials", { email, password });
+        } catch (loginError) {
+          console.error("Login Error: ", loginError);
+          // Handle login error if needed
+        }
+      }
+    } catch (registrationError: any) {
+      if (
+        registrationError.response.data.error.includes(
+          "Unique constraint failed on the fields: (`email`)"
+        )
+      ) {
+        setError("email", {
+          type: "manual",
+          message: conditionalErrorMsg[0],
+        });
+      }
     }
   };
 
@@ -49,11 +78,15 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
             minLength: 1,
           })}
         />
-        {errors.email && (
+        {errors.email?.message === conditionalErrorMsg[0] ? (
+          <span className={styles.warning}>{errors.email?.message}</span>
+        ) : null}
+        {errors.email && errors.email?.message !== conditionalErrorMsg[0] ? (
           <span className={styles.warning}>
-            Email is required and must be valid.
+            Email is required and must be valid. Should contain "@" to be
+            considered valid with no whitespaces.
           </span>
-        )}
+        ) : null}
         <label>Password</label>
         <input
           className={styles.input}
@@ -88,9 +121,6 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
             validate: (value) => value === watch("password"),
           })}
         />
-        {errors.passwordConfirmation && (
-          <span className={styles.warning}>Passwords must match.</span>
-        )}
         <div className={styles.requirements}>
           <p
             className={
@@ -117,6 +147,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
           </p>
         </div>
       </div>
+      {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
       <button
         disabled={Object.keys(errors).length > 0}
         onClick={handleSubmit(onSubmit)}

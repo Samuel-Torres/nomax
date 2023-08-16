@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     if (fetchedUser) return NextResponse.json(fetchedUser);
     return NextResponse.json({ message: new Error("User not Found") });
   } catch (error) {
-    return NextResponse.json({ message: new Error("User not Found"), error });
+    return NextResponse.json({ message: new Error(`${error}`) });
   }
 }
 
