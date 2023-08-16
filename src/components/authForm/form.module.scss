@@ -38,7 +38,44 @@
   }
 
   .authBtn {
-    @include btnStyles($darkShade, 3px, $brandBlack, 90%, 10px auto);
+    @include btnStyles(
+      $darkShade,
+      3px,
+      $brandBlack,
+      90%,
+      10px auto,
+      30px,
+      1.8rem,
+      green
+    );
+  }
+
+  .enabled {
+    @include btnStyles(
+      $darkShade,
+      3px,
+      $brandBlack,
+      90%,
+      10px auto,
+      bold,
+      30px,
+      1.8rem,
+      green
+    );
+  }
+
+  .disabled {
+    @include btnStyles(
+      $darkShade,
+      3px,
+      $brandBlack,
+      90%,
+      10px auto,
+      bold,
+      30px,
+      1.8rem,
+      red
+    );
   }
   .icon {
     margin-right: 10px;

@@ -16,7 +16,8 @@
   $margin: none,
   $fontWeight: bold,
   $height: 30px,
-  $fontSize: 1.8rem
+  $fontSize: 1.8rem,
+  $bgColor: none
 ) {
   all: unset;
   border: $borderThickness solid $boderColor;
@@ -31,6 +32,7 @@
   opacity: 0.5;
   margin: $margin;
   font-size: $fontSize;
+  background-color: $bgColor;
 
   &:hover {
     cursor: pointer;

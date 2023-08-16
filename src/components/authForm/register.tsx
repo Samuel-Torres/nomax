@@ -20,10 +20,12 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     watch,
     setError,
-  } = useForm<LoginFormValues>();
+  } = useForm<LoginFormValues>({
+    defaultValues: { email: "", password: "", passwordConfirmation: "" },
+  });
 
   const conditionalErrorMsg: [string] = [
     "A user with that email already exists. Please try logging in or using a different email address.",
@@ -43,7 +45,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         try {
           await signIn("credentials", { email, password });
         } catch (loginError) {
-          console.error("Login Error: ", loginError);
+          // console.error("Login Error: ", loginError);
           // Handle login error if needed
         }
       }
@@ -61,8 +63,30 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     }
   };
 
+  const areFormRequirementsMet = () => {
+    if (
+      dirtyFields.email === true &&
+      dirtyFields.password === true &&
+      dirtyFields.passwordConfirmation === true &&
+      Object.keys(errors).length === 0 &&
+      errors.email?.message !== conditionalErrorMsg[0] &&
+      !errors.email &&
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[@#$%^&*!]/.test(password) &&
+      password === passwordConfirmation &&
+      /[A-Z]/.test(passwordConfirmation) &&
+      /[@#$%^&*!]/.test(passwordConfirmation) &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   const password = watch("password", "");
   const passwordConfirmation = watch("passwordConfirmation", "");
+  const email = watch("email", "");
 
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
@@ -149,9 +173,9 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
       </div>
       {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
       <button
-        disabled={Object.keys(errors).length > 0}
         onClick={handleSubmit(onSubmit)}
-        className={styles.authBtn}
+        disabled={areFormRequirementsMet() ? false : true}
+        className={areFormRequirementsMet() ? styles.enabled : styles.disabled}
       >
         Login
       </button>
