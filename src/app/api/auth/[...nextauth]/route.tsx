@@ -66,7 +66,7 @@ const handler = NextAuth({
         // check if user exists on database:
         try {
           const email = credentials?.email;
-          const user = await prisma.users.findUnique({
+          const user = await prisma.users.findFirst({
             where: {
               email: email,
             },

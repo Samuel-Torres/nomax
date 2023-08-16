@@ -197,12 +197,17 @@ const OnBoardingForm = () => {
                   <div
                     style={{
                       color:
-                        field.value.length >= 25 && field.value.length <= 500
+                        field.value &&
+                        typeof field.value === "string" &&
+                        field.value.length >= 25 &&
+                        field.value.length <= 500
                           ? "green"
                           : "red",
                     }}
                   >
-                    <p className={styles.counter}>{field.value.length} / 500</p>
+                    <p className={styles.counter}>
+                      {field.value ? field.value.length : 0} / 500
+                    </p>
                   </div>
                 </>
               )}
