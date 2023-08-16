@@ -17,7 +17,6 @@ export default function LoginPage() {
   if (session.status === "authenticated") {
     router?.push("/dashboard");
   }
-  // console.log("SESSION DATA: ", session);
 
   if (session.status === "unauthenticated") {
     return (

@@ -64,7 +64,6 @@ const handler = NextAuth({
       // @ts-ignore
       async authorize(credentials) {
         // check if user exists on database:
-        console.log("IN AUTH PROC: ", credentials);
         try {
           const email = credentials?.email;
           const user = await prisma.users.findFirst({
