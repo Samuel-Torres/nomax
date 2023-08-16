@@ -107,8 +107,8 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         ) : null}
         {errors.email && errors.email?.message !== conditionalErrorMsg[0] ? (
           <span className={styles.warning}>
-            Email is required and must be valid. Should contain "@" to be
-            considered valid with no whitespaces.
+            Email is required and must be valid. Should contain &quot@&quot to
+            be considered valid with no whitespaces.
           </span>
         ) : null}
         <label>Password</label>
