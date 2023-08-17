@@ -18,6 +18,10 @@ type LoginFormValues = {
 };
 
 const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
+  const conditionalErrorMsg: [string] = [
+    "A user with that email already exists. Please try logging in or using a different email address.",
+  ];
+
   const {
     register,
     handleSubmit,
@@ -28,9 +32,30 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     defaultValues: { email: "", password: "", passwordConfirmation: "" },
   });
 
-  const conditionalErrorMsg: [string] = [
-    "A user with that email already exists. Please try logging in or using a different email address.",
-  ];
+  const password = watch("password", "");
+  const passwordConfirmation = watch("passwordConfirmation", "");
+  const email = watch("email", "");
+
+  const areFormRequirementsMet = () => {
+    if (
+      dirtyFields.email === true && // user updated email field
+      dirtyFields.password === true && // user updated password field
+      dirtyFields.passwordConfirmation === true && // user updated passwordConfirmation field
+      errors.email?.message !== conditionalErrorMsg[0] && // user with email address doesn't already exist
+      Object.keys(errors).length === 0 && // There are no other errors
+      !errors.email && // no additional email errors
+      password.length >= 8 && // password length greater or equal to 8
+      /[A-Z]/.test(password) && // password contains one capital letter
+      /[@#$%^&*!]/.test(password) && // password containes one special character
+      password === passwordConfirmation && // password and passwordConfirmation both match
+      /[A-Z]/.test(passwordConfirmation) && // passwordConfirmation contains one capital letter
+      /[@#$%^&*!]/.test(passwordConfirmation) && // passwordConfirmation contains one special character
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) // email contains proper format including "@" symbol
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const { email, password, passwordConfirmation } = data;
@@ -64,143 +89,124 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     }
   };
 
-  const areFormRequirementsMet = () => {
-    if (
-      dirtyFields.email === true && // user updated email field
-      dirtyFields.password === true && // user updated password field
-      dirtyFields.passwordConfirmation === true && // user updated passwordConfirmation field
-      errors.email?.message !== conditionalErrorMsg[0] && // user with email address doesn't already exist
-      Object.keys(errors).length === 0 && // There are no other errors
-      !errors.email && // no additional email errors
-      password.length >= 8 && // password length greater or equal to 8
-      /[A-Z]/.test(password) && // password contains one capital letter
-      /[@#$%^&*!]/.test(password) && // password containes one special character
-      password === passwordConfirmation && // password and passwordConfirmation both match
-      /[A-Z]/.test(passwordConfirmation) && // passwordConfirmation contains one capital letter
-      /[@#$%^&*!]/.test(passwordConfirmation) && // passwordConfirmation contains one special character
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) // email contains proper format including "@" symbol
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const password = watch("password", "");
-  const passwordConfirmation = watch("passwordConfirmation", "");
-  const email = watch("email", "");
-
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.inputContainer}>
-        <h1>Register</h1>
+      <div className={styles.form}>
+        <div className={styles.inputContainer}>
+          <h1>Register</h1>
 
-        {/* Email Input */}
-        <label>Email</label>
-        <input
-          className={styles.input}
-          type="email"
-          {...register("email", {
-            required: true,
-            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            minLength: 1,
-          })}
-        />
-        {errors.email?.message === conditionalErrorMsg[0] ? (
-          <span className={styles.warning}>{errors.email?.message}</span>
-        ) : null}
-        {errors.email && errors.email?.message !== conditionalErrorMsg[0] ? (
-          <span className={styles.warning}>
-            Email is required and must be valid. Should contain &quot@&quot to
-            be considered valid with no whitespaces.
-          </span>
-        ) : null}
+          {/* Email Input */}
+          <label>Email</label>
+          <input
+            className={styles.input}
+            type="email"
+            {...register("email", {
+              required: true,
+              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              minLength: 1,
+            })}
+          />
+          {errors.email?.message === conditionalErrorMsg[0] ? (
+            <span className={styles.warning}>{errors.email?.message}</span>
+          ) : null}
+          {errors.email && errors.email?.message !== conditionalErrorMsg[0] ? (
+            <span className={styles.warning}>
+              Email is required and must be valid. Should contain &quot@&quot to
+              be considered valid with no whitespaces.
+            </span>
+          ) : null}
 
-        {/* Password Input */}
-        <label>Password</label>
-        <input
-          className={styles.input}
-          type="password"
-          {...register("password", {
-            required: true,
-            minLength: 8,
-            pattern: /(?=.*[A-Z])(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]+/,
-          })}
-        />
-        <div className={styles.requirements}>
-          <p className={password.length >= 8 ? styles.valid : styles.invalid}>
-            • At least 8 characters in length.
-          </p>
-          <p className={/[A-Z]/.test(password) ? styles.valid : styles.invalid}>
-            • Must contain at least 1 capitalized character.
-          </p>
-          <p
-            className={
-              /[@#$%^&*!]/.test(password) ? styles.valid : styles.invalid
-            }
-          >
-            • Must contain at least 1 special character.
-          </p>
+          {/* Password Input */}
+          <label>Password</label>
+          <input
+            className={styles.input}
+            type="password"
+            {...register("password", {
+              required: true,
+              minLength: 8,
+              pattern: /(?=.*[A-Z])(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]+/,
+            })}
+          />
+          <div className={styles.requirements}>
+            <p className={password.length >= 8 ? styles.valid : styles.invalid}>
+              • At least 8 characters in length.
+            </p>
+            <p
+              className={/[A-Z]/.test(password) ? styles.valid : styles.invalid}
+            >
+              • Must contain at least 1 capitalized character.
+            </p>
+            <p
+              className={
+                /[@#$%^&*!]/.test(password) ? styles.valid : styles.invalid
+              }
+            >
+              • Must contain at least 1 special character.
+            </p>
+          </div>
+
+          {/* Password Confirmation Input */}
+          <label>Confirm Password</label>
+          <input
+            className={styles.input}
+            type="password"
+            {...register("passwordConfirmation", {
+              required: true,
+              validate: (value) => value === watch("password"),
+            })}
+          />
+          <div className={styles.requirements}>
+            <p
+              className={
+                passwordConfirmation.length >= 8 ? styles.valid : styles.invalid
+              }
+            >
+              • At least 8 characters in length.
+            </p>
+            <p
+              className={
+                /[A-Z]/.test(passwordConfirmation)
+                  ? styles.valid
+                  : styles.invalid
+              }
+            >
+              • Must contain at least 1 capitalized character.
+            </p>
+            <p
+              className={
+                /[@#$%^&*!]/.test(passwordConfirmation)
+                  ? styles.valid
+                  : styles.invalid
+              }
+            >
+              • Must contain at least 1 special character.
+            </p>
+          </div>
+        </div>
+        {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
+
+        {/* Submit Button */}
+        <div className={styles.centered}>
+          {isSubmitting ? (
+            <Loading />
+          ) : (
+            <button
+              onClick={handleSubmit(onSubmit)}
+              disabled={areFormRequirementsMet() ? false : true}
+              className={
+                areFormRequirementsMet() ? styles.enabled : styles.disabled
+              }
+            >
+              Submit
+            </button>
+          )}
         </div>
 
-        {/* Password Confirmation Input */}
-        <label>Confirm Password</label>
-        <input
-          className={styles.input}
-          type="password"
-          {...register("passwordConfirmation", {
-            required: true,
-            validate: (value) => value === watch("password"),
-          })}
-        />
-        <div className={styles.requirements}>
-          <p
-            className={
-              passwordConfirmation.length >= 8 ? styles.valid : styles.invalid
-            }
-          >
-            • At least 8 characters in length.
-          </p>
-          <p
-            className={
-              /[A-Z]/.test(passwordConfirmation) ? styles.valid : styles.invalid
-            }
-          >
-            • Must contain at least 1 capitalized character.
-          </p>
-          <p
-            className={
-              /[@#$%^&*!]/.test(passwordConfirmation)
-                ? styles.valid
-                : styles.invalid
-            }
-          >
-            • Must contain at least 1 special character.
-          </p>
-        </div>
+        {/* Form Login/Registration Toggle  */}
+        <p className={styles.toggle} onClick={toggleMode}>
+          Already have an account? Click Here to Login.
+        </p>
       </div>
-      {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
-
-      {/* Submit Button */}
-      <div className={styles.centered}>
-        {isSubmitting ? (
-          <Loading />
-        ) : (
-          <button
-            onClick={handleSubmit(onSubmit)}
-            disabled={areFormRequirementsMet() ? false : true}
-            className={
-              areFormRequirementsMet() ? styles.enabled : styles.disabled
-            }
-          >
-            Submit
-          </button>
-        )}
-      </div>
-
-      {/* Form Login/Registration Toggle  */}
-      <p className={styles.toggle} onClick={toggleMode}>
-        Already have an account? Click Here to Login.
-      </p>
     </form>
   );
 };
