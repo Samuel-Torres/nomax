@@ -2,6 +2,9 @@ import styles from "./form.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
+// components:
+import Loading from "@/app/dashboard/loading";
+
 type LoginFormProps = {
   error: string;
   signIn: Function;
@@ -17,12 +20,31 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>();
+    watch,
+    formState: { errors, dirtyFields, isSubmitting },
+  } = useForm<LoginFormValues>({
+    defaultValues: { email: "", password: "" },
+  });
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const { email, password } = data;
-    signIn("credentials", { email, password });
+    await signIn("credentials", { email, password });
+  };
+
+  const email = watch("email", "");
+  const password = watch("password", "");
+
+  const areFormRequirementsMet = () => {
+    if (
+      dirtyFields.email === true && // user updated email field
+      dirtyFields.password === true && // user updated password field
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && // email format is correct
+      password.length >= 8 && // password length greater or equal to 8
+      email.length >= 1 // password is at least 1 character long
+    ) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -62,14 +84,21 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
           )}
         </div>
         {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
+
         <div className={styles.centered}>
-          <button
-            disabled={Object.keys(errors).length > 0}
-            onClick={handleSubmit(onSubmit)}
-            className={styles.authBtn}
-          >
-            Login
-          </button>
+          {isSubmitting ? (
+            <Loading />
+          ) : (
+            <button
+              onClick={handleSubmit(onSubmit)}
+              disabled={areFormRequirementsMet() ? false : true}
+              className={
+                areFormRequirementsMet() ? styles.enabled : styles.disabled
+              }
+            >
+              Login
+            </button>
+          )}
           <button className={styles.authBtn} onClick={() => signIn("google")}>
             <Image
               className={styles.icon}
