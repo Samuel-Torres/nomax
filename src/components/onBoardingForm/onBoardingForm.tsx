@@ -18,6 +18,8 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
+  const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
+
   const {
     control,
     register,
@@ -26,7 +28,6 @@ const OnBoardingForm = () => {
     watch,
   } = useForm<FormValues>();
 
-  const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
   const password = watch("password");
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {

@@ -9,12 +9,12 @@ type AuthFormProps = {
   error: string;
 };
 
-type LoginFormValues = {
+type AuthFormState = {
   isRegisterMode: boolean;
 };
 
 const AuthForm = ({ error }: AuthFormProps) => {
-  const formCustomData = useForm<LoginFormValues>({
+  const formCustomData = useForm<AuthFormState>({
     defaultValues: {
       isRegisterMode: false,
     },
