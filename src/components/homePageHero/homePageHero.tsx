@@ -22,7 +22,7 @@ const HomePageHero = ({ heroImage, alt, header, icons }: heroData) => {
     <div className={styles.container}>
       <div className={styles.contentContainer}>
         <div className={styles.heroContainer}>
-          <h1>{header}</h1>
+          <h1 data-test="header">{header}</h1>
           <div className={styles.imgContainer}>
             <Image src={heroImage} alt={alt} fill={true} data-test="heroImg" />
           </div>

@@ -22,10 +22,11 @@ const iconCard = ({ icons }: cardData) => {
               src={item.iconImage}
               alt="icon"
               fill={true}
+              data-test="iconImg"
             />
           </div>
           <div className={styles.textContainer}>
-            <p>{item.text}</p>
+            <p data-test="iconCardText">{item.text}</p>
           </div>
         </div>
       ))}
