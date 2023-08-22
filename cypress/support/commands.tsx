@@ -35,5 +35,20 @@
 //     }
 //   }
 // }
+import * as ImageComponent from "next/image";
+
+Cypress.Commands.add("nextImgFix", () => {
+  const OriginalImageComponent = ImageComponent.default;
+
+  Object.defineProperty(ImageComponent, "default", {
+    configurable: true,
+    // @ts-ignore
+    value: (props) => {
+      return <OriginalImageComponent {...props} unoptimized />;
+    },
+  });
+
+  return undefined;
+});
 
 export {};
