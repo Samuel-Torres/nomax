@@ -51,9 +51,10 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.form}>
         <div className={styles.inputContainer}>
-          <h1>LOGIN</h1>
-          <label>Email</label>
+          <h1 data-test="formHeading">Login</h1>
+          <label data-test="loginFormLabel">Email</label>
           <input
+            data-test="loginEmailInput"
             className={styles.input}
             type="email"
             {...register("email", {
@@ -67,8 +68,9 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
               Email is required and must be valid.
             </span>
           )}
-          <label>Password</label>
+          <label data-test="loginFormLabel">Password</label>
           <input
+            data-test="loginPasswordInput"
             className={styles.input}
             type="password"
             {...register("password", {
@@ -83,7 +85,11 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
             </span>
           )}
         </div>
-        {error?.length !== 0 ? <p className={styles.error}>{error}</p> : null}
+        {error?.length !== 0 ? (
+          <p className={styles.error} data-test="loginError">
+            {error}
+          </p>
+        ) : null}
 
         <div className={styles.centered}>
           {isSubmitting ? (
@@ -95,23 +101,33 @@ const Login = ({ error, signIn, toggleMode }: LoginFormProps) => {
               className={
                 areFormRequirementsMet() ? styles.enabled : styles.disabled
               }
+              data-test="loginSubmitButton"
             >
               Login
             </button>
           )}
-          <button className={styles.authBtn} onClick={() => signIn("google")}>
+          <button
+            className={styles.authBtn}
+            onClick={() => signIn("google")}
+            data-test="googleButton"
+          >
             <Image
               className={styles.icon}
               src="https://res.cloudinary.com/dvz91qyth/image/upload/v1689262639/Nomex/auth%20page%20assets/search_ypellv.png"
               width={30}
               height={30}
               alt="google"
+              data-test="googleImage"
             />
             Login with Google
           </button>
-          <p className={styles.toggle} onClick={toggleMode}>
+          <span
+            className={styles.toggle}
+            onClick={toggleMode}
+            data-test="authFormToggle"
+          >
             Don&apos;t have an account? Click Here to Sign up.
-          </p>
+          </span>
         </div>
       </div>
     </form>

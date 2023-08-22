@@ -1,4 +1,3 @@
-import React from "react";
 import HomePageHero from "../../src/components/homePageHero/homePageHero";
 
 describe("<HomePageHero />", () => {

@@ -95,10 +95,10 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.form}>
         <div className={styles.inputContainer}>
-          <h1>Register</h1>
+          <h1 data-test="formHeading">Register</h1>
 
           {/* Email Input */}
-          <label>Email</label>
+          <label data-test="regEmailLabel">Email</label>
           <input
             className={styles.input}
             type="email"
@@ -107,6 +107,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
               pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               minLength: 1,
             })}
+            data-test="registerEmail"
           />
           {errors.email?.message === conditionalErrorMsg[0] ? (
             <span className={styles.warning}>{errors.email?.message}</span>
@@ -119,7 +120,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
           ) : null}
 
           {/* Password Input */}
-          <label>Password</label>
+          <label data-test="regPasswordLabel">Password</label>
           <input
             className={styles.input}
             type="password"
@@ -128,27 +129,35 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
               minLength: 8,
               pattern: /(?=.*[A-Z])(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]+/,
             })}
+            data-test="registerPassword"
           />
           <div className={styles.requirements}>
-            <p className={password.length >= 8 ? styles.valid : styles.invalid}>
+            <p
+              className={password.length >= 8 ? styles.pass : styles.fail}
+              data-test="passwordValidation"
+            >
               • At least 8 characters in length.
             </p>
             <p
-              className={/[A-Z]/.test(password) ? styles.valid : styles.invalid}
+              className={/[A-Z]/.test(password) ? styles.pass : styles.fail}
+              data-test="passwordValidation"
             >
               • Must contain at least 1 capitalized character.
             </p>
             <p
               className={
-                /[@#$%^&*!]/.test(password) ? styles.valid : styles.invalid
+                /[@#$%^&*!]/.test(password) ? styles.pass : styles.fail
               }
+              data-test="passwordValidation"
             >
               • Must contain at least 1 special character.
             </p>
           </div>
 
           {/* Password Confirmation Input */}
-          <label>Confirm Password</label>
+          <label data-test="regPasswordConfirmationLabel">
+            Confirm Password
+          </label>
           <input
             className={styles.input}
             type="password"
@@ -156,30 +165,32 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
               required: true,
               validate: (value) => value === watch("password"),
             })}
+            data-test="registerPasswordConfirmation"
           />
           <div className={styles.requirements}>
             <p
               className={
-                passwordConfirmation.length >= 8 ? styles.valid : styles.invalid
+                passwordConfirmation.length >= 8 ? styles.pass : styles.fail
               }
+              data-test="passwordConfirmationValidation"
             >
               • At least 8 characters in length.
             </p>
             <p
               className={
-                /[A-Z]/.test(passwordConfirmation)
-                  ? styles.valid
-                  : styles.invalid
+                /[A-Z]/.test(passwordConfirmation) ? styles.pass : styles.fail
               }
+              data-test="passwordConfirmationValidation"
             >
               • Must contain at least 1 capitalized character.
             </p>
             <p
               className={
                 /[@#$%^&*!]/.test(passwordConfirmation)
-                  ? styles.valid
-                  : styles.invalid
+                  ? styles.pass
+                  : styles.fail
               }
+              data-test="passwordConfirmationValidation"
             >
               • Must contain at least 1 special character.
             </p>
@@ -198,6 +209,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
               className={
                 areFormRequirementsMet() ? styles.enabled : styles.disabled
               }
+              data-test="registerFormSubmit"
             >
               Submit
             </button>
@@ -205,7 +217,11 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         </div>
 
         {/* Form Login/Registration Toggle  */}
-        <p className={styles.toggle} onClick={toggleMode}>
+        <p
+          className={styles.toggle}
+          onClick={toggleMode}
+          data-test="authFormToggle"
+        >
           Already have an account? Click Here to Login.
         </p>
       </div>
