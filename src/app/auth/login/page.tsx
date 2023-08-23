@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import styles from "./page.module.scss";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -14,9 +15,13 @@ export default function LoginPage() {
   const router = useRouter();
   const loginError: string = searchParams.get("error") || "";
 
-  if (session.status === "authenticated") {
-    router?.push("/dashboard");
-  }
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router?.push("/dashboard");
+    }
+  }, [session.status, router]);
+
+  console.log("SESSION IN LOGIN: ", session);
 
   if (session.status === "unauthenticated") {
     return (

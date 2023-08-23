@@ -1,4 +1,3 @@
-import { should } from "chai";
 import AuthForm from "../../../src/components/authForm/authForm";
 
 describe("<AuthForm>", () => {
