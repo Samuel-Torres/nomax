@@ -36,6 +36,8 @@
 //   }
 // }
 import * as ImageComponent from "next/image";
+import MockNextRouter from "../utils/router";
+import { SessionProvider } from "next-auth/react";
 
 Cypress.Commands.add("nextImgFix", () => {
   const OriginalImageComponent = ImageComponent.default;
@@ -50,5 +52,18 @@ Cypress.Commands.add("nextImgFix", () => {
 
   return undefined;
 });
+
+Cypress.Commands.add(
+  "componentWithRouterMount",
+  (component: React.ReactNode) => {
+    cy.mount(
+      <SessionProvider>
+        <MockNextRouter>{component}</MockNextRouter>
+      </SessionProvider>
+    );
+
+    return undefined;
+  }
+);
 
 export {};

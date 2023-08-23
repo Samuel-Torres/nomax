@@ -1,10 +1,9 @@
-"use client";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
 type FormValues = {
   password: string;
@@ -56,7 +55,7 @@ const OnBoardingForm = () => {
 
   return (
     <>
-      <div className={styles.overlay}>
+      <div className={styles.overlay} data-test="onBoardingForm">
         <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.scrollingContainer}>
             <h1>Onboarding</h1>
@@ -123,7 +122,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data.jobTitle}`}
+                placeholder={`${data?.jobTitle}`}
                 {...register("jobTitle", {
                   required: true,
                   minLength: 3,
@@ -140,7 +139,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data.companyName}`}
+                placeholder={`${data?.companyName}`}
                 {...register("companyName", {
                   required: true,
                   validate: (value) => value.trim().length > 0,
@@ -156,7 +155,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data.userName}`}
+                placeholder={`${data?.userName}`}
                 {...register("userName", {
                   required: true,
                   minLength: 8,
@@ -174,7 +173,7 @@ const OnBoardingForm = () => {
             <Controller
               name="bio"
               control={control}
-              defaultValue={data?.bio} // Set the initial value from data.bio
+              defaultValue={data?.bio !== null ? data?.bio : ""}
               rules={{
                 required: true,
                 minLength: 25,
