@@ -38,6 +38,7 @@
 import * as ImageComponent from "next/image";
 import MockNextRouter from "../utils/router";
 import { SessionProvider } from "next-auth/react";
+import * as nextAuthModule from "next-auth/react";
 
 Cypress.Commands.add("nextImgFix", () => {
   const OriginalImageComponent = ImageComponent.default;
@@ -54,15 +55,65 @@ Cypress.Commands.add("nextImgFix", () => {
 });
 
 Cypress.Commands.add(
-  "componentWithRouterMount",
-  (component: React.ReactNode) => {
-    cy.mount(
-      <SessionProvider>
-        <MockNextRouter>{component}</MockNextRouter>
-      </SessionProvider>
-    );
+  "dynamicMount",
+  (
+    component: React.ReactNode,
+    isUseRouterNeeded: boolean,
+    isUseSessionNeeded: boolean
+  ) => {
+    if (isUseSessionNeeded && isUseRouterNeeded === false) {
+      cy.intercept(
+        "/api/auth/session",
+        // Mocked session data that matches the shape you provided
+        {
+          expires: "2023-09-24T16:35:37.410Z",
+          user: { email: "rillatube@gmail.com" },
+        }
+      ).as("getSession");
+      cy.wait("@getSession");
+    }
 
-    return undefined;
+    let mountedComponent;
+
+    if (isUseSessionNeeded === false && isUseRouterNeeded) {
+      // Mount with MockNextRouter and SessionProvider
+      cy.mount(
+        <SessionProvider>
+          <MockNextRouter>{component}</MockNextRouter>
+        </SessionProvider>
+      )
+        .then((component) => {
+          mountedComponent = cy.wrap(component);
+        })
+        .as("getSession");
+      cy.wait("@getSession");
+    }
+
+    if (isUseSessionNeeded && isUseRouterNeeded) {
+      cy.intercept(
+        "/api/auth/session",
+        // Mocked session data that matches the shape you provided
+        {
+          expires: "2999-09-24T16:35:37.410Z",
+          user: { email: "rillatube@gmail.com" },
+        }
+      ).as("getSession");
+      cy.mount(
+        <SessionProvider>
+          <MockNextRouter>{component}</MockNextRouter>
+        </SessionProvider>
+      )
+        .then((component) => {
+          mountedComponent = cy.wrap(component);
+        })
+        .as("getSession");
+      cy.wait("@getSession");
+      cy.intercept("GET", "/api/users/rillatube@gmail.com", {
+        fixture: "user-data.json",
+      }).as("userFetch");
+    }
+
+    return mountedComponent;
   }
 );
 

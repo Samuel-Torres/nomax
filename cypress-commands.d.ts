@@ -1,6 +1,10 @@
 declare namespace Cypress {
   interface Chainable<Subject = any> {
     nextImgFix(): Chainable<Subject>;
-    componentWithRouterMount(component: React.ReactNode): Chainable<void>;
+    dynamicMount(
+      component: React.ReactNode,
+      isUseRouterNeeded: boolean,
+      isUseSessionNeeded: boolean
+    ): Chainable<void>;
   }
 }

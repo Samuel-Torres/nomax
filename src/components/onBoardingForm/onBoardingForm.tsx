@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
@@ -17,7 +18,21 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
+  const userEmail = session.data?.user?.email;
+  // const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
+  const [data, setData] = useState({});
+  console.log("session: ", session, "DATA: ", data);
+
+  useEffect(() => {
+    if (userEmail) {
+      axios
+        .get(`/api/users/${session.data?.user?.email}`)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((err) => console.log("ERR: ", err));
+    }
+  }, [userEmail]);
 
   const {
     control,
