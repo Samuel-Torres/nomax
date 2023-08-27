@@ -20,12 +20,14 @@ type user = {
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const { email } = params;
+  console.log("PARAMS: ", params);
   try {
     const fetchedUser = await prisma.users.findUnique({
       where: {
         email: email,
       },
     });
+    console.log(fetchedUser);
     if (fetchedUser) return NextResponse.json(fetchedUser);
     return NextResponse.json({ message: new Error("User not Found") });
   } catch (error) {

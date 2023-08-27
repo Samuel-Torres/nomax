@@ -19,7 +19,7 @@ export default function DashboardClient() {
     `/api/users/${session?.user?.email}`,
     fetcher
   );
-
+  console.log("DATA: ", data);
   useEffect(() => {
     if (isAuthenticated !== "authenticated" && isAuthenticated !== "loading") {
       router.push("/auth/login");

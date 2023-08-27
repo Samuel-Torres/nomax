@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
@@ -17,7 +18,7 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR(`/api/users/${session.data?.user?.email}`);
+  const { data } = useSWR(`/api/users/${session.data?.user?.email}`, axios);
 
   const {
     control,
@@ -26,6 +27,8 @@ const OnBoardingForm = () => {
     formState: { errors },
     watch,
   } = useForm<FormValues>();
+
+  
 
   const password = watch("password");
 
