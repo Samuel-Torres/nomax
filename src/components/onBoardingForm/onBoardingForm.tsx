@@ -18,7 +18,7 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR<User>(
+  const { data } = useSWR<Users>(
     `/api/users/${session.data?.user?.email}`,
     axios
   );
