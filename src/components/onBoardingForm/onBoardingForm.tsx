@@ -1,10 +1,10 @@
-import { useRef } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
+import { Users } from "@prisma/client";
 
 type FormValues = {
   password: string;
@@ -18,7 +18,7 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR(`/api/users/${session.data?.user?.email}`, axios);
+  const { data } = useSWR<Users>(`/api/users/${session.data?.user?.email}`, axios);
 
   const {
     control,
