@@ -38,6 +38,8 @@ const OnBoardingForm = () => {
     // use immutability here:
     // const payload = {...data};
 
+    console.log("yucegqu")
+
     axios
       .put(`/api/users/${session.data?.user?.email}`, {
         password,
