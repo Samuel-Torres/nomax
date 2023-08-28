@@ -23,13 +23,13 @@ function sidebar() {
         <Link className={styles.link} href="/dashboard">
           <Image
             className={styles.icon}
-            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248266/Nomex/dashboard/post_klnb0m.png"
+            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693256653/Nomex/dashboard/home_befu43.png"
             width={30}
             height={30}
             alt="google"
             data-test="googleImage"
           />
-          <p className={styles.linkText}>Community Board</p>
+          <p className={styles.linkText}>Home</p>
         </Link>
         <Link className={styles.link} href="/dashboard/profile">
           <Image
