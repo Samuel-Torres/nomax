@@ -7,12 +7,9 @@ export default function DashboardWrapperLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>{/* Include your head content here */}</head>
-      <div className={styles.container}>
-        <Sidebar />
-        {children}
-      </div>
-    </html>
+    <div className={styles.container}>
+      <Sidebar />
+      {children}
+    </div>
   );
 }
