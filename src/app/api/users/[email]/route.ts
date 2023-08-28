@@ -20,7 +20,6 @@ type user = {
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const { email } = params;
-  console.log("PARAMS: ", params);
   try {
     const fetchedUser = await prisma.users.findUnique({
       where: {
@@ -41,21 +40,21 @@ export async function PUT(
 ) {
   const { email } = params;
   const updatedUserData: user = await request.json();
-  const hashedPassword = await bcrypt.hash(updatedUserData.password, 10);
+  let hashedPassword: string;
+  let payload: {} = {};
+  if(updatedUserData.password){
+    hashedPassword = await bcrypt.hash(updatedUserData.password, 10);
+    payload = {...updatedUserData, password: hashedPassword, newUser: false}
+  } else {
+    payload = {...updatedUserData, newUser: false}
+  }
+  console.log("PASS: ", updatedUserData)
   try {
     const updatedUser = await prisma.users.update({
       where: {
         email: email,
       },
-      data: {
-        password: hashedPassword,
-        bio: updatedUserData.bio,
-        persona: convertPersona(updatedUserData.persona),
-        jobTitle: updatedUserData.jobTitle,
-        companyName: updatedUserData.companyName,
-        userName: updatedUserData.userName,
-        newUser: false,
-      },
+      data: payload
     });
     return NextResponse.json({ status: 200, ...updatedUser });
   } catch (error) {

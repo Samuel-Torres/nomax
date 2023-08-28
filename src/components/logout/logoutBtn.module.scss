@@ -1,0 +1,6 @@
+@import "../../styles/variables.module.scss";
+@import "../../styles/mixins.module.scss";
+
+.btn {
+  @include btnStyles($brandBlack, 3px, $lightShade, $preOpacity: 0.8);
+}
