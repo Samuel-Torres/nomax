@@ -18,7 +18,10 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR<Users>(`/api/users/${session.data?.user?.email}`, axios);
+  const { data } = useSWR<Users>(
+    `/api/users/${session.data?.user?.email}`,
+    axios
+  );
 
   const {
     control,
@@ -27,8 +30,6 @@ const OnBoardingForm = () => {
     formState: { errors },
     watch,
   } = useForm<FormValues>();
-
-  
 
   const password = watch("password");
 
@@ -64,43 +65,48 @@ const OnBoardingForm = () => {
             <h1>Onboarding</h1>
 
             <div className={styles.inputContainer}>
-              <label>Password</label>
-              <input
-                className={styles.input}
-                type="password"
-                placeholder="create a new password"
-                {...register("password", {
-                  required: true,
-                  minLength: 8,
-                  validate: (value) => value.trim().length > 0,
-                })}
-              />
-              {errors.password && (
-                <span className={styles.warning}>
-                  Password is required, must be at least 8 characters long, and
-                  cannot contain white spaces.
-                </span>
-              )}
+              {!data?.password ? (
+                <div>
+                  <label>Password</label>
+                  <input
+                    className={styles.input}
+                    type="password"
+                    placeholder="create a new password"
+                    {...register("password", {
+                      required: true,
+                      minLength: 8,
+                      validate: (value) => value.trim().length > 0,
+                    })}
+                  />
 
-              <label>Confirm Password</label>
-              <input
-                className={styles.input}
-                type="password"
-                placeholder="verify new password"
-                {...register("confirmPassword", {
-                  required: true,
-                  minLength: 8,
-                  validate: (value) =>
-                    value.trim().length > 0 && value === password,
-                })}
-              />
-              {errors.confirmPassword && (
-                <span className={styles.warning}>
-                  {errors.confirmPassword.type === "required"
-                    ? "Confirm Password is required and must be at least 8 characters long."
-                    : "Passwords do not match."}
-                </span>
-              )}
+                  {errors.password && (
+                    <span className={styles.warning}>
+                      Password is required, must be at least 8 characters long,
+                      and cannot contain white spaces.
+                    </span>
+                  )}
+
+                  <label>Confirm Password</label>
+                  <input
+                    className={styles.input}
+                    type="password"
+                    placeholder="verify new password"
+                    {...register("confirmPassword", {
+                      required: true,
+                      minLength: 8,
+                      validate: (value) =>
+                        value.trim().length > 0 && value === password,
+                    })}
+                  />
+                  {errors.confirmPassword && (
+                    <span className={styles.warning}>
+                      {errors.confirmPassword.type === "required"
+                        ? "Confirm Password is required and must be at least 8 characters long."
+                        : "Passwords do not match."}
+                    </span>
+                  )}
+                </div>
+              ) : null}
 
               <div className={styles.inputContainer}>
                 <label>Persona</label>
