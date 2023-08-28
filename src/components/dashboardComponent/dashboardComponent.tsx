@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
+import styles from "./dashboardComponent.module.scss";
 
 import OnBoardingForm from "../../components/onBoardingForm/onBoardingForm";
 
@@ -22,7 +23,7 @@ export default function DashboardClient() {
   console.log("DATA: ", data);
   useEffect(() => {
     if (isAuthenticated !== "authenticated" && isAuthenticated !== "loading") {
-      router.push("/auth/login");
+      router.push("/auth");
     }
 
     if (data?.newUser) {
@@ -30,20 +31,22 @@ export default function DashboardClient() {
     }
   }, [isAuthenticated, router, data, isNewUser]);
 
-  if (isLoading) {
-    return (
-      <div>
-        <div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <div>
+  //         <p>Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div>
-      <h1>DashboardClient PAGE</h1>
+    <div className={styles.container}>
+      <h1>DashboardClient</h1>
+      {/* Onboarding form will show is newUser */}
       {isNewUser && <OnBoardingForm />}
+      {/* end */}
     </div>
   );
 }

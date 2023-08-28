@@ -45,9 +45,9 @@
   }
 }
 
-@mixin hoverEffect() {
+@mixin hoverEffect($initOpacity: 0.5) {
   transition: all 0.1s ease-in-out;
-  opacity: 0.5;
+  opacity: $initOpacity;
 
   &:hover {
     cursor: pointer;

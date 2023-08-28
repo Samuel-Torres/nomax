@@ -22,7 +22,7 @@ const OnBoardingForm = () => {
     `/api/users/${session.data?.user?.email}`,
     axios
   );
-
+  
   const {
     control,
     register,

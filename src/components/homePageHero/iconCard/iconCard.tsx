@@ -31,7 +31,7 @@ const iconCard = ({ icons }: cardData) => {
         </div>
       ))}
       <div className={styles.btnContainer}>
-        <Link className={styles.btnLink} href="/auth/login">
+        <Link className={styles.btnLink} href="/auth">
           <button className={styles.btn}>Login</button>
         </Link>
       </div>

@@ -1,0 +1,43 @@
+@import "../../styles/variables.module.scss";
+@import "../../styles/mixins.module.scss";
+
+@media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
+  .container {
+    background-color: red;
+  }
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    background-color: $darkShade;
+    width: 25%;
+    border: 2px solid red;
+    padding: 15px;
+    height: 100vh;
+
+    .linkContainer {
+      margin-top: 5rem;
+      .link {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-decoration: none;
+        @include hoverEffect(0.8);
+      }
+      p {
+        font-size: 1.8rem;
+        color: $lightShade;
+        margin-left: 1rem;
+      }
+    }
+
+    .logoutContainer {
+      display: flex;
+      justify-content: center;
+      width: 17.5%;
+      position: absolute;
+      bottom: 100px;
+    }
+  }
+}
