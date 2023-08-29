@@ -8,7 +8,7 @@ async function main() {
     data: [
       {
         email: "first@gmail.com",
-        password: await bcrypt.hash("123", 5),
+        password: await bcrypt.hash("12345678", 5),
         created_At: new Date(),
         bio: "New Bio",
         persona: "PASSPORTBRO",
@@ -17,7 +17,7 @@ async function main() {
       },
       {
         email: "second@gmail.com",
-        password: await bcrypt.hash("123", 5),
+        password: await bcrypt.hash("12345678", 5),
         created_At: new Date(),
         bio: "I'm new here",
         persona: "EXPAT",
@@ -26,7 +26,7 @@ async function main() {
       },
       {
         email: "third@gmail.com",
-        password: await bcrypt.hash("123", 5),
+        password: await bcrypt.hash("12345678", 5),
         created_At: new Date(),
         bio: "Another one",
         persona: "BACKPACKER",
@@ -35,7 +35,7 @@ async function main() {
       },
       {
         email: "fourth@gmail.com",
-        password: await bcrypt.hash("123", 5),
+        password: await bcrypt.hash("12345678", 5),
         created_At: new Date(),
         bio: "Hello Governor",
         persona: "DIGITALNOMAD",
@@ -45,6 +45,27 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+
+  const allUsers = await prisma.users.findMany();
+
+  for (const user of allUsers) {
+    for (let i = 1; i <= 15; i++) {
+      await prisma.posts.create({
+        data: {
+          postBody: `This is post #${i} by ${user.email}`,
+          createdAT: new Date(),
+          // author: {
+          //   connect: { id: user.id },
+          // },
+          authorId: user.id,
+          authorUserName: user.userName ?? "",
+          authorPersona: user.persona ?? "",
+          authorJobTitle: user.jobTitle ?? "",
+          authorCompany: user.companyName ?? "",
+        },
+      });
+    }
+  }
 }
 
 main()
@@ -54,3 +75,5 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+  export{}

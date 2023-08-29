@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient, personaTypes } from "@prisma/client";
-import { convertPersona } from "@/utils/convertPersona";
 const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
@@ -48,7 +47,6 @@ export async function PUT(
   } else {
     payload = {...updatedUserData, newUser: false}
   }
-  console.log("PASS: ", updatedUserData)
   try {
     const updatedUser = await prisma.users.update({
       where: {

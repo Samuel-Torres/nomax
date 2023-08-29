@@ -6,7 +6,8 @@ import Link from "next/link";
 // components:
 import LogoutBtn from "../logout/logoutBtn";
 
-function sidebar() {
+function sidebar({ session }) {
+  // console.log("SESSION: ", session);
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>

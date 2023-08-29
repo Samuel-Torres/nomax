@@ -21,8 +21,6 @@ export default function LoginPage() {
     }
   }, [session.status, router]);
 
-  console.log("SESSION IN LOGIN: ", session);
-
   if (session.status === "unauthenticated") {
     return (
       <div className={styles.container}>
