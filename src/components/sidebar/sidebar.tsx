@@ -2,11 +2,12 @@ import React from "react";
 import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { Session } from "next-auth";
 
 // components:
 import LogoutBtn from "../logout/logoutBtn";
 
-function sidebar({ session }) {
+function sidebar({ session }: any) {
   // console.log("SESSION: ", session);
   return (
     <div className={styles.container}>
