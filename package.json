@@ -3,19 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node ./src/prisma/seed.ts",
+    "schema": "./src/prisma/schema.prisma"
   },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate:dev": "npx dotenv -e .env.local -- prisma migrate dev --schema=/Users/rilla/Projects/Nomex/nomex/src/prisma/schema.prisma",
+    "migrate:dev": "npx dotenv -e .env.local -- prisma migrate dev",
+    "migrate:prod": "npx dotenv -e .env.local prisma migrate deploy",
     "db:push": "npx dotenv -e .env.local -- prisma db push",
     "migrate:reset": "npx dotenv -e .env.local -- prisma migrate reset",
-    "db:seed": "npx dotenv -e .env.local -- ts-node /Users/rilla/Projects/Nomex/nomex/src/prisma/seed.ts",
-    "prisma:generate": "npx dotenv -e .env.local -- prisma generate --schema=/Users/rilla/Projects/Nomex/nomex/src/prisma/schema.prisma",
-    "prisma:studio": "npx dotenv -e .env.local -- prisma studio  --schema=/Users/rilla/Projects/Nomex/nomex/src/prisma/schema.prisma",
+    "db:seed": "npx dotenv -e .env.local -- ts-node src/prisma/seed.ts",
+    "prisma:generate": "npx dotenv -e .env.local -- prisma generate",
+    "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
     "production:build": "npx prisma generate && npx prisma migrate deploy && next build",
     "postinstall": "npx prisma generate --schema=./src/prisma/schema.prisma",
     "cy:open": "cypress open",

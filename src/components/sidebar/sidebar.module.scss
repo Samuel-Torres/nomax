@@ -10,10 +10,10 @@
 @media (min-width: $smallDesktop) {
   .container {
     background-color: $darkShade;
-    width: 25%;
-    border: 2px solid red;
+    width: 20%;
     padding: 15px;
     height: 100vh;
+    position: fixed;
 
     .linkContainer {
       margin-top: 5rem;
@@ -35,7 +35,7 @@
     .logoutContainer {
       display: flex;
       justify-content: center;
-      width: 17.5%;
+      width: 90%;
       position: absolute;
       bottom: 100px;
     }

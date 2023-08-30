@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient, personaTypes } from "@prisma/client";
-import { convertPersona } from "@/utils/convertPersona";
 const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
@@ -26,7 +25,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         email: email,
       },
     });
-    console.log(fetchedUser);
     if (fetchedUser) return NextResponse.json(fetchedUser);
     return NextResponse.json({ message: new Error("User not Found") });
   } catch (error) {
@@ -48,7 +46,6 @@ export async function PUT(
   } else {
     payload = {...updatedUserData, newUser: false}
   }
-  console.log("PASS: ", updatedUserData)
   try {
     const updatedUser = await prisma.users.update({
       where: {

@@ -1,52 +1,44 @@
 "use client";
-import { useState, useEffect } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import useSWR from "swr";
+import { Posts } from "@prisma/client";
 import styles from "./dashboardComponent.module.scss";
+import useSWR from "swr";
 
-import OnBoardingForm from "../../components/onBoardingForm/onBoardingForm";
+type postProps = {
+  allPosts: Array<Posts>;
+};
 
-export default function DashboardClient() {
+// components:
+import PostCard from "./postCards/postCard";
+
+export default function DashboardComponent({ allPosts }: postProps) {
   const { data: session, status } = useSession();
-  const router = useRouter();
-  const isAuthenticated = status;
-  const [isNewUser, setIsNewUser] = useState(false);
-
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR(
-    `/api/users/${session?.user?.email}`,
-    fetcher
-  );
-  console.log("DATA: ", data);
-  useEffect(() => {
-    if (isAuthenticated !== "authenticated" && isAuthenticated !== "loading") {
-      router.push("/auth");
-    }
+  const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
-    if (data?.newUser) {
-      setIsNewUser(true);
-    }
-  }, [isAuthenticated, router, data, isNewUser]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <div>
-  //         <p>Loading...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  // console.log("POSTS: ", allPosts, data, session);
 
   return (
     <div className={styles.container}>
-      <h1>DashboardClient</h1>
-      {/* Onboarding form will show is newUser */}
-      {isNewUser && <OnBoardingForm />}
-      {/* end */}
+      <div className={styles.postContainer}>
+        {allPosts.map((post) => (
+          <PostCard
+            key={post.id}
+            id={post.id}
+            postBody={post.postBody}
+            createdAt={post.createdAT}
+            authorId={post.authorId}
+            authorUserName={post.authorUserName}
+            authorPersona={post.authorPersona}
+            authorJobTitle={post.authorJobTitle}
+            authorCompany={post.authorCompany}
+            loggedInUserId={data?.id}
+          />
+        ))}
+      </div>
     </div>
   );
 }

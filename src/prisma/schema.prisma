@@ -38,4 +38,17 @@ model Users {
   companyName String?
   userName    String?
   newUser     Boolean       @default(true)
+  Posts       Posts[]
+}
+
+model Posts {
+  id             Int      @id @unique @default(autoincrement())
+  postBody       String   @db.VarChar(1500)
+  createdAT      DateTime @default(now())
+  author         Users    @relation(fields: [authorId], references: [id])
+  authorId       Int
+  authorUserName String
+  authorPersona  String
+  authorJobTitle String
+  authorCompany  String
 }
