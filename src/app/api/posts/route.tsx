@@ -14,3 +14,24 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: new Error(`${error}`) });
   }
 }
+
+//  Edit Post:
+export async function PUT(req: NextRequest) {
+  const payload = await req.json();
+  console.log("REQUEST: ", payload);
+
+  try {
+    const editedPostDbResponse = prisma.posts
+      .update({
+        where: {
+          id: payload?.id,
+        },
+        data: {
+          postBody: payload.postBody,
+        },
+      })
+      .then((dbRes) => console.log("DB RES: ", dbRes));
+
+    console.log("CONS DB RES: ", editedPostDbResponse);
+  } catch (error) {}
+}

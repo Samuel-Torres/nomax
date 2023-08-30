@@ -27,6 +27,7 @@ export default function DashboardComponent({ allPosts }: postProps) {
         {allPosts.map((post) => (
           <PostCard
             key={post.id}
+            id={post.id}
             postBody={post.postBody}
             createdAt={post.createdAT}
             authorId={post.authorId}

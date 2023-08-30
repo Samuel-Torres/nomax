@@ -25,7 +25,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         email: email,
       },
     });
-    console.log(fetchedUser);
     if (fetchedUser) return NextResponse.json(fetchedUser);
     return NextResponse.json({ message: new Error("User not Found") });
   } catch (error) {

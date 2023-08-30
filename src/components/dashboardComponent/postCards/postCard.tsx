@@ -7,6 +7,7 @@ import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import EditPostField from "./editPostField/editPostField";
 
 type postCardProps = {
+  id: number;
   postBody: string;
   createdAt: Date;
   authorId: number;
@@ -18,6 +19,7 @@ type postCardProps = {
 };
 
 const PostCard = ({
+  id,
   postBody,
   createdAt,
   authorId,
@@ -87,7 +89,21 @@ const PostCard = ({
             />
           </div>
         )}
-        {!isEditingPost ? <p>{postBody}</p> : <EditPostField />}
+        <div
+          className={`${styles.transitionContainer} ${
+            isEditingPost ? styles.expanded : ""
+          }`}
+        >
+          {!isEditingPost ? (
+            <p>{postBody}</p>
+          ) : (
+            <EditPostField
+              postId={id}
+              postBeforeEdit={postBody}
+              toggleEditingState={toggleEditingState}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
