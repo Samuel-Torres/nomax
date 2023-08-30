@@ -17,7 +17,7 @@ async function getAllPosts() {
 
 export default async function Dashboard() {
   const data = await getAllPosts();
-  const allPosts = data;
+  const allPosts = await data;
   console.log("ALL POSTS: ", allPosts);
   return (
     <div className={styles.container}>
