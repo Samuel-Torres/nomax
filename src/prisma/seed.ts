@@ -14,6 +14,7 @@ async function main() {
         persona: "PASSPORTBRO",
         jobTitle: "Software Engineer",
         companyName: "Tech",
+        userName: "Sam Last"
       },
       {
         email: "second@gmail.com",
@@ -23,6 +24,7 @@ async function main() {
         persona: "EXPAT",
         jobTitle: "Data Analyst",
         companyName: "Tech World",
+        userName: "Sam T"
       },
       {
         email: "third@gmail.com",
@@ -32,6 +34,7 @@ async function main() {
         persona: "BACKPACKER",
         jobTitle: "Coach Potato",
         companyName: "Your Coach",
+        userName: "Sam R"
       },
       {
         email: "fourth@gmail.com",
@@ -41,6 +44,7 @@ async function main() {
         persona: "DIGITALNOMAD",
         jobTitle: "Sales",
         companyName: "Your Moms House",
+        userName: "Sam L"
       },
     ],
     skipDuplicates: true,

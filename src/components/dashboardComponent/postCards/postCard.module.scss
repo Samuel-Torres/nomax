@@ -1,0 +1,58 @@
+@import "../../../styles/variables.module.scss";
+@import "../../../styles/mixins.module.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  background-color: $lightShade;
+  padding: 10px;
+
+  .postingUserInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .leftSection {
+      display: flex;
+      align-items: center;
+    }
+    p:first-child {
+      font-size: small;
+      font-weight: bold;
+    }
+    p {
+      margin-left: 10px;
+      font-size: smaller;
+    }
+    .timePast {
+      font-size: small;
+    }
+  }
+
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin-top: 10px;
+
+    .postTools {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .editIcon {
+      margin-right: 10px;
+      @include hoverEffect();
+    }
+
+    .deleteIcon {
+      @include hoverEffect();
+    }
+
+    p {
+      font-size: small;
+    }
+  }
+}

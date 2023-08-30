@@ -1,14 +1,43 @@
 "use client";
+import React from "react";
 import { useSession } from "next-auth/react";
+import { Posts } from "@prisma/client";
 import styles from "./dashboardComponent.module.scss";
+import useSWR from "swr";
 
-export default function DashboardComponent() {
+type postProps = {
+  allPosts: Array<Posts>;
+};
+
+// components:
+import PostCard from "./postCards/postCard";
+
+export default function DashboardComponent({ allPosts }: postProps) {
   const { data: session, status } = useSession();
-  // console.log("SESSION IN CLIENT: ", session);
+  const fetcher = (...args: string[]): Promise<any> =>
+    fetch(args.join(",")).then((res) => res.json());
+
+  const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
+
+  // console.log("POSTS: ", allPosts, data, session);
 
   return (
     <div className={styles.container}>
-      <h1>DashboardClient</h1>
+      <div className={styles.postContainer}>
+        {allPosts.map((post) => (
+          <PostCard
+            key={post.id}
+            postBody={post.postBody}
+            createdAt={post.createdAT}
+            authorId={post.authorId}
+            authorUserName={post.authorUserName}
+            authorPersona={post.authorPersona}
+            authorJobTitle={post.authorJobTitle}
+            authorCompany={post.authorCompany}
+            loggedInUserId={data?.id}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function DashboardWrapperLayout({
   return (
     <div className={styles.container}>
       {/* @ts-ignore */}
-      <Sidebar />
+      <Sidebar session={session} />
       <DashboardWrapper>{children}</DashboardWrapper>
       {isNewUser && <OnBoardingForm />}
     </div>

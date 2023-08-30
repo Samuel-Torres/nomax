@@ -11,5 +11,21 @@
   .container {
     display: flex;
     width: 100%;
+    // height: 98vh;
+    padding: 1.5rem;
+
+    .postContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: scroll;
+      overflow: visible;
+      margin: 0 auto;
+      align-items: center;
+      width: 50%;
+
+      // border: 5px solid green;
+      // background-color: $darkShade;
+    }
   }
 }
