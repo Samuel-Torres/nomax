@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { corsMiddleware } from "../../../../middleware";
+// import { corsMiddleware } from "../../middleware";
 
 const prisma = new PrismaClient();
 
@@ -13,10 +13,10 @@ const prisma = new PrismaClient();
 
 // Get all posts:
 export async function GET(req: NextRequest) {
-  //   console.log("RAN IN SERVER");
+  console.log("RAN IN SERVER");
   try {
     const allPosts = await prisma.posts.findMany();
-    // console.log("IN SERVER: ", JSON.stringify(allPosts));
+    console.log("IN SERVER: ", JSON.stringify(allPosts), allPosts);
     return NextResponse.json([...allPosts], { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: new Error(`${error}`) });
@@ -43,10 +43,3 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     console.log("CONS DB RES: ", editedPostDbResponse);
   } catch (error) {}
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-    middleware: [corsMiddleware],
-  },
-};
