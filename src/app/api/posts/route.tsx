@@ -1,7 +1,15 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { corsMiddleware } from "../../../../middleware";
 
 const prisma = new PrismaClient();
+
+// // Apply the CORS middleware to the route
+// export const config = {
+//   api: {
+//     bodyParser: false, // Disable default body parsing
+//   },
+// };
 
 // Get all posts:
 export async function GET(req: NextRequest) {
@@ -16,7 +24,7 @@ export async function GET(req: NextRequest) {
 }
 
 //  Edit Post:
-export async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest, res: NextResponse) {
   const payload = await req.json();
   console.log("REQUEST: ", payload);
 
@@ -35,3 +43,10 @@ export async function PUT(req: NextRequest) {
     console.log("CONS DB RES: ", editedPostDbResponse);
   } catch (error) {}
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+    middleware: [corsMiddleware],
+  },
+};
