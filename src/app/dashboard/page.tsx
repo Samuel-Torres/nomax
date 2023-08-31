@@ -26,7 +26,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/posts")
+      .get("http://localhost:3000/api/posts", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setAllPosts(res.data);
         console.log("res: ", res);
