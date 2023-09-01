@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./profile.module.scss";
 
-const profile = () => {
+const Profile = () => {
   return (
     <div className={styles.container}>
       <h1>profile</h1>
@@ -9,4 +9,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;
