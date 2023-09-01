@@ -25,10 +25,9 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
   });
 
   const onSubmit: SubmitHandler<EditPostValues> = (data) => {
-    // const payload = { id: postId, postBody: data.post };
     console.log("PAYLOAD: ", { id: postId, postBody: data.post });
     axios
-      .put("http://localhost:3000/api/posts", {
+      .put("/api/posts", {
         id: postId,
         postBody: data.post,
       })
