@@ -1,4 +1,4 @@
 
-export default function setCommonCorsHeaders() {
+// export default function setCommonCorsHeaders() {
 
-}
+// }
