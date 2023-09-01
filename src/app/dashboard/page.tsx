@@ -11,7 +11,7 @@ import axios from "axios";
 import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
 import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 
-export default async function Dashboard() {
+export default function Dashboard() {
   const [allPosts, setAllPosts] = useState<Posts[]>([]);
   const { data: session, status } = useSession();
   const router = useRouter();
