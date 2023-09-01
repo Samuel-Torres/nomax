@@ -5,7 +5,7 @@ import axios from "axios";
 
 type editPostProps = {
   postId: number;
-  postBeforeEdit: string;
+  postBeforeEdit: string | null;
   toggleEditingState: Function;
 };
 
