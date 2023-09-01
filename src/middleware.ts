@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
+import setCommonCorsHeaders from './setCommonCorsHeaders';
 
 
 export async function middleware(req: NextRequest) {
@@ -11,10 +11,12 @@ export async function middleware(req: NextRequest) {
         headers: req.headers,
       },
     });
+    const origin = await req.headers.get("host");
+    // response.headers.set('Access-Control-Allow-Origin', 'https://nomax.vercel.app, https://nomax-git-testing-onboardingform-rilladubz.vercel.app');
+    // response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH');
+    // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    response.headers.set('Access-Control-Allow-Origin', 'https://nomax.vercel.app, https://nomax-git-testing-onboardingform-rilladubz.vercel.app');
-    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    setCommonCorsHeaders(origin)
     
     return response;
   }
