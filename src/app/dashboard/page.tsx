@@ -26,19 +26,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/posts", {
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
         setAllPosts(res.data);
-        console.log("res: ", res);
+        // console.log("res: ", res);
       })
       .catch((err) => console.log("ERR: ", err));
   }, []);
 
-  console.log("ALL POSTS: ", allPosts);
+  // console.log("ALL POSTS: ", allPosts);
   return (
     <div className={styles.container}>
       <DashboardComponent allPosts={allPosts} />
