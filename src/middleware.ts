@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+
+
 export async function middleware(req: NextRequest) {
     console.log("MIDDLEWARE RAN")
   if (req.nextUrl.pathname.startsWith('/api/posts')) {
@@ -10,7 +12,7 @@ export async function middleware(req: NextRequest) {
       },
     });
 
-    response.headers.set('Access-Control-Allow-Origin', 'https://nomax.vercel.app, nomax-git-testing-onboardingform-rilladubz.vercel.app');
+    response.headers.set('Access-Control-Allow-Origin', 'https://nomax.vercel.app, https://nomax-git-testing-onboardingform-rilladubz.vercel.app');
     response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH');
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     
