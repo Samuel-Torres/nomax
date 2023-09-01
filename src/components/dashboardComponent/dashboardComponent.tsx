@@ -19,7 +19,7 @@ export default function DashboardComponent({ allPosts }: postProps) {
 
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
-  // console.log("POSTS: ", allPosts, data, session);
+  // console.log("DATA: ", data);
 
   return (
     <div className={styles.container}>
