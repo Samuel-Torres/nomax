@@ -17,7 +17,7 @@ export default async function Dashboard() {
         },
       })
       .then((res) => {
-        // setAllPosts(res.data);
+        setAllPosts(res.data);
         console.log("res: ", res);
       })
       .catch((err) => console.log("ERR: ", err));
