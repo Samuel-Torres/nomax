@@ -5,12 +5,12 @@ import axios from "axios";
 
 type editPostProps = {
   postId: number;
-  postBeforeEdit: string;
+  postBeforeEdit: string | null;
   toggleEditingState: Function;
 };
 
 type EditPostValues = {
-  post: string;
+  post: string | null;
 };
 
 const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
@@ -48,7 +48,7 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
           required: true,
           minLength: 25,
           maxLength: 1500,
-          validate: (value) => value.trim().length > 0,
+          validate: (value) => (value ? value.trim().length > 0 : false),
         }}
         render={({ field }) => (
           <>
@@ -61,6 +61,7 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
               onBlur={() => {
                 field.onBlur();
               }}
+              value={field.value || ""}
             />
             <div
               style={{

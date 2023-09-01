@@ -6,18 +6,18 @@ generator client {
 }
 
 // development:
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 // production:
-datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_PRISMA_URL") // uses connection pooling
-  directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
-}
+// datasource db {
+//   provider          = "postgresql"
+//   url               = env("DATABASE_PRISMA_URL") // uses connection pooling
+//   directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+//   shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+// }
 
 enum personaTypes {
   PASSPORTBRO
@@ -43,7 +43,7 @@ model Users {
 
 model Posts {
   id             Int      @id @unique @default(autoincrement())
-  postBody       String   @db.VarChar(1500)
+  postBody       String?  @db.VarChar(1500)
   createdAT      DateTime @default(now())
   author         Users    @relation(fields: [authorId], references: [id])
   authorId       Int
@@ -51,4 +51,6 @@ model Posts {
   authorPersona  String
   authorJobTitle String
   authorCompany  String
+  imageSrc       String?
+  videoSrc       String?
 }
