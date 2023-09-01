@@ -9,7 +9,6 @@ export default function DashboardWrapperLayout({
 }) {
   return (
     <div className={styles.container}>
-      {/* @ts-ignore */}
       <Sidebar />
       <DashboardWrapper>{children}</DashboardWrapper>
     </div>
