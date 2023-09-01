@@ -8,7 +8,7 @@ import { Posts } from "@prisma/client";
 import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
 
 async function getAllPosts() {
-  const response = await fetch("http://localhost:3000/api/posts", {
+  const response = await fetch("/api/posts", {
     cache: "no-store",
   });
 
