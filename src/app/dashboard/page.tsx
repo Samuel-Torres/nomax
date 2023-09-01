@@ -14,17 +14,17 @@ import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 export default function Dashboard() {
   const [allPosts, setAllPosts] = useState<Posts[]>([]);
   const { data: session, status } = useSession();
-  const router = useRouter();
-  const isAuthenticated = status;
+  // const router = useRouter();
+  // const isAuthenticated = status;
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
 
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
-  if (isAuthenticated !== "authenticated" && isAuthenticated !== "loading") {
-    router.push("/auth");
-  }
+  // if (isAuthenticated !== "authenticated" && isAuthenticated !== "loading") {
+  //   router.push("/auth");
+  // }
 
   useEffect(() => {
     axios
