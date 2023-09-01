@@ -8,7 +8,7 @@ import EditPostField from "./editPostField/editPostField";
 
 type postCardProps = {
   id: number;
-  postBody: string;
+  postBody: string | null;
   createdAt: Date;
   authorId: number;
   authorUserName: string;
