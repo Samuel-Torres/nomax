@@ -26,7 +26,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+      .get("/api/posts", {
         headers: {
           "Content-Type": "application/json",
         },
