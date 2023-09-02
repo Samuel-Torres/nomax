@@ -4,20 +4,24 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// // Apply the CORS middleware to the route
-// export const config = {
-//   api: {
-//     bodyParser: false, // Disable default body parsing
-//   },
-// };
-
 // Get all posts:
 export async function GET(req: NextRequest) {
+  console.log("RAN");
   try {
     const allPosts = await prisma.posts.findMany();
-    return NextResponse.json([...allPosts], { status: 200 });
+    console.log("ALL POSTS: ", allPosts);
+    if (allPosts) {
+      return NextResponse.json([...allPosts], { status: 200 });
+    } else {
+      return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    }
   } catch (error) {
-    return NextResponse.json({ message: new Error(`${error}`) });
+    console.log("ERROR RAN: ", error);
+    // return NextResponse.json({ status: 500, message: `${error}` });
+    return NextResponse.json(
+      { error: "An issue happened on our end please come back later" },
+      { status: 500 }
+    );
   }
 }
 
