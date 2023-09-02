@@ -14,7 +14,7 @@ import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 import Error from "./error";
 
 async function Dashboard() {
-  const [allPosts, setAllPosts] = useState<Posts[]>([]);
+  const [allPosts, setAllPosts] = useState<Posts[] | []>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const { data: session, status } = useSession();
   const [error, setError] = useState<Error>();
@@ -56,8 +56,10 @@ async function Dashboard() {
           }
         });
     }
-    setError(new AuthRequiredError());
-    setIsError(true);
+    if (status !== "loading" && status === "unauthenticated") {
+      setError(new AuthRequiredError());
+      setIsError(true);
+    }
   }, [status]);
 
   return (
