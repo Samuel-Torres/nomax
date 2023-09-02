@@ -92,7 +92,7 @@ const handler = NextAuth({
     }),
   ],
   pages: {
-    error: "api/auth",
+    error: "/auth",
   },
 });
 
