@@ -85,6 +85,12 @@
         border: none;
         height: 200px;
         margin-bottom: 0.5rem;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-scalable: no;
       }
 
       .counter {
