@@ -1,6 +1,22 @@
-.container {
-  position: absolute;
-  right: 0;
-  width: 80%;
-  height: 100vh;
+@import "../../styles/variables.module.scss";
+@import "../../styles/mixins.module.scss";
+
+@media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
+  .container {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    padding: 15px;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (min-width: $smallDesktop) and (max-width: 9999px) {
+  .container {
+    position: absolute;
+    right: 0;
+    width: 80%;
+    height: 100vh;
+  }
 }

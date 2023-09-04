@@ -3,7 +3,7 @@ import styles from "./dashboardPage.module.scss";
 import React, { useEffect, useState } from "react";
 import { Posts } from "@prisma/client";
 import { useSession } from "next-auth/react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import axios from "axios";
 import { AuthRequiredError, fetchError } from "../lib/exceptions";
@@ -13,7 +13,7 @@ import DashboardComponent from "@/components/dashboardComponent/dashboardCompone
 import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 import Error from "./error";
 
-async function Dashboard() {
+function Dashboard() {
   const [allPosts, setAllPosts] = useState<Posts[] | []>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const { data: session, status } = useSession();
@@ -24,10 +24,10 @@ async function Dashboard() {
 
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
-  // const router = useRouter();
-  // if (status !== "authenticated" && status !== "loading") {
-  //   router.push("/auth");
-  // }
+  const router = useRouter();
+  if (status !== "authenticated" && status !== "loading") {
+    router.push("/auth");
+  }
 
   const reset = () => {
     setIsError(false);
@@ -60,7 +60,7 @@ async function Dashboard() {
       setError(new AuthRequiredError());
       setIsError(true);
     }
-  }, [status]);
+  }, [status, setAllPosts, setError, setIsError]);
 
   return (
     <div className={styles.container}>

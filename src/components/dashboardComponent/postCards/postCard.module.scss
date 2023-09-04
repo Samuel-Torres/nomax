@@ -1,103 +1,208 @@
 @import "../../../styles/variables.module.scss";
 @import "../../../styles/mixins.module.scss";
 
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 10px;
-  background-color: $lightShade;
-  padding: 10px;
-  border-radius: 1rem;
-
-  .postingUserInfo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .leftSection {
-      display: flex;
-      align-items: center;
-    }
-    p:first-child {
-      font-size: small;
-      font-weight: bold;
-    }
-    p {
-      margin-left: 10px;
-      font-size: smaller;
-    }
-    .timePast {
-      font-size: small;
-    }
-  }
-
-  .contentContainer {
+@media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
+  .container {
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    width: 100%;
     margin-top: 10px;
+    background-color: $lightShade;
+    padding: 10px;
+    border-radius: 1rem;
 
-    .postTools {
-      width: 100%;
+    .postingUserInfo {
       display: flex;
-      justify-content: flex-end;
-    }
-
-    .editIcon {
-      margin-right: 10px;
-      @include hoverEffect();
-    }
-
-    .deleteIcon {
-      @include hoverEffect();
-    }
-
-    .transitionContainer {
-      transition: all 0.5s ease-in-out;
-      height: 20px; // Start with no height
-      transform-origin: top; // Expand from the top
-      overflow: hidden;
-
-      &.expanded {
-        height: 300px; // Set the desired expanded max-height
-        transition-timing-function: ease-in-out;
-        // transform: scaleY(1); // Expand vertically
+      align-items: center;
+      justify-content: space-between;
+      .leftSection {
+        display: flex;
+        align-items: center;
+      }
+      p:first-child {
+        font-size: small;
+        font-weight: bold;
+      }
+      p {
+        margin-left: 10px;
+        font-size: smaller;
+      }
+      .timePast {
+        font-size: small;
       }
     }
 
-    p {
-      font-size: small;
+    .contentContainer {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      margin-top: 10px;
+
+      .postTools {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .editIcon {
+        margin-right: 10px;
+        @include hoverEffect();
+      }
+
+      .deleteIcon {
+        @include hoverEffect();
+      }
+
+      .transitionContainer {
+        transition: all 0.5s ease-in-out;
+        height: 20px; // Start with no height
+        transform-origin: top; // Expand from the top
+        overflow: hidden;
+
+        &.expanded {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+          // transform: scaleY(1); // Expand vertically
+        }
+      }
+
+      p {
+        font-size: small;
+      }
+    }
+
+    .editContainer {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      textarea {
+        padding: 0.5rem;
+        resize: none;
+        border: none;
+        height: 200px;
+        margin-bottom: 0.5rem;
+      }
+
+      .counter {
+        margin-bottom: 0.5rem;
+      }
+
+      button {
+        margin-top: 1rem;
+        @include btnStyles(
+          $brandBlack,
+          $fontColor: $brandBlack,
+          $preOpacity: 0.5
+        );
+        margin: 0 auto;
+      }
     }
   }
+}
 
-  .editContainer {
+@media only screen and (min-width: $smallDesktop) and (max-width: 9999px) {
+  .container {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    background-color: $lightShade;
+    padding: 10px;
+    border-radius: 1rem;
 
-    label {
-      margin-bottom: 0.5rem;
+    .postingUserInfo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .leftSection {
+        display: flex;
+        align-items: center;
+      }
+      p:first-child {
+        font-size: small;
+        font-weight: bold;
+      }
+      p {
+        margin-left: 10px;
+        font-size: smaller;
+      }
+      .timePast {
+        font-size: small;
+      }
     }
 
-    textarea {
-      padding: 0.5rem;
-      resize: none;
-      border: none;
-      height: 200px;
-      margin-bottom: 0.5rem;
+    .contentContainer {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      margin-top: 10px;
+
+      .postTools {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .editIcon {
+        margin-right: 10px;
+        @include hoverEffect();
+      }
+
+      .deleteIcon {
+        @include hoverEffect();
+      }
+
+      .transitionContainer {
+        transition: all 0.5s ease-in-out;
+        height: 20px; // Start with no height
+        transform-origin: top; // Expand from the top
+        overflow: hidden;
+
+        &.expanded {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+          // transform: scaleY(1); // Expand vertically
+        }
+      }
+
+      p {
+        font-size: small;
+      }
     }
 
-    .counter {
-      margin-bottom: 0.5rem;
-    }
+    .editContainer {
+      display: flex;
+      flex-direction: column;
 
-    button {
-      margin-top: 1rem;
-      @include btnStyles(
-        $brandBlack,
-        $fontColor: $brandBlack,
-        $preOpacity: 0.5
-      );
-      margin: 0 auto;
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      textarea {
+        padding: 0.5rem;
+        resize: none;
+        border: none;
+        height: 200px;
+        margin-bottom: 0.5rem;
+      }
+
+      .counter {
+        margin-bottom: 0.5rem;
+      }
+
+      button {
+        margin-top: 1rem;
+        @include btnStyles(
+          $brandBlack,
+          $fontColor: $brandBlack,
+          $preOpacity: 0.5
+        );
+        margin: 0 auto;
+      }
     }
   }
 }

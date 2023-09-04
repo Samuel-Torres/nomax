@@ -2,9 +2,6 @@
 @import "../../styles/mixins.module.scss";
 
 @media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
-  .container {
-    background-color: red;
-  }
 }
 
 @media (min-width: $smallDesktop) {
