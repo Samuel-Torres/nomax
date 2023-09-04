@@ -3,7 +3,37 @@
 
 @media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
   .container {
-    background-color: red;
+    position: fixed;
+    background-color: $darkShade;
+    width: 100%;
+    padding: 15px;
+    height: 80px;
+    z-index: 100;
+    bottom: 0;
+    display: flex;
+
+    .imageContainer {
+      display: none;
+    }
+
+    .linkContainer {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      .link {
+        display: flex;
+        justify-content: center;
+        width: 20%;
+      }
+
+      p {
+        display: none;
+      }
+    }
+
+    .logoutContainer {
+      display: none;
+    }
   }
 }
 
