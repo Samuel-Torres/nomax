@@ -1,4 +1,9 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, {
+  MouseEventHandler,
+  useState,
+  forwardRef,
+  useEffect,
+} from "react";
 import styles from "./postCard.module.scss";
 import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
@@ -16,27 +21,45 @@ type postCardProps = {
   authorJobTitle: string;
   authorCompany: string;
   loggedInUserId: number;
+  imageSrc: string | null;
+  videoSrc: string | null;
 };
 
-const PostCard = ({
-  id,
-  postBody,
-  createdAt,
-  authorId,
-  authorUserName,
-  authorPersona,
-  authorJobTitle,
-  authorCompany,
-  loggedInUserId,
-}: postCardProps) => {
+const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
+  {
+    id,
+    postBody,
+    createdAt,
+    authorId,
+    authorUserName,
+    authorPersona,
+    authorJobTitle,
+    authorCompany,
+    loggedInUserId,
+    imageSrc,
+    videoSrc,
+  }: postCardProps,
+  ref
+) {
   const [isEditingPost, setIsEditingPost] = useState(false);
+  const [isImagePresent, setIsImagePresent] = useState(false);
+  const [isVideoPresent, setIsVideoPresent] = useState(false);
 
   const toggleEditingState: MouseEventHandler = () => {
     setIsEditingPost(!isEditingPost);
   };
 
+  useEffect(() => {
+    if (imageSrc !== null) {
+      if (imageSrc.length > 0) setIsImagePresent(true);
+    }
+    if (videoSrc !== null) {
+      if (videoSrc.length) setIsVideoPresent(true);
+    }
+  }, [imageSrc, videoSrc]);
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={ref}>
       <div className={styles.postingUserInfo}>
         <div className={styles.leftSection}>
           <Image
@@ -107,6 +130,8 @@ const PostCard = ({
       </div>
     </div>
   );
-};
+});
+
+PostCard.displayName = "PostCard";
 
 export default PostCard;
