@@ -18,6 +18,8 @@ function Dashboard() {
   const [isError, setIsError] = useState<boolean>(false);
   const { data: session, status } = useSession();
   const [error, setError] = useState<Error>();
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
@@ -37,7 +39,7 @@ function Dashboard() {
   useEffect(() => {
     if (status !== "unauthenticated" && status !== "loading") {
       axios
-        .get("/api/posts", {
+        .get(`/api/posts/${page}`, {
           headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-store",
@@ -46,7 +48,8 @@ function Dashboard() {
         .then((res) => {
           console.log("RES: ", res);
           if (res.status === 200) {
-            setAllPosts(res.data);
+            setAllPosts(res.data.allPosts);
+            setHasMore(res.data.hasMore);
           }
         })
         .catch((err) => {
@@ -60,11 +63,23 @@ function Dashboard() {
       setError(new AuthRequiredError());
       setIsError(true);
     }
-  }, [status, setAllPosts, setError, setIsError]);
+  }, [status, setAllPosts, setError, setIsError, page]);
 
   return (
     <div className={styles.container}>
-      {allPosts.length > 0 && <DashboardComponent allPosts={allPosts} />}
+      {allPosts.length > 0 && (
+        <DashboardComponent
+          allPosts={allPosts}
+          setPage={setPage}
+          status={status}
+          setError={setError}
+          setIsError={setIsError}
+          setAllPosts={setAllPosts}
+          page={page}
+          hasMore={hasMore}
+          setHasMore={setHasMore}
+        />
+      )}
       {data?.newUser && <OnBoardingForm />}
       {isError && error && <Error error={error} reset={reset} />}
     </div>

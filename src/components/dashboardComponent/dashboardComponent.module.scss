@@ -19,10 +19,15 @@
       overflow: visible;
       margin: 0 auto;
       align-items: center;
-      width: 50%;
-
+      width: 100%;
+      border: 3px solid green;
       // border: 5px solid green;
       // background-color: $darkShade;
+
+      .scrollContainer {
+        margin: 0 auto;
+        border: 2px solid yellow;
+      }
     }
   }
 }
