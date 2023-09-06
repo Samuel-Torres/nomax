@@ -1,4 +1,3 @@
-"use client";
 import { useRef, useCallback, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Posts } from "@prisma/client";
@@ -25,12 +24,13 @@ export default function DashboardComponent({
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingPost, setIsCreatingPost] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
-  const fetchMorePosts = useCallback(async () => {
+  const fetchMorePosts = useCallback(() => {
     if (!hasMore || isLoading) return; // Prevent fetching if there are no more posts or already loading.
     setIsLoading(true);
     const nextPage: number = page + 1;
@@ -40,13 +40,30 @@ export default function DashboardComponent({
 
   const observer = useRef<IntersectionObserver | null>(null);
 
+  const debounceFetchMorePosts = useCallback(() => {
+    if (debounceTimer !== null) {
+      clearTimeout(debounceTimer);
+    }
+
+    setTimeout(() => {
+      fetchMorePosts();
+    }, 100);
+  }, [debounceTimer, fetchMorePosts]);
+
   const lastBookElementRef = useCallback(
     (node: any) => {
       if (!node || !(node instanceof Element)) return;
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          fetchMorePosts();
+          // Check if the node is in the viewport
+          const isInViewport =
+            entries[0].intersectionRatio > 0 &&
+            entries[0].boundingClientRect.bottom <= window.innerHeight + 100;
+
+          if (isInViewport) {
+            debounceFetchMorePosts(); // Debounced function call
+          }
         }
       });
 
@@ -58,7 +75,7 @@ export default function DashboardComponent({
         }
       };
     },
-    [fetchMorePosts]
+    [debounceFetchMorePosts]
   );
 
   const toggleForm = () => {
