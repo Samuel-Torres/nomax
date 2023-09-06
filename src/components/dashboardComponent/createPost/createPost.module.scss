@@ -6,23 +6,114 @@
 
 @media only screen and (min-width: $smallDesktop) and (max-width: 9999px) {
   .container {
-    border: 2px solid yellow;
     width: 50%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    background-color: $lightShade;
+    border-radius: 1rem;
+    transition: all 0.5s ease-in-out;
+    height: 80px; // Start with no height
+    transform-origin: top; // Expand from the top
+    overflow: hidden;
 
-    .inputBtn {
-      all: unset;
-      border: 2px solid $brandBlack;
-      width: 80%;
-      height: 50px;
-      border-radius: 20px;
+    &.expanded {
+      height: 450px;
+      transition-timing-function: ease-in-out;
+    }
+
+    .submitContainer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0px;
+
+      .submitBtn {
+        @include btnStyles($fontColor: $brandBlack);
+      }
+    }
+
+    .inputBtnContainer {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0px;
+
+      .inputBtn {
+        all: unset;
+        width: 90%;
+        border: 2px solid $brandBlack;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 1.6rem;
+        padding: 0px 10px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+    .uploadContainer {
+      // border: 2px solid blue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
       font-size: 1.6rem;
-      padding: 0px 10px;
 
-      &:hover {
-        cursor: pointer;
+      .exit {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin: 5px 0px;
+        @include hoverEffect();
+      }
+
+      textarea::placeholder {
+        font-size: 1.6rem;
+      }
+
+      textarea {
+        all: unset;
+        width: 35vw;
+        height: 250px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        padding: 1rem;
+        resize: none;
+        border: none;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        font-size: 1.6rem;
+        background-color: white;
+        overflow: hidden;
+        word-wrap: break-word;
+      }
+
+      img {
+        margin-right: 15px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .uploadBtn {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+
+        p {
+          font-size: 1.6rem;
+          text-align: center;
+          color: $success;
+        }
       }
     }
   }
