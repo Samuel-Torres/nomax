@@ -47,7 +47,7 @@ export default function DashboardComponent({
 
     setTimeout(() => {
       fetchMorePosts();
-    }, 100);
+    }, 500);
   }, [debounceTimer, fetchMorePosts]);
 
   const lastBookElementRef = useCallback(
