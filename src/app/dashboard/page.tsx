@@ -48,7 +48,7 @@ function Dashboard() {
         .then((res) => {
           console.log("RES: ", res);
           if (res.status === 200) {
-            setAllPosts(res.data.allPosts);
+            setAllPosts((prevPosts) => [...prevPosts, ...res.data.allPosts]);
             setHasMore(res.data.hasMore);
           }
         })
@@ -71,13 +71,8 @@ function Dashboard() {
         <DashboardComponent
           allPosts={allPosts}
           setPage={setPage}
-          status={status}
-          setError={setError}
-          setIsError={setIsError}
-          setAllPosts={setAllPosts}
           page={page}
           hasMore={hasMore}
-          setHasMore={setHasMore}
         />
       )}
       {data?.newUser && <OnBoardingForm />}

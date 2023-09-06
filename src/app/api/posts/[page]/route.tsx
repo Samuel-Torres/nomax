@@ -1,20 +1,19 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-// import { corsMiddleware } from "../../middleware";
 
 const prisma = new PrismaClient();
 
-// Get all posts:
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const { page } = params;
   const itemsPerPage = 10;
 
   try {
-    const take = page * itemsPerPage;
+    const skip = (page - 1) * itemsPerPage; // Calculate the number of posts to skip
+    const take = itemsPerPage; // Number of posts to take
 
     const allPosts = await prisma.posts.findMany({
-      skip: 0, // Always start from the beginning
-      take, // Fetch up to the current page
+      skip,
+      take,
       orderBy: {
         createdAT: "desc",
       },
@@ -22,17 +21,10 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
 
     const totalCount = await prisma.posts.count(); // Get the total number of posts
 
-    const hasMore = take < totalCount; // Check if there are more pages
+    const hasMore = skip + take < totalCount; // Check if there are more pages
 
-    console.log(
-      "ALL POSTS: ",
-      allPosts,
-      " totalCount: ",
-      totalCount,
-      "HAS MORE?: ",
-      hasMore
-    );
     if (allPosts) {
+      console.log("BEFORE RESP: ", allPosts);
       return NextResponse.json(
         { hasMore: hasMore, allPosts: [...allPosts] },
         { status: 200 }
@@ -43,7 +35,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
   } catch (error) {
     console.log("ERROR RAN: ", error);
     return NextResponse.json(
-      { error: "An issue happened on our end please come back later" },
+      { error: "An issue happened on our end. Please come back later." },
       { status: 500 }
     );
   }
