@@ -14,6 +14,7 @@ type postProps = {
 // components:
 import CreatePost from "./createPost/createPost";
 import PostCard from "./postCards/postCard";
+import BallSpinner from "../loadingStateComponents/ballSpinner";
 
 export default function DashboardComponent({
   allPosts,
@@ -31,11 +32,14 @@ export default function DashboardComponent({
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
 
   const fetchMorePosts = useCallback(() => {
-    if (!hasMore || isLoading) return; // Prevent fetching if there are no more posts or already loading.
+    if (!hasMore || isLoading) {
+      setIsLoading(false);
+      return;
+    } // Prevent fetching if there are no more posts or already loading.
+
     setIsLoading(true);
     const nextPage: number = page + 1;
     setPage(nextPage);
-    setIsLoading(false);
   }, [page, setPage, hasMore, isLoading]);
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -103,6 +107,7 @@ export default function DashboardComponent({
             videoSrc={post.videoSrc}
           />
         ))}
+        {isLoading ? <BallSpinner /> : null}
         {hasMore === false && (
           <div
             style={{
