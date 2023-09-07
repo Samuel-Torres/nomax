@@ -32,9 +32,16 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
         postBody: data.post,
       })
       .then((response: any) => {
-        console.log("CLIENT RES: ", response);
+        if (response.status === 200) {
+          window.location.reload();
+        }
       })
-      .catch((err: any) => console.log("CLIENT ERR: ", err));
+      .catch((err: any) => {
+        // if(err.status === 400 || err.status === 500) {
+
+        // }
+        console.log("CLIENT ERR: ", err);
+      });
   };
 
   return (

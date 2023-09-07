@@ -2,25 +2,111 @@ import { useRef, useState } from "react";
 import styles from "./createPost.module.scss";
 import Image from "next/image";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { Users } from "@prisma/client";
+import { fetchError } from "../../../app/lib/exceptions";
 
 type createPostProps = {
   isCreatingPost: boolean;
   toggleForm: () => void;
+  loggedInUser: Users;
+  setNewPost: Function;
+  setError: Function;
+  setIsError: Function;
 };
 
-const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
+const CreatePost = ({
+  isCreatingPost,
+  toggleForm,
+  loggedInUser,
+  setNewPost,
+  setError,
+  setIsError,
+}: createPostProps) => {
   const [imgSrc, setImgSrc] = useState<any>("");
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, setValue } = useForm();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("PASSED IN DATA: ", data);
+    const formData = new FormData();
+    formData.append("file", data.image);
+    formData.append("upload_preset", "nomax-uploads");
+    let imageSecureUrl: string;
+    // let videoSecureUrl: string;
+
+    const payload = {
+      postBody: data.text || "",
+      authorId: loggedInUser.id,
+      authorUserName: loggedInUser.userName,
+      authorPersona: loggedInUser.persona,
+      authorJobTitle: loggedInUser.jobTitle,
+      authorCompany: loggedInUser.companyName,
+      imageSrc: "",
+      // videoSrc: ""
+    };
+
+    // If Image url is present w/ or without text:
+    if (data.image.length > 0) {
+      const res = await axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dvz91qyth/image/upload",
+          formData
+        )
+        .then(async (response) => {
+          imageSecureUrl = response.data.secure_url;
+          // videoSecureUrl = response?.data?.secure_url;
+
+          if (response.status === 200) {
+            await axios
+              .post(
+                "/api/posts",
+                imageSecureUrl ? { ...payload, imageSrc: imageSecureUrl } : null
+              )
+              .then((res) => {
+                if (res.status === 200 && res.data.dataResponse) {
+                  setNewPost(res.data.dataResponse);
+                  toggleForm();
+                  setImgSrc("");
+                  setValue("text", "");
+                } else {
+                  console.log("ERROR RAN INNER");
+                  setError(new fetchError());
+                  setIsError(true);
+                }
+              });
+          } else {
+            console.log("ERROR RAN OUTTER");
+            setError(new fetchError());
+            setIsError(true);
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR RAN CATCH");
+          setError(new fetchError(error));
+          setIsError(true);
+        });
+    } else {
+      await axios.post("/api/posts", payload).then((res) => {
+        if (res.status === 200 && res.data.dataResponse) {
+          setNewPost(res.data.dataResponse);
+          toggleForm();
+          setImgSrc("");
+          setValue("text", "");
+        } else {
+          console.log("ERROR RAN INNER");
+          setError(new fetchError());
+          setIsError(true);
+        }
+      });
+    }
   };
 
   const handleImageUpload = (changeEvent: any) => {
     const reader = new FileReader();
 
     reader.onload = (onLoadEvent) => {
+      setValue("image", onLoadEvent.target?.result);
       setImgSrc(onLoadEvent.target?.result);
     };
 
@@ -33,10 +119,10 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
 
   const clearNToggleForm = () => {
     setImgSrc("");
+    setValue("text", "");
     toggleForm();
   };
 
-  console.log("GET VAL: ", imgSrc);
   return (
     <form
       className={`${styles.container} ${
@@ -44,13 +130,13 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
       } ${imgSrc.length > 0 ? styles.imgIsPresent : ""}`}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div>
-        <Controller
-          name="image"
-          control={control}
-          defaultValue=""
-          render={({ field }) =>
-            isCreatingPost ? (
+      {isCreatingPost ? (
+        <div>
+          <Controller
+            name="text"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
               <div className={styles.uploadContainer}>
                 <div className={styles.exit}>
                   <Image
@@ -62,7 +148,16 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                     onClick={clearNToggleForm}
                   />
                 </div>
-                <textarea placeholder="Start your post here..." />
+                <textarea {...field} placeholder="Start your post here..." />
+              </div>
+            )}
+          />
+          <Controller
+            name="image"
+            control={control}
+            defaultValue=""
+            render={() => (
+              <div className={styles.uploadContainer}>
                 <input
                   type="file"
                   accept="image/*"
@@ -83,17 +178,16 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                   />
                 </div>
               </div>
-            ) : (
-              <div className={styles.inputBtnContainer}>
-                <button onClick={toggleForm} className={styles.inputBtn}>
-                  Create Post
-                </button>
-              </div>
-            )
-          }
-        />
-      </div>
-
+            )}
+          />
+        </div>
+      ) : (
+        <div className={styles.inputBtnContainer}>
+          <button onClick={toggleForm} className={styles.inputBtn}>
+            Create Post
+          </button>
+        </div>
+      )}
       {isCreatingPost ? (
         <>
           <div

@@ -16,10 +16,11 @@ import Error from "./error";
 function Dashboard() {
   const [allPosts, setAllPosts] = useState<Posts[] | []>([]);
   const [isError, setIsError] = useState<boolean>(false);
-  const { data: session, status } = useSession();
   const [error, setError] = useState<Error>();
+  const { data: session, status } = useSession();
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [newPost, setNewPost] = useState<Posts | null>(null);
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
@@ -67,12 +68,16 @@ function Dashboard() {
 
   return (
     <div className={styles.container}>
-      {allPosts.length > 0 && (
+      {allPosts.length > 0 && !isError && (
         <DashboardComponent
           allPosts={allPosts}
           setPage={setPage}
           page={page}
           hasMore={hasMore}
+          newPost={newPost}
+          setNewPost={setNewPost}
+          setIsError={setIsError}
+          setError={setError}
         />
       )}
       {data?.newUser && <OnBoardingForm />}
