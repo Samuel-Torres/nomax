@@ -71,7 +71,7 @@ export default function DashboardComponent({
           // Check if the node is in the viewport
           const isInViewport =
             entries[0].intersectionRatio > 0 &&
-            entries[0].boundingClientRect.bottom <= window.innerHeight + 100;
+            entries[0].boundingClientRect.bottom <= window.innerHeight + 1000;
 
           if (isInViewport) {
             debounceFetchMorePosts(); // Debounced function call
@@ -117,8 +117,8 @@ export default function DashboardComponent({
             authorJobTitle={newPost?.authorJobTitle}
             authorCompany={newPost?.authorCompany}
             loggedInUserId={data?.id}
-            imageSrc={newPost?.imageSrc}
-            videoSrc={newPost?.videoSrc}
+            imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
+            videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
           />
         )}
         {allPosts.map((post, index) => (
@@ -134,8 +134,8 @@ export default function DashboardComponent({
             authorJobTitle={post.authorJobTitle}
             authorCompany={post.authorCompany}
             loggedInUserId={data?.id}
-            imageSrc={post.imageSrc}
-            videoSrc={post.videoSrc}
+            imageSrc={post?.imageSrc ? post?.imageSrc : ""}
+            videoSrc={post?.videoSrc ? post?.videoSrc : ""}
           />
         ))}
         {isLoading ? <BallSpinner /> : null}
