@@ -10,7 +10,7 @@ type createPostProps = {
 
 const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
   const [imgSrc, setImgSrc] = useState<any>("");
-  const { handleSubmit, control, setValue, getValues } = useForm();
+  const { handleSubmit, control } = useForm();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = (data: any) => {
@@ -30,6 +30,12 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
   const clearImgSrc = () => {
     setImgSrc("");
   };
+
+  const clearNToggleForm = () => {
+    setImgSrc("");
+    toggleForm();
+  };
+
   console.log("GET VAL: ", imgSrc);
   return (
     <form
@@ -53,7 +59,7 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                     width={20}
                     height={20}
                     alt="exit"
-                    onClick={toggleForm}
+                    onClick={clearNToggleForm}
                   />
                 </div>
                 <textarea placeholder="Start your post here..." />
