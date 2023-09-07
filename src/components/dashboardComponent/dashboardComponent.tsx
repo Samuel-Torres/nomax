@@ -9,6 +9,10 @@ type postProps = {
   page: number;
   setPage: Function;
   hasMore: boolean;
+  setNewPost: Function;
+  newPost: Posts | null;
+  setError: Function;
+  setIsError: Function;
 };
 
 // components:
@@ -21,6 +25,10 @@ export default function DashboardComponent({
   page,
   setPage,
   hasMore,
+  newPost,
+  setNewPost,
+  setError,
+  setIsError,
 }: postProps) {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -88,8 +96,31 @@ export default function DashboardComponent({
 
   return (
     <div className={styles.container}>
-      <CreatePost isCreatingPost={isCreatingPost} toggleForm={toggleForm} />
+      <CreatePost
+        loggedInUser={data}
+        isCreatingPost={isCreatingPost}
+        toggleForm={toggleForm}
+        setNewPost={setNewPost}
+        setIsError={setIsError}
+        setError={setError}
+      />
       <div className={styles.postContainer}>
+        {newPost && (
+          <PostCard
+            key={newPost.id}
+            id={newPost.id}
+            postBody={newPost?.postBody}
+            createdAt={newPost?.createdAT}
+            authorId={newPost?.authorId}
+            authorUserName={newPost?.authorUserName}
+            authorPersona={newPost?.authorPersona}
+            authorJobTitle={newPost?.authorJobTitle}
+            authorCompany={newPost?.authorCompany}
+            loggedInUserId={data?.id}
+            imageSrc={newPost?.imageSrc}
+            videoSrc={newPost?.videoSrc}
+          />
+        )}
         {allPosts.map((post, index) => (
           <PostCard
             key={post.id}
