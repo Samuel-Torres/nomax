@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "./createPost.module.scss";
 import Image from "next/image";
 import { useForm, Controller } from "react-hook-form";
@@ -9,19 +9,39 @@ type createPostProps = {
 };
 
 const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
-  const { handleSubmit, control, setValue, getValues } = useForm();
-  const fileInputRef = useRef<HTMLInputElement | null>(null); // Declare the ref type explicitly
+  const [imgSrc, setImgSrc] = useState<any>("");
+  const { handleSubmit, control } = useForm();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    console.log("PASSED IN DATA: ", data);
   };
 
-  // className={`${styles.transitionContainer} ${
-  //   isCreatingPost ? styles.expanded : ""
-  // }`}
+  const handleImageUpload = (changeEvent: any) => {
+    const reader = new FileReader();
 
+    reader.onload = (onLoadEvent) => {
+      setImgSrc(onLoadEvent.target?.result);
+    };
+
+    reader.readAsDataURL(changeEvent.target?.files[0]);
+  };
+
+  const clearImgSrc = () => {
+    setImgSrc("");
+  };
+
+  const clearNToggleForm = () => {
+    setImgSrc("");
+    toggleForm();
+  };
+
+  console.log("GET VAL: ", imgSrc);
   return (
     <form
-      className={`${styles.container} ${isCreatingPost ? styles.expanded : ""}`}
+      className={`${styles.container} ${
+        isCreatingPost ? styles.expanded : ""
+      } ${imgSrc.length > 0 ? styles.imgIsPresent : ""}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
@@ -39,7 +59,7 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                     width={20}
                     height={20}
                     alt="exit"
-                    onClick={toggleForm}
+                    onClick={clearNToggleForm}
                   />
                 </div>
                 <textarea placeholder="Start your post here..." />
@@ -47,18 +67,9 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                   type="file"
                   accept="image/*"
                   style={{ display: "none" }}
+                  onChange={handleImageUpload}
                   ref={(input) => {
-                    // Use input directly as HTMLInputElement
-                    if (input) {
-                      input.addEventListener("change", (e) => {
-                        field.onChange(e);
-                        const file = (e.target as HTMLInputElement)?.files?.[0];
-                        if (file) {
-                          setValue("image", file);
-                        }
-                      });
-                      fileInputRef.current = input;
-                    }
+                    fileInputRef.current = input;
                   }}
                 />
                 <div className={styles.uploadBtn}>
@@ -68,11 +79,8 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
                     width={30}
                     height={30}
                     alt="upload"
-                    onClick={() => fileInputRef.current?.click()} // Use optional chaining
+                    onClick={() => fileInputRef.current?.click()}
                   />
-                  {getValues("image") && (
-                    <p>Selected File: {getValues("image").name}</p>
-                  )}
                 </div>
               </div>
             ) : (
@@ -85,12 +93,41 @@ const CreatePost = ({ isCreatingPost, toggleForm }: createPostProps) => {
           }
         />
       </div>
+
       {isCreatingPost ? (
-        <div className={styles.submitContainer}>
-          <button className={styles.submitBtn} type="submit">
-            Submit
-          </button>
-        </div>
+        <>
+          <div
+            className={`${styles.imgContainer} ${
+              imgSrc ? styles.expanded : ""
+            }`}
+          >
+            {imgSrc?.length > 0 && (
+              <>
+                <div>
+                  <Image
+                    className={styles.clear}
+                    src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693421983/Nomex/dashboard/delete_lzxfe3.png"
+                    width={20}
+                    height={20}
+                    alt="clear-img-src"
+                    onClick={clearImgSrc}
+                  />
+                </div>
+                <Image
+                  src={imgSrc}
+                  width={200}
+                  height={200}
+                  alt="selectedImg"
+                />
+              </>
+            )}
+          </div>
+          <div className={styles.submitContainer}>
+            <button className={styles.submitBtn} type="submit">
+              Submit
+            </button>
+          </div>
+        </>
       ) : null}
     </form>
   );
