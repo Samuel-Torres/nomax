@@ -21,8 +21,8 @@ type postCardProps = {
   authorJobTitle: string;
   authorCompany: string;
   loggedInUserId: number;
-  imageSrc: string | null;
-  videoSrc: string | null;
+  imageSrc: string;
+  videoSrc: string;
 };
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
@@ -44,19 +44,37 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   const [isEditingPost, setIsEditingPost] = useState(false);
   const [isImagePresent, setIsImagePresent] = useState(false);
   const [isVideoPresent, setIsVideoPresent] = useState(false);
+  const [collapsedPostBody, setCollapsedPostBody] = useState("");
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [length, setLength] = useState<number>();
 
   const toggleEditingState: MouseEventHandler = () => {
     setIsEditingPost(!isEditingPost);
   };
 
+  const toggleCollapsed = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   useEffect(() => {
-    if (imageSrc !== null) {
+    if (imageSrc.length !== null) {
       if (imageSrc.length > 0) setIsImagePresent(true);
     }
     if (videoSrc !== null) {
       if (videoSrc.length) setIsVideoPresent(true);
     }
-  }, [imageSrc, videoSrc]);
+    if (postBody) {
+      if (postBody?.length >= 38) {
+        setCollapsedPostBody(`${postBody?.substring(0, 38)}`);
+        setIsCollapsed(true);
+        setLength(postBody?.length);
+      } else {
+        setCollapsedPostBody(postBody);
+        setIsCollapsed(true);
+        setLength(postBody?.length);
+      }
+    }
+  }, [imageSrc, videoSrc, postBody]);
 
   return (
     <div className={styles.container} ref={ref}>
@@ -113,12 +131,48 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
           </div>
         )}
         <div
-          className={`${styles.transitionContainer} ${
-            isEditingPost ? styles.expanded : ""
-          }`}
+          className={`${
+            isImagePresent
+              ? styles.transitionContainerWithImg
+              : styles.transitionContainerWithOutImg
+          } ${isEditingPost ? styles.expanded : ""}`}
         >
           {!isEditingPost ? (
-            <p>{postBody}</p>
+            <div className={styles.postBodyContainer}>
+              <div
+                className={`${styles.postContainer} ${
+                  isCollapsed ? "" : styles.expanded
+                }`}
+              >
+                <div className={styles.bodyContainer}>
+                  {isCollapsed ? (
+                    <p className={styles.body}>{collapsedPostBody}</p>
+                  ) : (
+                    <p className={styles.body}>{postBody}</p>
+                  )}
+                  {length && length < 38 ? null : (
+                    <p className={styles.readMore} onClick={toggleCollapsed}>
+                      {isCollapsed ? (
+                        <p className={styles.toggleBtn}>Read More</p>
+                      ) : (
+                        <p className={styles.toggleBtn}>Read Less</p>
+                      )}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {isImagePresent && (
+                <div className={styles.imgContainer}>
+                  <Image
+                    className={styles.postImg}
+                    src={imageSrc}
+                    fill={true}
+                    alt="post-img"
+                  />
+                </div>
+              )}
+            </div>
           ) : (
             <EditPostField
               postId={id}
