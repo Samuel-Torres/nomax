@@ -76,6 +76,29 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     }
   }, [imageSrc, videoSrc, postBody]);
 
+  const insertSeeMoreBtn = () => {
+    if (postBody) {
+      if (length && length > 38) {
+        let el;
+        isCollapsed
+          ? (el = (
+              <p className={styles.readMore} onClick={toggleCollapsed}>
+                <p className={styles.toggleBtn}>Read More</p>
+              </p>
+            ))
+          : (el = (
+              <p className={styles.readMore} onClick={toggleCollapsed}>
+                <p className={styles.toggleBtn}>Read Less</p>
+              </p>
+            ));
+        return el;
+      }
+    } else {
+      return null;
+    }
+    return null;
+  };
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.postingUserInfo}>
@@ -135,7 +158,9 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
             isImagePresent
               ? styles.transitionContainerWithImg
               : styles.transitionContainerWithOutImg
-          } ${isEditingPost ? styles.expanded : ""}`}
+          } ${isEditingPost ? styles.isEditingPost : ""} ${
+            isCollapsed ? "" : styles.expanded
+          }`}
         >
           {!isEditingPost ? (
             <div className={styles.postBodyContainer}>
@@ -150,20 +175,17 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                   ) : (
                     <p className={styles.body}>{postBody}</p>
                   )}
-                  {length && length < 38 ? null : (
-                    <p className={styles.readMore} onClick={toggleCollapsed}>
-                      {isCollapsed ? (
-                        <p className={styles.toggleBtn}>Read More</p>
-                      ) : (
-                        <p className={styles.toggleBtn}>Read Less</p>
-                      )}
-                    </p>
-                  )}
+                  {insertSeeMoreBtn()}
                 </div>
               </div>
-
               {isImagePresent && (
-                <div className={styles.imgContainer}>
+                <div
+                  className={`${styles.imgContainer} ${
+                    isCollapsed ? "" : styles.expanded
+                  }
+                  ${isEditingPost ? styles.isEditingPost : ""}
+                  `}
+                >
                   <Image
                     className={styles.postImg}
                     src={imageSrc}
