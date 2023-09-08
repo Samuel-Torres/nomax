@@ -2,18 +2,25 @@ import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styles from "../postCard.module.scss";
 import axios from "axios";
+import { fetchError } from "@/app/lib/exceptions";
 
 type editPostProps = {
   postId: number;
   postBeforeEdit: string | null;
-  toggleEditingState: Function;
+  setError: Function;
+  setIsError: Function;
 };
 
 type EditPostValues = {
   post: string | null;
 };
 
-const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
+const EditPostField = ({
+  postId,
+  postBeforeEdit,
+  setError,
+  setIsError,
+}: editPostProps) => {
   const {
     control,
     register,
@@ -32,12 +39,23 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
       })
       .then((response: any) => {
         if (response.status === 200) {
+          console.log("RESPONSE: ", response);
           window.location.reload();
+        } else {
+          setError(new fetchError());
+          setIsError(true);
         }
       })
       .catch((err: any) => {
-        // if(err.status === 400 || err.status === 500) {
-        // }
+        if (
+          err.response.status === 404 ||
+          err.response.status === 500 ||
+          err.status === 400 ||
+          err.status === 500
+        ) {
+          setError(new fetchError());
+          setIsError(true);
+        }
       });
   };
 

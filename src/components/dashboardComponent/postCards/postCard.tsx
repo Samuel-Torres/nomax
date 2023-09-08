@@ -231,7 +231,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
             <EditPostField
               postId={id}
               postBeforeEdit={postBody}
-              toggleEditingState={toggleEditingState}
+              setError={setError}
+              setIsError={setIsError}
             />
           )}
         </div>

@@ -22,7 +22,7 @@ const OnBoardingForm = () => {
     `/api/users/${session.data?.user?.email}`,
     axios
   );
-  
+
   const {
     control,
     register,
@@ -51,9 +51,9 @@ const OnBoardingForm = () => {
       .then((res) => {
         window.location.reload();
       })
-      .catch((err) =>
+      .catch((err) => {
         // find a way to handle errors
-      );
+      });
   };
 
   return (

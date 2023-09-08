@@ -9,7 +9,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
   const payload = await req.json();
 
   try {
-    const editedPostDbResponse = prisma.posts.update({
+    const editedPostDbResponse = await prisma.posts.update({
       where: {
         id: payload?.id,
       },
