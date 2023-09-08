@@ -39,8 +39,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (status !== "unauthenticated" && status !== "loading") {
+      setIsLoading(true);
       axios
         .get(`/api/posts/${page}`, {
           headers: {
