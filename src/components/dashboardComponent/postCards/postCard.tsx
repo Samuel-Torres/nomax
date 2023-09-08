@@ -7,6 +7,8 @@ import React, {
 import styles from "./postCard.module.scss";
 import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
+import { fetchError } from "@/app/lib/exceptions";
+import axios from "axios";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
@@ -23,6 +25,8 @@ type postCardProps = {
   loggedInUserId: number;
   imageSrc: string;
   videoSrc: string;
+  setError: Function;
+  setIsError: Function;
 };
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
@@ -38,6 +42,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     loggedInUserId,
     imageSrc,
     videoSrc,
+    setError,
+    setIsError,
   }: postCardProps,
   ref
 ) {
@@ -99,6 +105,31 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     return null;
   };
 
+  const deletePost = async (postId: number) => {
+    const id = postId;
+    axios
+      .delete(`/api/posts/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          window.location.reload();
+        } else {
+          setError(new fetchError());
+          setIsError(true);
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response.status === 404 ||
+          error.response.status === 500 ||
+          error.status === 400 ||
+          error.status === 500
+        ) {
+          setError(new fetchError());
+          setIsError(true);
+        }
+      });
+  };
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.postingUserInfo}>
@@ -146,6 +177,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
             )}
             <Image
               className={styles.deleteIcon}
+              onClick={() => deletePost(id)}
               src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693419097/Nomex/dashboard/trash_pglfuc.png"
               width={20}
               height={20}

@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 //  Edit Post:
 export async function PUT(req: NextRequest, res: NextResponse) {
   const payload = await req.json();
-  console.log("REQUEST: ", payload);
 
   try {
     const editedPostDbResponse = prisma.posts.update({
@@ -19,7 +18,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       },
     });
 
-    console.log("CONS DB RES: ", editedPostDbResponse);
     if (typeof editedPostDbResponse === "object") {
       return NextResponse.json({ data: editedPostDbResponse }, { status: 200 });
     } else {
@@ -35,7 +33,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 
 export async function POST(req: NextRequest) {
   const payload = await req.json();
-  console.log("PAYLOAD: ", payload);
   try {
     const createdPost = await prisma.posts.create({
       data: {
@@ -49,7 +46,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log("NEW POST RES: ", typeof createdPost, createdPost);
     if (typeof createdPost === "object") {
       return NextResponse.json({ dataResponse: createdPost }, { status: 200 });
     } else {
@@ -59,9 +55,6 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.log("ERROR IN SERVER: ", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
-
-  console.log("Payload: ", payload);
 }

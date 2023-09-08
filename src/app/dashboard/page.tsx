@@ -47,7 +47,6 @@ function Dashboard() {
           },
         })
         .then((res) => {
-          console.log("RES: ", res);
           if (res.status === 200) {
             setAllPosts((prevPosts) => [...prevPosts, ...res.data.allPosts]);
             setHasMore(res.data.hasMore);

@@ -25,7 +25,6 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
   });
 
   const onSubmit: SubmitHandler<EditPostValues> = (data) => {
-    console.log("PAYLOAD: ", { id: postId, postBody: data.post });
     axios
       .put("/api/posts", {
         id: postId,
@@ -38,9 +37,7 @@ const EditPostField = ({ postId, postBeforeEdit }: editPostProps) => {
       })
       .catch((err: any) => {
         // if(err.status === 400 || err.status === 500) {
-
         // }
-        console.log("CLIENT ERR: ", err);
       });
   };
 

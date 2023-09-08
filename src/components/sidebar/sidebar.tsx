@@ -8,7 +8,6 @@ import { Session } from "next-auth";
 import LogoutBtn from "../logout/logoutBtn";
 
 function sidebar({ session }: any) {
-  // console.log("SESSION: ", session);
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>

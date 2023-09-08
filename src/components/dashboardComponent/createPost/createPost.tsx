@@ -28,7 +28,6 @@ const CreatePost = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = async (data: any) => {
-    console.log("PASSED IN DATA: ", data);
     const formData = new FormData();
     formData.append("file", data.image);
     formData.append("upload_preset", "nomax-uploads");
@@ -70,32 +69,27 @@ const CreatePost = ({
                   setImgSrc("");
                   setValue("text", "");
                 } else {
-                  console.log("ERROR RAN INNER");
                   setError(new fetchError());
                   setIsError(true);
                 }
               });
           } else {
-            console.log("ERROR RAN OUTTER");
             setError(new fetchError());
             setIsError(true);
           }
         })
         .catch((error) => {
-          console.log("ERROR RAN CATCH");
           setError(new fetchError(error));
           setIsError(true);
         });
     } else {
       await axios.post("/api/posts", payload).then((res) => {
-        console.log("RESPPONSE: ", res);
         if (res.status === 200 && res.data.dataResponse) {
           setNewPost(res.data.dataResponse);
           toggleForm();
           setImgSrc("");
           setValue("text", "");
         } else {
-          console.log("ERROR RAN INNER");
           setError(new fetchError());
           setIsError(true);
         }

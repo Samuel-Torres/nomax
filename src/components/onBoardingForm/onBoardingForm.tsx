@@ -53,7 +53,6 @@ const OnBoardingForm = () => {
       })
       .catch((err) =>
         // find a way to handle errors
-        console.log("CLIENT ERROR: ", err)
       );
   };
 

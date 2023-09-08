@@ -23,7 +23,3 @@ export default function convertDateToRelative(dateString: Date): string {
     return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
   }
 }
-
-// const date = "2023-08-30T16:10:30.562Z";
-// const relativeTime = convertDateToRelative(date);
-// console.log(relativeTime);
