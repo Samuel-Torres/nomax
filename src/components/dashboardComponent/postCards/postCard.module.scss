@@ -255,7 +255,7 @@
         }
 
         &.expanded {
-          height: 700px; // Set the desired expanded max-height
+          height: max(1100px); // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
         }
       }
@@ -325,6 +325,17 @@
         width: 100%;
         height: 400px;
         position: relative;
+        top: 20px;
+
+        &.isEditingPost {
+          opacity: 0;
+          transition-timing-function: ease-in-out;
+        }
+
+        &.expanded {
+          top: 350px;
+          transition-timing-function: ease-in-out;
+        }
       }
       .postImg {
         object-fit: cover;
