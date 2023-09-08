@@ -23,6 +23,8 @@ type postCardProps = {
   loggedInUserId: number;
   imageSrc: string;
   videoSrc: string;
+  setError: Function;
+  setIsError: Function;
 };
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
@@ -38,6 +40,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     loggedInUserId,
     imageSrc,
     videoSrc,
+    setError,
+    setIsError,
   }: postCardProps,
   ref
 ) {
@@ -199,7 +203,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
             <EditPostField
               postId={id}
               postBeforeEdit={postBody}
-              toggleEditingState={toggleEditingState}
+              setError={setError}
+              setIsError={setIsError}
             />
           )}
         </div>

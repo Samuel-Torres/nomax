@@ -119,6 +119,8 @@ export default function DashboardComponent({
             loggedInUserId={data?.id}
             imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
             videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
+            setError={setError}
+            setIsError={setIsError}
           />
         )}
         {allPosts.map((post, index) => (
@@ -136,6 +138,8 @@ export default function DashboardComponent({
             loggedInUserId={data?.id}
             imageSrc={post?.imageSrc ? post?.imageSrc : ""}
             videoSrc={post?.videoSrc ? post?.videoSrc : ""}
+            setError={setError}
+            setIsError={setIsError}
           />
         ))}
         {isLoading ? <BallSpinner /> : null}

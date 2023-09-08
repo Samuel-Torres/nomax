@@ -10,7 +10,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
   console.log("REQUEST: ", payload);
 
   try {
-    const editedPostDbResponse = prisma.posts.update({
+    const editedPostDbResponse = await prisma.posts.update({
       where: {
         id: payload?.id,
       },
@@ -62,6 +62,4 @@ export async function POST(req: NextRequest) {
     console.log("ERROR IN SERVER: ", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
-
-  console.log("Payload: ", payload);
 }
