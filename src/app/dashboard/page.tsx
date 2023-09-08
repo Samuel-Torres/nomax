@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import axios from "axios";
 import { AuthRequiredError, fetchError } from "../lib/exceptions";
+import Loading from "./loading";
 
 // components:
 import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
@@ -21,7 +22,7 @@ function Dashboard() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [newPost, setNewPost] = useState<Posts | null>(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
 
@@ -39,6 +40,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (status !== "unauthenticated" && status !== "loading") {
+      setIsLoading(true);
       axios
         .get(`/api/posts/${page}`, {
           headers: {
@@ -50,38 +52,47 @@ function Dashboard() {
           if (res.status === 200) {
             setAllPosts((prevPosts) => [...prevPosts, ...res.data.allPosts]);
             setHasMore(res.data.hasMore);
+            setIsLoading(false);
           }
         })
         .catch((err) => {
           if (err.response.status === 500 || err.response.status === 404) {
             setError(new fetchError());
             setIsError(true);
+            setIsLoading(false);
           }
         });
     }
     if (status !== "loading" && status === "unauthenticated") {
       setError(new AuthRequiredError());
       setIsError(true);
+      setIsLoading(false);
     }
   }, [status, setAllPosts, setError, setIsError, page]);
 
   return (
-    <div className={styles.container}>
-      {allPosts.length > 0 && !isError && (
-        <DashboardComponent
-          allPosts={allPosts}
-          setPage={setPage}
-          page={page}
-          hasMore={hasMore}
-          newPost={newPost}
-          setNewPost={setNewPost}
-          setIsError={setIsError}
-          setError={setError}
-        />
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={styles.container}>
+          {allPosts.length > 0 && !isError && (
+            <DashboardComponent
+              allPosts={allPosts}
+              setPage={setPage}
+              page={page}
+              hasMore={hasMore}
+              newPost={newPost}
+              setNewPost={setNewPost}
+              setIsError={setIsError}
+              setError={setError}
+            />
+          )}
+          {data?.newUser && <OnBoardingForm />}
+          {isError && error && <Error error={error} reset={reset} />}
+        </div>
       )}
-      {data?.newUser && <OnBoardingForm />}
-      {isError && error && <Error error={error} reset={reset} />}
-    </div>
+    </>
   );
 }
 
