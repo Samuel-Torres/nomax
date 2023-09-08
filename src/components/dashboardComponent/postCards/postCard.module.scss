@@ -53,21 +53,106 @@
         @include hoverEffect();
       }
 
-      .transitionContainer {
+      .transitionContainerWithImg {
         transition: all 0.5s ease-in-out;
-        height: 20px; // Start with no height
+        height: 480px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
+
+        &.isEditingPost {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+        }
+
+        &.expanded {
+          height: 1500px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+        }
+      }
+
+      .transitionContainerWithOutImg {
+        transition: all 0.5s ease-in-out;
+        height: 70px; // Start with no height
+        transform-origin: top; // Expand from the top
+        overflow: hidden;
+
+        &.isEditingPost {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+        }
 
         &.expanded {
           height: 300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
-          // transform: scaleY(1); // Expand vertically
+        }
+      }
+
+      .postContainer {
+        transition: all 0.5s ease-in-out;
+        height: 70px; // Start with no height
+        transform-origin: top; // Expand from the top
+
+        &.expanded {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+        }
+
+        .bodyContainer {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          display: flex;
+        }
+
+        .body {
+          width: 100%;
+          overflow: scroll;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+          hyphens: auto;
+          white-space: normal;
+        }
+
+        .readMore {
+          font-size: 1.6rem;
+
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
 
       p {
+        margin: 5px 0px;
         font-size: 1.6rem;
+      }
+
+      .toggleBtn {
+        color: $mainBrandColor;
+      }
+
+      .imgContainer {
+        width: 100%;
+        height: 400px;
+        position: relative;
+        transition: all 0.5s ease-in-out;
+        opacity: 1;
+        transform-origin: top; // Expand from the top
+        overflow: hidden;
+        top: 20px;
+
+        &.isEditingPost {
+          opacity: 0;
+          transition-timing-function: ease-in-out;
+        }
+
+        &.expanded {
+          top: 800px;
+          transition-timing-function: ease-in-out;
+        }
+      }
+      .postImg {
+        object-fit: cover;
       }
     }
 
@@ -86,11 +171,6 @@
         border: none;
         height: 200px;
         margin-bottom: 0.5rem;
-        touch-action: manipulation;
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         font-size: 1.6rem;
       }
 
@@ -165,14 +245,18 @@
 
       .transitionContainerWithImg {
         transition: all 0.5s ease-in-out;
-        height: 450px; // Start with no height
+        height: 480px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
-        &.expanded {
+        &.isEditingPost {
           height: 300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
-          // transform: scaleY(1); // Expand vertically
+        }
+
+        &.expanded {
+          height: max(1100px); // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
         }
       }
 
@@ -182,10 +266,14 @@
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
+        &.isEditingPost {
+          height: 300px; // Set the desired expanded max-height
+          transition-timing-function: ease-in-out;
+        }
+
         &.expanded {
           height: 300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
-          // transform: scaleY(1); // Expand vertically
         }
       }
 
@@ -237,6 +325,17 @@
         width: 100%;
         height: 400px;
         position: relative;
+        top: 20px;
+
+        &.isEditingPost {
+          opacity: 0;
+          transition-timing-function: ease-in-out;
+        }
+
+        &.expanded {
+          top: 350px;
+          transition-timing-function: ease-in-out;
+        }
       }
       .postImg {
         object-fit: cover;

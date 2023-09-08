@@ -88,6 +88,7 @@ const CreatePost = ({
         });
     } else {
       await axios.post("/api/posts", payload).then((res) => {
+        console.log("RESPPONSE: ", res);
         if (res.status === 200 && res.data.dataResponse) {
           setNewPost(res.data.dataResponse);
           toggleForm();
