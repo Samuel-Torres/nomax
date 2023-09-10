@@ -86,17 +86,14 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     let el;
     if (!postBody || (length && length < 38)) return;
 
-    length && length > 38
-      ? (el = (
-          <p className={styles.readMore} onClick={toggleCollapsed}>
-            <p className={styles.toggleBtn}>Read More</p>
-          </p>
-        ))
-      : (el = (
-          <p className={styles.readMore} onClick={toggleCollapsed}>
-            <p className={styles.toggleBtn}>Read Less</p>
-          </p>
-        ));
+    el = (
+      <p
+        className={`${styles.readMore} ${styles.toggleBtn}`}
+        onClick={toggleCollapsed}
+      >
+        {length && length > 38 ? "Read More" : "Read Less"}
+      </p>
+    );
 
     return el;
   };
