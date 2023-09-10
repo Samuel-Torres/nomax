@@ -83,19 +83,16 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   }, [imageSrc, videoSrc, postBody]);
 
   const insertSeeMoreBtn = () => {
-    let el;
     if (!postBody || (length && length < 38)) return;
 
-    el = (
+    return (
       <p
         className={`${styles.readMore} ${styles.toggleBtn}`}
         onClick={toggleCollapsed}
       >
-        {length && length > 38 ? "Read More" : "Read Less"}
+        {isCollapsed ? "Read More" : "Read Less"}
       </p>
     );
-
-    return el;
   };
 
   const deletePost = async (postId: number) => {
