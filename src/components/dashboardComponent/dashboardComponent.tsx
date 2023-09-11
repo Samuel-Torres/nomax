@@ -18,7 +18,6 @@ type postProps = {
 // components:
 import CreatePost from "./createPost/createPost";
 import PostCard from "./postCards/postCard";
-import BallSpinner from "../loadingStateComponents/ballSpinner";
 
 export default function DashboardComponent({
   allPosts,
@@ -142,7 +141,6 @@ export default function DashboardComponent({
             setIsError={setIsError}
           />
         ))}
-        {isLoading ? <BallSpinner /> : null}
         {hasMore === false && (
           <div
             style={{

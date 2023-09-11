@@ -1,10 +1,12 @@
 import React from "react";
 import styles from "./settingsPage.module.scss";
 
+import LogoutBtn from "@/components/logout/logoutBtn";
+
 const Settings = () => {
   return (
     <div className={styles.container}>
-      <h1>Settings</h1>
+      <LogoutBtn colorScheme="dark" />
     </div>
   );
 };
