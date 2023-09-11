@@ -68,7 +68,7 @@ function Dashboard() {
       setIsError(true);
       setIsLoading(false);
     }
-  }, [status, setAllPosts, setError, setIsError, page]);
+  }, [status, page]);
 
   return (
     <>
@@ -79,10 +79,10 @@ function Dashboard() {
           {allPosts.length > 0 && !isError && (
             <DashboardComponent
               allPosts={allPosts}
-              setPage={setPage}
               page={page}
               hasMore={hasMore}
               newPost={newPost}
+              setPage={setPage}
               setNewPost={setNewPost}
               setIsError={setIsError}
               setError={setError}

@@ -54,8 +54,8 @@
       }
 
       .transitionContainerWithImg {
-        transition: all 0.5s ease-in-out;
-        height: 480px; // Start with no height
+        transition: all 1s ease-in-out;
+        max-height: 700px;
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -65,14 +65,14 @@
         }
 
         &.expanded {
-          height: 1500px; // Set the desired expanded max-height
+          max-height: 1300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
         }
       }
 
       .transitionContainerWithOutImg {
-        transition: all 0.5s ease-in-out;
-        height: 70px; // Start with no height
+        transition: all 1s ease-in-out;
+        max-height: 75px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -82,21 +82,12 @@
         }
 
         &.expanded {
-          height: 300px; // Set the desired expanded max-height
+          max-height: 1300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
         }
       }
 
       .postContainer {
-        transition: all 0.5s ease-in-out;
-        height: 70px; // Start with no height
-        transform-origin: top; // Expand from the top
-
-        &.expanded {
-          height: 300px; // Set the desired expanded max-height
-          transition-timing-function: ease-in-out;
-        }
-
         .bodyContainer {
           display: flex;
           flex-direction: column;
@@ -135,10 +126,6 @@
         width: 100%;
         height: 400px;
         position: relative;
-        transition: all 0.5s ease-in-out;
-        opacity: 1;
-        transform-origin: top; // Expand from the top
-        overflow: hidden;
         top: 20px;
 
         &.isEditingPost {
@@ -147,7 +134,7 @@
         }
 
         &.expanded {
-          top: 800px;
+          top: max(350px);
           transition-timing-function: ease-in-out;
         }
       }
@@ -244,8 +231,8 @@
       }
 
       .transitionContainerWithImg {
-        transition: all 0.5s ease-in-out;
-        height: 480px; // Start with no height
+        transition: all 1s ease-in-out;
+        max-height: 700px;
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -255,14 +242,14 @@
         }
 
         &.expanded {
-          height: max(1100px); // Set the desired expanded max-height
+          max-height: 1300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
         }
       }
 
       .transitionContainerWithOutImg {
-        transition: all 0.5s ease-in-out;
-        height: 70px; // Start with no height
+        transition: all 1s ease-in-out;
+        max-height: 70px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -272,21 +259,12 @@
         }
 
         &.expanded {
-          height: 300px; // Set the desired expanded max-height
+          max-height: 1300px; // Set the desired expanded max-height
           transition-timing-function: ease-in-out;
         }
       }
 
       .postContainer {
-        transition: all 0.5s ease-in-out;
-        height: 70px; // Start with no height
-        transform-origin: top; // Expand from the top
-
-        &.expanded {
-          height: 300px; // Set the desired expanded max-height
-          transition-timing-function: ease-in-out;
-        }
-
         .bodyContainer {
           display: flex;
           flex-direction: column;
@@ -333,7 +311,7 @@
         }
 
         &.expanded {
-          top: 350px;
+          top: max(350px);
           transition-timing-function: ease-in-out;
         }
       }

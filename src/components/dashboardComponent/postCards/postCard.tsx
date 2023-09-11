@@ -198,24 +198,20 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                     <p className={styles.body}>{postBody}</p>
                   )}
                   {insertSeeMoreBtn()}
+                  {isImagePresent && (
+                    <div className={styles.imgContainer}>
+                      <Image
+                        className={styles.postImg}
+                        src={imageSrc}
+                        fill={true}
+                        // width={450}
+                        // height={450}
+                        alt="post-img"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
-              {isImagePresent && (
-                <div
-                  className={`${styles.imgContainer} ${
-                    isCollapsed ? "" : styles.expanded
-                  }
-                  ${isEditingPost ? styles.isEditingPost : ""}
-                  `}
-                >
-                  <Image
-                    className={styles.postImg}
-                    src={imageSrc}
-                    fill={true}
-                    alt="post-img"
-                  />
-                </div>
-              )}
             </div>
           ) : (
             <EditPostField
