@@ -5,7 +5,7 @@ import axios from "axios";
 import { Users } from "@prisma/client";
 
 // components:
-import Loading from "@/app/dashboard/loading";
+import BallSpinner from "../loadingStateComponents/ballSpinner";
 
 type LoginFormProps = {
   error: string;
@@ -201,7 +201,7 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         {/* Submit Button */}
         <div className={styles.centered}>
           {isSubmitting ? (
-            <Loading />
+            <BallSpinner />
           ) : (
             <button
               onClick={handleSubmit(onSubmit)}
