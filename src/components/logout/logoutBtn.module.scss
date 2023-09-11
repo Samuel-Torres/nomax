@@ -4,3 +4,6 @@
 .btn {
   @include btnStyles($brandBlack, 3px, $lightShade, $preOpacity: 0.8);
 }
+.dark {
+  @include btnStyles($brandBlack, 3px, $brandBlack, $preOpacity: 0.8);
+}

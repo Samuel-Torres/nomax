@@ -3,7 +3,6 @@ import styles from "./dashboardPage.module.scss";
 import React, { useEffect, useState } from "react";
 import { Posts } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import axios from "axios";
 import { AuthRequiredError, fetchError } from "../lib/exceptions";
@@ -23,15 +22,11 @@ function Dashboard() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [newPost, setNewPost] = useState<Posts | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
 
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
-
-  const router = useRouter();
-  if (status !== "authenticated" && status !== "loading") {
-    router.push("/auth");
-  }
 
   const reset = () => {
     setIsError(false);
@@ -53,6 +48,7 @@ function Dashboard() {
             setAllPosts((prevPosts) => [...prevPosts, ...res.data.allPosts]);
             setHasMore(res.data.hasMore);
             setIsLoading(false);
+            setHasFetched(true);
           }
         })
         .catch((err) => {
@@ -72,7 +68,7 @@ function Dashboard() {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && hasFetched === false ? (
         <Loading />
       ) : (
         <div className={styles.container}>
