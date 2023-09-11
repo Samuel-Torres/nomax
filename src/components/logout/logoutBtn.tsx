@@ -8,14 +8,6 @@ type logOutButtonProps = {
 };
 
 const LogoutBtn = ({ colorScheme }: logOutButtonProps) => {
-  if (!colorScheme) {
-    return (
-      <button className={styles.btn} onClick={() => signOut()}>
-        log out
-      </button>
-    );
-  }
-
   if (colorScheme === "dark") {
     return (
       <button className={styles.dark} onClick={() => signOut()}>
@@ -23,6 +15,12 @@ const LogoutBtn = ({ colorScheme }: logOutButtonProps) => {
       </button>
     );
   }
+
+  return (
+    <button className={styles.btn} onClick={() => signOut()}>
+      log out
+    </button>
+  );
 };
 
 export default LogoutBtn;

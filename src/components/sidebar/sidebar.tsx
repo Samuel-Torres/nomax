@@ -43,17 +43,6 @@ function sidebar({ session }: any) {
           />
           <p className={styles.linkText}>Profile</p>
         </Link>
-        <Link className={styles.link} href="/dashboard/friends">
-          <Image
-            className={styles.icon}
-            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247899/Nomex/dashboard/friends_vjwx8u.png"
-            width={30}
-            height={30}
-            alt="google"
-            data-test="googleImage"
-          />
-          <p className={styles.linkText}>Friends</p>
-        </Link>
         <Link className={styles.link} href="/dashboard/blogs">
           <Image
             className={styles.icon}
