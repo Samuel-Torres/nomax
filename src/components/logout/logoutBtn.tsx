@@ -4,7 +4,7 @@ import styles from "./logoutBtn.module.scss";
 import { signOut } from "next-auth/react";
 
 type logOutButtonProps = {
-  colorScheme: string;
+  colorScheme?: string;
 };
 
 const LogoutBtn = ({ colorScheme }: logOutButtonProps) => {
