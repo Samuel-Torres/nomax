@@ -17,6 +17,9 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
       orderBy: {
         createdAT: "desc",
       },
+      include: {
+        author: true,
+      },
     });
 
     const totalCount = await prisma.posts.count(); // Get the total number of posts

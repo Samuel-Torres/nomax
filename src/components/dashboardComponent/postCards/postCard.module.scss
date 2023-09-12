@@ -242,7 +242,7 @@
 
       .transitionContainerWithImg {
         transition: all 1s ease-in-out;
-        max-height: 700px;
+        max-height: 830px;
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -259,7 +259,7 @@
 
       .transitionContainerWithOutImg {
         transition: all 1s ease-in-out;
-        max-height: 70px; // Start with no height
+        max-height: 650px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -280,6 +280,7 @@
           flex-direction: column;
           width: 100%;
           display: flex;
+          margin-bottom: 3rem;
         }
 
         .body {
@@ -324,9 +325,15 @@
           top: max(350px);
           transition-timing-function: ease-in-out;
         }
+        .postImg {
+          object-fit: cover;
+        }
       }
-      .postImg {
-        object-fit: cover;
+      .commentSlash {
+        border-bottom: 2px solid black;
+        margin-top: 1rem;
+        width: 95%;
+        margin: auto;
       }
     }
 

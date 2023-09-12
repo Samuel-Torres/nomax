@@ -37,17 +37,13 @@ const CreatePost = ({
     const payload = {
       postBody: data.text || "",
       authorId: loggedInUser.id,
-      authorUserName: loggedInUser.userName,
-      authorPersona: loggedInUser.persona,
-      authorJobTitle: loggedInUser.jobTitle,
-      authorCompany: loggedInUser.companyName,
       imageSrc: "",
       // videoSrc: ""
     };
 
     // If Image url is present w/ or without text:
     if (data.image.length > 0) {
-      const res = await axios
+      await axios
         .post(
           "https://api.cloudinary.com/v1_1/dvz91qyth/image/upload",
           formData
@@ -64,36 +60,50 @@ const CreatePost = ({
               )
               .then((res) => {
                 if (res.status === 200 && res.data.dataResponse) {
+                  console.log("SUCCESS RAN");
                   setNewPost(res.data.dataResponse);
                   toggleForm();
                   setImgSrc("");
                   setValue("text", "");
                 } else {
+                  console.log("FIRST ELSE RAN");
                   setError(new fetchError());
                   setIsError(true);
                 }
               });
           } else {
+            console.log("ELSE RAN");
             setError(new fetchError());
             setIsError(true);
           }
         })
         .catch((error) => {
+          console.log("CATCH RAN");
           setError(new fetchError(error));
           setIsError(true);
         });
     } else {
-      await axios.post("/api/posts", payload).then((res) => {
-        if (res.status === 200 && res.data.dataResponse) {
-          setNewPost(res.data.dataResponse);
-          toggleForm();
-          setImgSrc("");
-          setValue("text", "");
-        } else {
-          setError(new fetchError());
+      await axios
+        .post("/api/posts", payload)
+        .then((res) => {
+          console.log("RAN");
+          if (res.status === 200 && res.data.dataResponse) {
+            console.log("SUCCESS: ", res.data);
+            setNewPost(res.data.dataResponse);
+            toggleForm();
+            setImgSrc("");
+            setValue("text", "");
+          } else {
+            console.log("FAIL");
+            setError(new fetchError());
+            setIsError(true);
+          }
+        })
+        .catch((error) => {
+          console.log("CATCH RAN");
+          setError(new fetchError(error));
           setIsError(true);
-        }
-      });
+        });
     }
   };
 

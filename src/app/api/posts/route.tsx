@@ -37,15 +37,16 @@ export async function POST(req: NextRequest) {
     const createdPost = await prisma.posts.create({
       data: {
         postBody: payload.postBody,
-        authorId: payload.authorId,
-        authorUserName: payload.authorUserName,
-        authorPersona: payload.authorPersona,
-        authorJobTitle: payload.authorJobTitle,
-        authorCompany: payload.authorCompany,
         imageSrc: payload.imageSrc,
+        author: {
+          connect: { id: payload.authorId },
+        },
+      },
+      include: {
+        author: true,
       },
     });
-
+    console.log("created post: ", createdPost);
     if (typeof createdPost === "object") {
       return NextResponse.json({ dataResponse: createdPost }, { status: 200 });
     } else {

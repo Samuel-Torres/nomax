@@ -12,22 +12,52 @@ import axios from "axios";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
+import Comments from "../comments/comments";
 
 type postCardProps = {
   id: number;
   postBody: string | null;
   createdAt: Date;
   authorId: number;
-  authorUserName: string;
-  authorPersona: string;
-  authorJobTitle: string;
-  authorCompany: string;
+  authorUserName: string | null;
+  authorPersona: string | null;
+  authorJobTitle: string | null;
+  authorCompany: string | null;
   loggedInUserId: number;
   imageSrc: string;
   videoSrc: string;
   setError: Function;
   setIsError: Function;
 };
+
+const comment = [
+  {
+    id: 0,
+    authorId: 1,
+    postId: 1,
+    createdAt: "2023-09-11T22:39:32.179Z",
+    authorName: "Diana",
+    authorPersona: "BackPacker",
+    authorJobTitle: "UI/UX",
+    authorCompanyName: "Amazon",
+    profilePicture:
+      "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png",
+    comment: "Wow, this is awesome! Where is this at?! I want to go!",
+  },
+  {
+    id: 1,
+    authorId: 1,
+    postId: 1,
+    createdAt: "2023-09-11T22:39:32.179Z",
+    authorName: "Diana",
+    authorPersona: "BackPacker",
+    authorJobTitle: "UI/UX",
+    authorCompanyName: "Amazon",
+    profilePicture:
+      "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png",
+    comment: "Wow, this is awesome! Where is this at?! I want to go!",
+  },
+];
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   {
@@ -212,6 +242,23 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                   )}
                 </div>
               </div>
+              {/* <div>LIKE ICON HERE</div> */}
+              <div className={styles.commentSlash} />
+              {comment.map((item, index) => (
+                <Comments
+                  key={index}
+                  id={item.id}
+                  authorId={item.authorId}
+                  postId={item.postId}
+                  createdAt={item.createdAt}
+                  authorName={item.authorName}
+                  authorPersona={item.authorPersona}
+                  authorJobTitle={item.authorCompanyName}
+                  authorCompanyName={item.authorCompanyName}
+                  profilePicture={item.profilePicture}
+                  comment={item.comment}
+                />
+              ))}
             </div>
           ) : (
             <EditPostField
