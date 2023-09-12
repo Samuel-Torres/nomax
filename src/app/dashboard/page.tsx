@@ -13,21 +13,36 @@ import DashboardComponent from "@/components/dashboardComponent/dashboardCompone
 import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 import Error from "./error";
 
+import { Prisma } from "@prisma/client";
+
+const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
+  select: {
+    id: true,
+    authorId: true,
+    createdAT: true,
+    imageSrc: true,
+    videoSrc: true,
+    postBody: true,
+    author: true,
+  },
+});
+type PostWithAuthor = Prisma.PostsGetPayload<typeof postBodyAndAuthor>;
+
 function Dashboard() {
-  const [allPosts, setAllPosts] = useState<Posts[] | []>([]);
+  const [allPosts, setAllPosts] = useState<PostWithAuthor[] | []>([]);
+  const [newPost, setNewPost] = useState<PostWithAuthor | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<Error>();
   const { data: session, status } = useSession();
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [newPost, setNewPost] = useState<Posts | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
 
   const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
-
+  // console.log("USERS: ", data);
   const reset = () => {
     setIsError(false);
     window.location.reload();
@@ -45,7 +60,11 @@ function Dashboard() {
         })
         .then((res) => {
           if (res.status === 200) {
-            setAllPosts((prevPosts) => [...prevPosts, ...res.data.allPosts]);
+            setAllPosts((prevPosts) => {
+              return prevPosts
+                ? ([...prevPosts, ...res.data.allPosts] as PostWithAuthor[])
+                : [];
+            });
             setHasMore(res.data.hasMore);
             setIsLoading(false);
             setHasFetched(true);
@@ -65,7 +84,7 @@ function Dashboard() {
       setIsLoading(false);
     }
   }, [status, page]);
-
+  console.log("ALLPOSTS: ", allPosts);
   return (
     <>
       {isLoading && hasFetched === false ? (

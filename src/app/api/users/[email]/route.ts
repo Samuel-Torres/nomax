@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     const fetchedUser = await prisma.users.findUnique({
       where: {
         email: email,
-      },
+      }
     });
     if (fetchedUser) return NextResponse.json(fetchedUser);
     return NextResponse.json({ message: new Error("User not Found") });
