@@ -1,16 +1,29 @@
 import { useRef, useCallback, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Posts } from "@prisma/client";
 import styles from "./dashboardComponent.module.scss";
 import useSWR from "swr";
 
+import { Prisma } from "@prisma/client";
+const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
+  select: {
+    id: true,
+    authorId: true,
+    createdAT: true,
+    imageSrc: true,
+    videoSrc: true,
+    postBody: true,
+    author: true,
+  },
+});
+type PostWithAuthor = Prisma.PostsGetPayload<typeof postBodyAndAuthor>;
+
 type postProps = {
-  allPosts: Array<Posts>;
+  allPosts: PostWithAuthor[] | [];
+  newPost: PostWithAuthor | null;
   page: number;
   setPage: Function;
   hasMore: boolean;
   setNewPost: Function;
-  newPost: Posts | null;
   setError: Function;
   setIsError: Function;
 };
@@ -92,7 +105,7 @@ export default function DashboardComponent({
   const toggleForm = () => {
     setIsCreatingPost(!isCreatingPost);
   };
-
+  console.log("POSTS AGAIN: ", allPosts);
   return (
     <div className={styles.container}>
       <CreatePost
@@ -111,10 +124,10 @@ export default function DashboardComponent({
             postBody={newPost?.postBody}
             createdAt={newPost?.createdAT}
             authorId={newPost?.authorId}
-            authorUserName={newPost?.authorUserName}
-            authorPersona={newPost?.authorPersona}
-            authorJobTitle={newPost?.authorJobTitle}
-            authorCompany={newPost?.authorCompany}
+            authorUserName={newPost?.author.userName}
+            authorPersona={newPost?.author.persona}
+            authorJobTitle={newPost?.author.jobTitle}
+            authorCompany={newPost?.author.companyName}
             loggedInUserId={data?.id}
             imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
             videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
@@ -122,7 +135,7 @@ export default function DashboardComponent({
             setIsError={setIsError}
           />
         )}
-        {allPosts.map((post, index) => (
+        {allPosts?.map((post, index) => (
           <PostCard
             key={post.id}
             id={post.id}
@@ -130,10 +143,10 @@ export default function DashboardComponent({
             postBody={post.postBody}
             createdAt={post.createdAT}
             authorId={post.authorId}
-            authorUserName={post.authorUserName}
-            authorPersona={post.authorPersona}
-            authorJobTitle={post.authorJobTitle}
-            authorCompany={post.authorCompany}
+            authorUserName={post.author.userName}
+            authorPersona={post.author.persona}
+            authorJobTitle={post.author.jobTitle}
+            authorCompany={post.author.companyName}
             loggedInUserId={data?.id}
             imageSrc={post?.imageSrc ? post?.imageSrc : ""}
             videoSrc={post?.videoSrc ? post?.videoSrc : ""}

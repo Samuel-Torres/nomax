@@ -58,14 +58,9 @@ async function main() {
         data: {
           postBody: `This is post #${i} by ${user.email}`,
           createdAT: new Date(),
-          // author: {
-          //   connect: { id: user.id },
-          // },
-          authorId: user.id,
-          authorUserName: user.userName ?? "",
-          authorPersona: user.persona ?? "",
-          authorJobTitle: user.jobTitle ?? "",
-          authorCompany: user.companyName ?? "",
+          author: {
+            connect: { id: user.id },
+          },
         },
       });
     }

@@ -1,0 +1,55 @@
+@import "../../../styles/variables.module.scss";
+@import "../../../styles/mixins.module.scss";
+
+.container {
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  width: 90%;
+  border-radius: 1rem;
+
+  .userInfoContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .userSection {
+    display: flex;
+    align-items: center;
+
+    .profilePicture {
+      margin-right: 0.5rem;
+    }
+
+    .userInfo {
+      font-size: smaller;
+      &:first-child {
+        font-size: small;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .timePosted {
+    font-size: medium;
+    font-weight: bold;
+  }
+
+  .engagementPanel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .engagement {
+      margin-right: 1.5rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    p {
+      color: $mainBrandColor;
+    }
+  }
+}
