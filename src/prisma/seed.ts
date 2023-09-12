@@ -1,7 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 const bcrypt = require("bcrypt");
-
+import { Users } from "@prisma/client";
 const prisma = new PrismaClient();
+
+function getRandomUser(allUsers: Users[] , currentUser: Users) {
+  const filteredUsers = allUsers.filter((user: Users) => user.id !== currentUser.id);
+  const randomIndex = Math.floor(Math.random() * filteredUsers.length);
+  return filteredUsers[randomIndex];
+}
 
 async function main() {
   const users = await prisma.users.createMany({
@@ -54,7 +60,7 @@ async function main() {
 
   for (const user of allUsers) {
     for (let i = 1; i <= 15; i++) {
-      await prisma.posts.create({
+      const post = await prisma.posts.create({
         data: {
           postBody: `This is post #${i} by ${user.email}`,
           createdAT: new Date(),
@@ -63,6 +69,22 @@ async function main() {
           },
         },
       });
+
+      for (let j = 1; j <= 12; j++) {
+        const randomUser = getRandomUser(allUsers, user);
+        await prisma.comments.create({
+          data: {
+            author: {
+              connect: { id: randomUser.id },
+            },
+            post: {
+              connect: { id: post.id },
+            },
+            comment: `Comment #${j} on post #${i} by ${randomUser.email}`,
+          },
+        });
+      }
+
     }
   }
 }

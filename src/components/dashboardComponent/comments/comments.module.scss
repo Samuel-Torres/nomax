@@ -4,10 +4,14 @@
 .container {
   background-color: white;
   margin: auto;
-  margin-top: 1.5rem;
-  padding: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
   width: 90%;
   border-radius: 1rem;
+  min-height: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .userInfoContainer {
     display: flex;
@@ -32,9 +36,23 @@
     }
   }
 
-  .timePosted {
-    font-size: medium;
-    font-weight: bold;
+  .commentIconConatiner {
+    display: flex;
+    flex-direction: column;
+    .timePosted {
+      font-size: medium;
+      font-weight: bold;
+    }
+    .icons {
+      display: flex;
+    }
+    img {
+      margin-right: 15px;
+      &:hover {
+        cursor: pointer;
+        @include hoverEffect();
+      }
+    }
   }
 
   .engagementPanel {

@@ -1,9 +1,10 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./dashboardComponent.module.scss";
 import useSWR from "swr";
 
 import { Prisma } from "@prisma/client";
+
 const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
   select: {
     id: true,
@@ -12,6 +13,7 @@ const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
     imageSrc: true,
     videoSrc: true,
     postBody: true,
+    comments: true,
     author: true,
   },
 });
@@ -46,6 +48,8 @@ export default function DashboardComponent({
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
+
+  useEffect(() => {}, []);
 
   const fetcher = (...args: string[]): Promise<any> =>
     fetch(args.join(",")).then((res) => res.json());
@@ -105,7 +109,7 @@ export default function DashboardComponent({
   const toggleForm = () => {
     setIsCreatingPost(!isCreatingPost);
   };
-  console.log("POSTS AGAIN: ", allPosts);
+
   return (
     <div className={styles.container}>
       <CreatePost
@@ -135,25 +139,27 @@ export default function DashboardComponent({
             setIsError={setIsError}
           />
         )}
-        {allPosts?.map((post, index) => (
-          <PostCard
-            key={post.id}
-            id={post.id}
-            ref={index === allPosts.length - 1 ? lastBookElementRef : null}
-            postBody={post.postBody}
-            createdAt={post.createdAT}
-            authorId={post.authorId}
-            authorUserName={post.author.userName}
-            authorPersona={post.author.persona}
-            authorJobTitle={post.author.jobTitle}
-            authorCompany={post.author.companyName}
-            loggedInUserId={data?.id}
-            imageSrc={post?.imageSrc ? post?.imageSrc : ""}
-            videoSrc={post?.videoSrc ? post?.videoSrc : ""}
-            setError={setError}
-            setIsError={setIsError}
-          />
-        ))}
+        {allPosts?.map((post, index) => {
+          return (
+            <PostCard
+              key={post.id}
+              id={post.id}
+              ref={index === allPosts.length - 1 ? lastBookElementRef : null}
+              postBody={post.postBody}
+              createdAt={post.createdAT}
+              authorId={post.authorId}
+              authorUserName={post.author.userName}
+              authorPersona={post.author.persona}
+              authorJobTitle={post.author.jobTitle}
+              authorCompany={post.author.companyName}
+              loggedInUserId={data?.id}
+              imageSrc={post?.imageSrc ? post?.imageSrc : ""}
+              videoSrc={post?.videoSrc ? post?.videoSrc : ""}
+              setError={setError}
+              setIsError={setIsError}
+            />
+          );
+        })}
         {hasMore === false && (
           <div
             style={{

@@ -1,6 +1,5 @@
 "use client";
 import styles from "./comments.module.scss";
-import axios from "axios";
 import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 
@@ -9,12 +8,13 @@ type commentProps = {
   authorId: number;
   postId: number;
   createdAt: string;
-  authorName: string;
-  authorPersona: string;
-  authorJobTitle: string;
-  authorCompanyName: string;
-  profilePicture: string;
+  authorName: string | null;
+  authorPersona: string | null;
+  authorJobTitle: string | null;
+  authorCompanyName: string | null;
+  // profilePicture: string;
   comment: string;
+  loggedInUserId: number;
 };
 
 const Comments = ({
@@ -26,8 +26,9 @@ const Comments = ({
   authorPersona,
   authorJobTitle,
   authorCompanyName,
-  profilePicture,
+  // profilePicture,
   comment,
+  loggedInUserId,
 }: commentProps) => {
   return (
     <div className={styles.container}>
@@ -35,10 +36,11 @@ const Comments = ({
         <div className={styles.userSection}>
           <Image
             className={styles.profilePicture}
-            src={profilePicture}
+            // src={profilePicture}
+            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
             width={40}
             height={40}
-            alt="google"
+            alt="profile"
           />
           <div>
             <p className={styles.userInfo}>{authorName}</p>
@@ -48,9 +50,29 @@ const Comments = ({
             </p>
           </div>
         </div>
-        <p className={styles.timePosted}>
-          {convertDateToRelative(new Date(createdAt))}
-        </p>
+        <div className={styles.commentIconConatiner}>
+          {loggedInUserId === authorId && (
+            <div className={styles.icons}>
+              <Image
+                className={styles.profilePicture}
+                src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693418958/Nomex/dashboard/editing_btgzy6.png"
+                width={20}
+                height={20}
+                alt="google"
+              />
+              <Image
+                className={styles.commentIcon}
+                src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693419097/Nomex/dashboard/trash_pglfuc.png"
+                width={20}
+                height={20}
+                alt="google"
+              />
+            </div>
+          )}
+          <p className={styles.timePosted}>
+            {convertDateToRelative(new Date(createdAt))}
+          </p>
+        </div>
       </div>
       <div className={styles.ontainer}>
         <p>{comment}</p>
