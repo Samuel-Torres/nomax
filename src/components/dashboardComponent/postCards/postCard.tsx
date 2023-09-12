@@ -12,7 +12,22 @@ import axios from "axios";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
-import Comments from "../comments/comments";
+import Comment from "../comments/comments";
+
+import { Prisma } from "@prisma/client";
+
+// Type Definitions:
+const commentWithAuthor = Prisma.validator<Prisma.CommentsArgs>()({
+  select: {
+    id: true,
+    createdAt: true,
+    comment: true,
+    postId: true,
+    author: true,
+    authorId: true,
+  },
+});
+type CommentWithAuthor = Prisma.PostsGetPayload<typeof commentWithAuthor>;
 
 type postCardProps = {
   id: number;
@@ -29,35 +44,6 @@ type postCardProps = {
   setError: Function;
   setIsError: Function;
 };
-
-const comment = [
-  {
-    id: 0,
-    authorId: 1,
-    postId: 1,
-    createdAt: "2023-09-11T22:39:32.179Z",
-    authorName: "Diana",
-    authorPersona: "BackPacker",
-    authorJobTitle: "UI/UX",
-    authorCompanyName: "Amazon",
-    profilePicture:
-      "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png",
-    comment: "Wow, this is awesome! Where is this at?! I want to go!",
-  },
-  {
-    id: 1,
-    authorId: 1,
-    postId: 1,
-    createdAt: "2023-09-11T22:39:32.179Z",
-    authorName: "Diana",
-    authorPersona: "BackPacker",
-    authorJobTitle: "UI/UX",
-    authorCompanyName: "Amazon",
-    profilePicture:
-      "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png",
-    comment: "Wow, this is awesome! Where is this at?! I want to go!",
-  },
-];
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   {
@@ -83,6 +69,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   const [collapsedPostBody, setCollapsedPostBody] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [length, setLength] = useState<number>();
+  const [commentsArr, setCommentsArr] = useState<CommentWithAuthor[] | []>([]);
 
   const toggleEditingState: MouseEventHandler = () => {
     setIsEditingPost(!isEditingPost);
@@ -110,11 +97,31 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
         setLength(postBody?.length);
       }
     }
-  }, [imageSrc, videoSrc, postBody]);
+
+    axios
+      .get(`/api/comments/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("RES: ", res);
+          setCommentsArr(res.data.data);
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response.status === 404 ||
+          error.response.status === 500 ||
+          error.status === 400 ||
+          error.status === 500
+        ) {
+          setError(new fetchError());
+          setIsError(true);
+        }
+      });
+  }, [imageSrc, videoSrc, postBody, id, setError, setIsError]);
 
   const insertSeeMoreBtn = () => {
     if (!postBody || (length && length < 38)) return;
-
+    console.log(commentsArr);
     return (
       <p
         className={`${styles.readMore} ${styles.toggleBtn}`}
@@ -244,21 +251,35 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
               </div>
               {/* <div>LIKE ICON HERE</div> */}
               <div className={styles.commentSlash} />
-              {comment.map((item, index) => (
-                <Comments
-                  key={index}
-                  id={item.id}
-                  authorId={item.authorId}
-                  postId={item.postId}
-                  createdAt={item.createdAt}
-                  authorName={item.authorName}
-                  authorPersona={item.authorPersona}
-                  authorJobTitle={item.authorCompanyName}
-                  authorCompanyName={item.authorCompanyName}
-                  profilePicture={item.profilePicture}
-                  comment={item.comment}
+              <div className={styles.addCommentContainer}>
+                <Image
+                  className={styles.editIcon}
+                  src="https://res.cloudinary.com/dvz91qyth/image/upload/v1694561831/Nomex/dashboard/instagram-post_1_zdvwpa.png"
+                  width={40}
+                  height={40}
+                  alt="stop-edit"
                 />
-              ))}
+              </div>
+              {commentsArr.length > 0 ? (
+                <div className={styles.commentScrollContainer}>
+                  {commentsArr?.map((item, index) => (
+                    <Comment
+                      key={index}
+                      id={item.id}
+                      authorId={item.authorId}
+                      postId={item.postId}
+                      createdAt={item.createdAt}
+                      authorName={item?.author?.userName}
+                      authorPersona={item.author.persona}
+                      authorJobTitle={item.author.jobTitle}
+                      authorCompanyName={item.author.companyName}
+                      // profilePicture={item.author.profilePicture}
+                      comment={item.comment}
+                      loggedInUserId={loggedInUserId}
+                    />
+                  ))}
+                </div>
+              ) : null}
             </div>
           ) : (
             <EditPostField

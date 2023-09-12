@@ -242,7 +242,7 @@
 
       .transitionContainerWithImg {
         transition: all 1s ease-in-out;
-        max-height: 830px;
+        max-height: 800px;
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -259,7 +259,7 @@
 
       .transitionContainerWithOutImg {
         transition: all 1s ease-in-out;
-        max-height: 650px; // Start with no height
+        max-height: 480px; // Start with no height
         transform-origin: top; // Expand from the top
         overflow: hidden;
 
@@ -335,6 +335,11 @@
         width: 95%;
         margin: auto;
       }
+      .addCommentContainer {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+      }
     }
 
     .editContainer {
@@ -367,6 +372,28 @@
           $preOpacity: 0.5
         );
         margin: 0 auto;
+      }
+    }
+
+    .commentScrollContainer {
+      height: 280px;
+      overflow: scroll;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: $mainBrandColor $darkShade;
+      margin-top: 0.5rem;
+      &::-webkit-scrollbar {
+        width: 15px;
+        border-radius: 6px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: $mainBrandColor;
+        border-radius: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $darkShade;
+        border-radius: 6px;
       }
     }
   }

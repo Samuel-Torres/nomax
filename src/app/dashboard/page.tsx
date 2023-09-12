@@ -1,7 +1,6 @@
 "use client";
 import styles from "./dashboardPage.module.scss";
 import React, { useEffect, useState } from "react";
-import { Posts } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import axios from "axios";
@@ -24,6 +23,7 @@ const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
     videoSrc: true,
     postBody: true,
     author: true,
+    comments: true,
   },
 });
 type PostWithAuthor = Prisma.PostsGetPayload<typeof postBodyAndAuthor>;
@@ -84,7 +84,7 @@ function Dashboard() {
       setIsLoading(false);
     }
   }, [status, page]);
-  console.log("ALLPOSTS: ", allPosts);
+  // console.log("ALLPOSTS: ", allPosts);
   return (
     <>
       {isLoading && hasFetched === false ? (
@@ -94,9 +94,9 @@ function Dashboard() {
           {allPosts.length > 0 && !isError && (
             <DashboardComponent
               allPosts={allPosts}
+              newPost={newPost}
               page={page}
               hasMore={hasMore}
-              newPost={newPost}
               setPage={setPage}
               setNewPost={setNewPost}
               setIsError={setIsError}
