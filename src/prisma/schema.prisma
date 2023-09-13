@@ -6,18 +6,18 @@ generator client {
 }
 
 // development:
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
 
 // // production:
-// datasource db {
-//   provider          = "postgresql"
-//   url               = env("DATABASE_PRISMA_URL") // uses connection pooling
-//   directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
-//   shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
-// }
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_PRISMA_URL") // uses connection pooling
+  directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+}
 
 enum personaTypes {
   PASSPORTBRO
@@ -28,21 +28,19 @@ enum personaTypes {
 }
 
 model Users {
-  id          Int           @id @unique @default(autoincrement())
-  email       String        @unique
-  password    String?
-  created_At  DateTime      @default(now())
-  bio         String?       @db.Text
-  persona     personaTypes?
-  jobTitle    String?
-  companyName String?
-  userName    String?
-  newUser     Boolean       @default(true)
-  Posts       Posts[]
-  comments    Comments[]
-  // Needed in the future:
-  // profilePicture
-  // 
+  id             Int           @id @unique @default(autoincrement())
+  email          String        @unique
+  password       String?
+  created_At     DateTime      @default(now())
+  bio            String?       @db.Text
+  persona        personaTypes?
+  jobTitle       String?
+  companyName    String?
+  userName       String?
+  newUser        Boolean       @default(true)
+  Posts          Posts[]
+  comments       Comments[]
+  profilePicture String?
 }
 
 model Posts {

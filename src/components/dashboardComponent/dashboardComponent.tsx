@@ -133,6 +133,7 @@ export default function DashboardComponent({
             authorJobTitle={newPost?.author.jobTitle}
             authorCompany={newPost?.author.companyName}
             loggedInUserId={data?.id}
+            profilePicture={newPost.author.profilePicture}
             imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
             videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
             setError={setError}
@@ -153,6 +154,7 @@ export default function DashboardComponent({
               authorJobTitle={post.author.jobTitle}
               authorCompany={post.author.companyName}
               loggedInUserId={data?.id}
+              profilePicture={post.author.profilePicture}
               imageSrc={post?.imageSrc ? post?.imageSrc : ""}
               videoSrc={post?.videoSrc ? post?.videoSrc : ""}
               setError={setError}

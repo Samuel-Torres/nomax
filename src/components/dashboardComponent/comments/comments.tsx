@@ -17,7 +17,7 @@ type commentProps = {
   authorPersona: string | null;
   authorJobTitle: string | null;
   authorCompanyName: string | null;
-  // profilePicture: string;
+  profilePicture: string | null;
   comment: string;
   loggedInUserId: number;
   isLoading: boolean;
@@ -40,7 +40,7 @@ const Comments = ({
   authorPersona,
   authorJobTitle,
   authorCompanyName,
-  // profilePicture,
+  profilePicture,
   comment,
   loggedInUserId,
   isLoading,
@@ -90,10 +90,14 @@ const Comments = ({
         <div className={styles.userSection}>
           <Image
             className={styles.profilePicture}
-            // src={profilePicture}
-            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-            width={40}
-            height={40}
+            src={
+              profilePicture
+                ? profilePicture
+                : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+            }
+            // src=""
+            width={50}
+            height={50}
             alt="profile"
           />
           <div>

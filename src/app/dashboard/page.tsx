@@ -91,7 +91,7 @@ function Dashboard() {
         <Loading />
       ) : (
         <div className={styles.container}>
-          {allPosts.length > 0 && !isError && (
+          {allPosts.length > 0 && !isError && !data?.newUser && (
             <DashboardComponent
               allPosts={allPosts}
               newPost={newPost}

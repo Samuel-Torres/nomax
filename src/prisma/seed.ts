@@ -20,7 +20,8 @@ async function main() {
         persona: "PASSPORTBRO",
         jobTitle: "Software Engineer",
         companyName: "Tech",
-        userName: "Sam Last"
+        userName: "Sam Last",
+        profilePicture: "https://res.cloudinary.com/dvz91qyth/image/upload/v1694640851/Nomex/dashboard/seeds/Samuel_Torres-Headshot_oux4rl.jpg"
       },
       {
         email: "second@gmail.com",
@@ -30,7 +31,8 @@ async function main() {
         persona: "EXPAT",
         jobTitle: "Data Analyst",
         companyName: "Tech World",
-        userName: "Sam T"
+        userName: "Sam T",
+        profilePicture: "https://res.cloudinary.com/dvz91qyth/image/upload/v1694640851/Nomex/dashboard/seeds/Samuel_Torres-Headshot_oux4rl.jpg"
       },
       {
         email: "third@gmail.com",
@@ -40,7 +42,8 @@ async function main() {
         persona: "BACKPACKER",
         jobTitle: "Coach Potato",
         companyName: "Your Coach",
-        userName: "Sam R"
+        userName: "Sam R",
+        profilePicture: "https://res.cloudinary.com/dvz91qyth/image/upload/v1694640851/Nomex/dashboard/seeds/Samuel_Torres-Headshot_oux4rl.jpg"
       },
       {
         email: "fourth@gmail.com",
@@ -50,7 +53,8 @@ async function main() {
         persona: "DIGITALNOMAD",
         jobTitle: "Sales",
         companyName: "Your Moms House",
-        userName: "Sam L"
+        userName: "Sam L",
+        profilePicture: "https://res.cloudinary.com/dvz91qyth/image/upload/v1694640851/Nomex/dashboard/seeds/Samuel_Torres-Headshot_oux4rl.jpg"
       },
     ],
     skipDuplicates: true,

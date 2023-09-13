@@ -1,25 +1,48 @@
+"use client";
 import React from "react";
 import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import useSWR from "swr";
 
 // components:
 import LogoutBtn from "../logout/logoutBtn";
 
-type sidebarProps = {
-  innerWidth: number;
-};
+function Sidebar() {
+  const { data: session, status } = useSession();
+  const fetcher = (...args: string[]): Promise<any> =>
+    fetch(args.join(",")).then((res) => res.json());
 
-function sidebar({ innerWidth }: sidebarProps) {
+  const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
+  const [viewportWidth, setViewportWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>
         <Image
           className={styles.icon}
-          src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-          width={30}
-          height={30}
-          alt="google"
+          src={
+            data?.profilePicture
+              ? data?.profilePicture
+              : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+          }
+          width={80}
+          height={80}
+          alt="profile"
           data-test="googleImage"
         />
       </div>
@@ -57,7 +80,7 @@ function sidebar({ innerWidth }: sidebarProps) {
           />
           <p className={styles.linkText}>Blogs</p>
         </Link>
-        {innerWidth < 1025 && (
+        {viewportWidth && viewportWidth < 1025 && (
           <Link className={styles.link} href="/dashboard/settings">
             <Image
               className={styles.icon}
@@ -78,4 +101,4 @@ function sidebar({ innerWidth }: sidebarProps) {
   );
 }
 
-export default sidebar;
+export default Sidebar;
