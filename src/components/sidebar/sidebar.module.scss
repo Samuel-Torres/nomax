@@ -44,6 +44,10 @@
     height: 100vh;
     position: fixed;
 
+    .icon {
+      border-radius: 50%;
+    }
+
     .linkContainer {
       margin-top: 5rem;
       .link {

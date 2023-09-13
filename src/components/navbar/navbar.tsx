@@ -1,5 +1,6 @@
 "use client";
 import styles from "./navbarstyles.module.scss";
+import LogoutBtn from "../logout/logoutBtn";
 
 export default function Navbar() {
   return (
@@ -8,6 +9,7 @@ export default function Navbar() {
         <h1>Nomax</h1>
       </div>
       <div className={styles.btnContainer}></div>
+      <LogoutBtn />
     </div>
   );
 }

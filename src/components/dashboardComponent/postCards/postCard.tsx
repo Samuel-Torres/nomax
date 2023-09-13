@@ -1,9 +1,4 @@
-import React, {
-  MouseEventHandler,
-  useState,
-  forwardRef,
-  useEffect,
-} from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import styles from "./postCard.module.scss";
 import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
@@ -43,6 +38,7 @@ type postCardProps = {
   videoSrc: string;
   setError: Function;
   setIsError: Function;
+  profilePicture: string | null;
 };
 
 const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
@@ -60,6 +56,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
     videoSrc,
     setError,
     setIsError,
+    profilePicture,
   }: postCardProps,
   ref
 ) {
@@ -183,10 +180,14 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
       <div className={styles.postingUserInfo}>
         <div className={styles.leftSection}>
           <Image
-            className={styles.icon}
-            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-            width={50}
-            height={50}
+            className={styles.profilePicture}
+            src={
+              profilePicture
+                ? profilePicture
+                : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+            }
+            width={60}
+            height={60}
             alt="google"
           />
           <div className={styles.secondaryLeftSection}>
@@ -311,7 +312,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                       authorPersona={item.author.persona}
                       authorJobTitle={item.author.jobTitle}
                       authorCompanyName={item.author.companyName}
-                      // profilePicture={item.author.profilePicture}
+                      profilePicture={item.author.profilePicture}
                       comment={item.comment}
                       loggedInUserId={loggedInUserId}
                       isLoading={isLoading}

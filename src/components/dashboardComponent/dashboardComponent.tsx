@@ -153,6 +153,7 @@ export default function DashboardComponent({
               authorJobTitle={post.author.jobTitle}
               authorCompany={post.author.companyName}
               loggedInUserId={data?.id}
+              profilePicture={post.author.profilePicture}
               imageSrc={post?.imageSrc ? post?.imageSrc : ""}
               videoSrc={post?.videoSrc ? post?.videoSrc : ""}
               setError={setError}
