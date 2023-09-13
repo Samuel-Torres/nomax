@@ -2,12 +2,15 @@ import React from "react";
 import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { Session } from "next-auth";
 
 // components:
 import LogoutBtn from "../logout/logoutBtn";
 
-function sidebar({ session }: any) {
+type sidebarProps = {
+  innerWidth: number;
+};
+
+function sidebar({ innerWidth }: sidebarProps) {
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>
@@ -28,7 +31,7 @@ function sidebar({ session }: any) {
             width={30}
             height={30}
             alt="google"
-            data-test="googleImage"
+            data-test="home"
           />
           <p className={styles.linkText}>Home</p>
         </Link>
@@ -39,7 +42,7 @@ function sidebar({ session }: any) {
             width={30}
             height={30}
             alt="google"
-            data-test="googleImage"
+            data-test="profile"
           />
           <p className={styles.linkText}>Profile</p>
         </Link>
@@ -50,21 +53,23 @@ function sidebar({ session }: any) {
             width={30}
             height={30}
             alt="google"
-            data-test="googleImage"
+            data-test="blog"
           />
           <p className={styles.linkText}>Blogs</p>
         </Link>
-        <Link className={styles.link} href="/dashboard/settings">
-          <Image
-            className={styles.icon}
-            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
-            width={30}
-            height={30}
-            alt="google"
-            data-test="googleImage"
-          />
-          <p className={styles.linkText}>Settings</p>
-        </Link>
+        {innerWidth < 1025 && (
+          <Link className={styles.link} href="/dashboard/settings">
+            <Image
+              className={styles.icon}
+              src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
+              width={30}
+              height={30}
+              alt="google"
+              data-test="settings"
+            />
+            <p className={styles.linkText}>Settings</p>
+          </Link>
+        )}
       </div>
       <div className={styles.logoutContainer}>
         <LogoutBtn />

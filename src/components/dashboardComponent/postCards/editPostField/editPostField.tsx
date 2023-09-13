@@ -9,6 +9,13 @@ type editPostProps = {
   postBeforeEdit: string | null;
   setError: Function;
   setIsError: Function;
+  isEditing: {
+    isEditing: boolean;
+    type: string;
+    originalComment: string;
+    commentId: number | null;
+  };
+  loggedInUserId: number;
 };
 
 type EditPostValues = {
@@ -20,6 +27,8 @@ const EditPostField = ({
   postBeforeEdit,
   setError,
   setIsError,
+  isEditing,
+  loggedInUserId,
 }: editPostProps) => {
   const {
     control,
@@ -28,40 +37,101 @@ const EditPostField = ({
     watch,
     formState: { errors, dirtyFields, isSubmitting },
   } = useForm<EditPostValues>({
-    defaultValues: { post: postBeforeEdit },
+    defaultValues:
+      isEditing.type === "post"
+        ? { post: postBeforeEdit }
+        : { post: isEditing.originalComment },
   });
 
   const onSubmit: SubmitHandler<EditPostValues> = (data) => {
-    axios
-      .put("/api/posts", {
-        id: postId,
-        postBody: data.post,
-      })
-      .then((response: any) => {
-        if (response.status === 200) {
-          console.log("RESPONSE: ", response);
-          window.location.reload();
-        } else {
-          setError(new fetchError());
-          setIsError(true);
-        }
-      })
-      .catch((err: any) => {
-        if (
-          err.response.status === 404 ||
-          err.response.status === 500 ||
-          err.status === 400 ||
-          err.status === 500
-        ) {
-          setError(new fetchError());
-          setIsError(true);
-        }
-      });
+    if (isEditing.type === "post") {
+      axios
+        .put("/api/posts", {
+          id: postId,
+          postBody: data.post,
+        })
+        .then((response: any) => {
+          if (response.status === 200) {
+            console.log("RESPONSE: ", response);
+            window.location.reload();
+          } else {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        })
+        .catch((err: any) => {
+          if (
+            err.response.status === 404 ||
+            err.response.status === 500 ||
+            err.status === 400 ||
+            err.status === 500
+          ) {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        });
+    }
+    if (isEditing.type === "comment") {
+      console.log(isEditing.commentId);
+      axios
+        .put(`/api/comments/${isEditing.commentId}`, {
+          postBody: data.post,
+        })
+        .then((response: any) => {
+          if (response.status === 200) {
+            window.location.reload();
+          } else {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        })
+        .catch((err: any) => {
+          if (
+            err.response.status === 404 ||
+            err.response.status === 500 ||
+            err.status === 400 ||
+            err.status === 500
+          ) {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        });
+    }
+    if (isEditing.type === "addComment") {
+      axios
+        .post("/api/comments/", {
+          postBody: data.post,
+          loggedInUserId: loggedInUserId,
+          postId: postId,
+        })
+        .then((response: any) => {
+          console.log("RES: ", response);
+          if (response.status === 200) {
+            window.location.reload();
+          } else {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        })
+        .catch((err: any) => {
+          if (
+            err.response.status === 404 ||
+            err.response.status === 500 ||
+            err.status === 400 ||
+            err.status === 500
+          ) {
+            setError(new fetchError());
+            setIsError(true);
+          }
+        });
+    }
   };
 
   return (
     <form className={styles.editContainer}>
-      <label>Edit Your Post</label>
+      {isEditing.type === "post" && <label>Edit Your Post</label>}
+      {isEditing.type === "comment" && <label>Edit Your Comment</label>}
+      {isEditing.type === "addComment" && <label>Leave A Comment</label>}
       <Controller
         name="post"
         control={control}

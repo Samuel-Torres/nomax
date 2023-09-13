@@ -2,6 +2,11 @@
 import styles from "./comments.module.scss";
 import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
+import axios from "axios";
+import { fetchError } from "@/app/lib/exceptions";
+
+// components:
+import BallSpinner from "@/components/loadingStateComponents/ballSpinner";
 
 type commentProps = {
   id: number;
@@ -15,6 +20,15 @@ type commentProps = {
   // profilePicture: string;
   comment: string;
   loggedInUserId: number;
+  isLoading: boolean;
+  setIsLoading: Function;
+  isEditing: {
+    isEditing: boolean;
+    type: string;
+  };
+  toggleEditingState: Function;
+  setError: Function;
+  setIsError: Function;
 };
 
 const Comments = ({
@@ -29,7 +43,47 @@ const Comments = ({
   // profilePicture,
   comment,
   loggedInUserId,
+  isLoading,
+  setIsLoading,
+  isEditing,
+  toggleEditingState,
+  setError,
+  setIsError,
 }: commentProps) => {
+  const deleteComment = () => {
+    console.log("RAN");
+    axios
+      .delete(`/api/comments/${id}`)
+      .then((response: any) => {
+        if (response.status === 200) {
+          window.location.reload();
+        } else {
+          setError(new fetchError());
+          setIsError(true);
+        }
+      })
+      .catch((err: any) => {
+        console.log("ERROR: ", err);
+        if (
+          err.response.status === 404 ||
+          err.response.status === 500 ||
+          err.status === 400 ||
+          err.status === 500
+        ) {
+          setError(new fetchError());
+          setIsError(true);
+        }
+      });
+  };
+
+  if (isLoading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <BallSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.userInfoContainer}>
@@ -59,6 +113,9 @@ const Comments = ({
                 width={20}
                 height={20}
                 alt="google"
+                onClick={() => {
+                  toggleEditingState("comment", comment, id);
+                }}
               />
               <Image
                 className={styles.commentIcon}
@@ -66,6 +123,7 @@ const Comments = ({
                 width={20}
                 height={20}
                 alt="google"
+                onClick={deleteComment}
               />
             </div>
           )}
@@ -74,7 +132,7 @@ const Comments = ({
           </p>
         </div>
       </div>
-      <div className={styles.ontainer}>
+      <div className={styles.commentContainer}>
         <p>{comment}</p>
       </div>
       <div className={styles.engagementPanel}>

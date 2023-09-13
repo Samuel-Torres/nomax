@@ -11,11 +11,13 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     where: {
       postId: postId,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       author: true,
     },
   });
-  console.log("COMMENTS : ", comments);
 
   try {
     if (typeof comments === "object") {
@@ -28,5 +30,61 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     }
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest, { params }: Record<string, any>) {
+  const { id } = params;
+  const commentId = parseInt(id);
+  const body = await req.json();
+  console.log("POST BODY: ", body.postBody);
+  const comment = await prisma.comments.update({
+    where: {
+      id: commentId,
+    },
+    data: {
+      comment: body.postBody,
+    },
+  });
+
+  try {
+    if (typeof comment === "object") {
+      return NextResponse.json({ data: comment }, { status: 200 });
+    } else {
+      return NextResponse.json(
+        { error: "Invalid input data" },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: Record<string, any>
+) {
+  console.log("RAN");
+  const { id } = params;
+
+  const comment = await prisma.comments.delete({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  console.log("DELETED: ", comment);
+  try {
+    if (typeof comment === "object") {
+      return NextResponse.json({ data: comment }, { status: 200 });
+    } else {
+      return NextResponse.json(
+        { error: "Invalid input data" },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    console.log("ERROR: ", error);
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }
