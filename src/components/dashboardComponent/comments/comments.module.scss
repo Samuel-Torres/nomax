@@ -71,3 +71,17 @@
     }
   }
 }
+
+.loadingContainer {
+  background-color: white;
+  margin: auto;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: 90%;
+  border-radius: 1rem;
+  min-height: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

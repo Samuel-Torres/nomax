@@ -63,16 +63,36 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   }: postCardProps,
   ref
 ) {
-  const [isEditingPost, setIsEditingPost] = useState(false);
+  const [isEditing, setIsEditing] = useState<{
+    isEditing: boolean;
+    type: string;
+    originalComment: string;
+    commentId: number | null;
+  }>({
+    isEditing: false,
+    type: "",
+    originalComment: "",
+    commentId: null,
+  });
   const [isImagePresent, setIsImagePresent] = useState(false);
   const [isVideoPresent, setIsVideoPresent] = useState(false);
   const [collapsedPostBody, setCollapsedPostBody] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [length, setLength] = useState<number>();
   const [commentsArr, setCommentsArr] = useState<CommentWithAuthor[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const toggleEditingState: MouseEventHandler = () => {
-    setIsEditingPost(!isEditingPost);
+  const toggleEditingState = (
+    type: string,
+    originalComment: string,
+    commentId: number | null
+  ) => {
+    setIsEditing({
+      isEditing: !isEditing.isEditing,
+      type: type,
+      originalComment: originalComment,
+      commentId: commentId,
+    });
   };
 
   const toggleCollapsed = () => {
@@ -80,6 +100,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (imageSrc.length !== null) {
       if (imageSrc.length > 0) setIsImagePresent(true);
     }
@@ -102,8 +123,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
       .get(`/api/comments/${id}`)
       .then((res) => {
         if (res.status === 200) {
-          console.log("RES: ", res);
           setCommentsArr(res.data.data);
+          setIsLoading(false);
         }
       })
       .catch((error) => {
@@ -115,13 +136,13 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
         ) {
           setError(new fetchError());
           setIsError(true);
+          setIsLoading(false);
         }
       });
   }, [imageSrc, videoSrc, postBody, id, setError, setIsError]);
 
   const insertSeeMoreBtn = () => {
     if (!postBody || (length && length < 38)) return;
-    console.log(commentsArr);
     return (
       <p
         className={`${styles.readMore} ${styles.toggleBtn}`}
@@ -181,47 +202,63 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
         </div>
       </div>
       <div className={styles.contentContainer}>
-        {authorId === loggedInUserId && (
-          <div className={styles.postTools}>
-            {isEditingPost ? (
+        <div className={styles.postTools}>
+          {isEditing.isEditing &&
+            isEditing.type !== "post" &&
+            authorId !== loggedInUserId && (
               <Image
                 className={styles.editIcon}
                 src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693421983/Nomex/dashboard/delete_lzxfe3.png"
                 width={20}
                 height={20}
                 alt="stop-edit"
-                onClick={toggleEditingState}
-              />
-            ) : (
-              <Image
-                className={styles.editIcon}
-                src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693418958/Nomex/dashboard/editing_btgzy6.png"
-                width={20}
-                height={20}
-                alt="edit"
-                onClick={toggleEditingState}
+                onClick={() => toggleEditingState("", "", null)}
               />
             )}
-            <Image
-              className={styles.deleteIcon}
-              onClick={() => deletePost(id)}
-              src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693419097/Nomex/dashboard/trash_pglfuc.png"
-              width={20}
-              height={20}
-              alt="delete"
-            />
-          </div>
-        )}
+          {authorId === loggedInUserId && (
+            <>
+              {isEditing.isEditing ? (
+                <Image
+                  className={styles.editIcon}
+                  src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693421983/Nomex/dashboard/delete_lzxfe3.png"
+                  width={20}
+                  height={20}
+                  alt="stop-edit"
+                  onClick={() => toggleEditingState("", "", null)}
+                />
+              ) : (
+                <>
+                  <Image
+                    className={styles.editIcon}
+                    src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693418958/Nomex/dashboard/editing_btgzy6.png"
+                    width={20}
+                    height={20}
+                    alt="edit"
+                    onClick={() => toggleEditingState("post", "", null)}
+                  />
+                  <Image
+                    className={styles.deleteIcon}
+                    onClick={() => deletePost(id)}
+                    src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693419097/Nomex/dashboard/trash_pglfuc.png"
+                    width={20}
+                    height={20}
+                    alt="delete"
+                  />
+                </>
+              )}
+            </>
+          )}
+        </div>
         <div
           className={`${
             isImagePresent
               ? styles.transitionContainerWithImg
               : styles.transitionContainerWithOutImg
-          } ${isEditingPost ? styles.isEditingPost : ""} ${
+          } ${isEditing.isEditing ? styles.isEditingPost : ""} ${
             isCollapsed ? "" : styles.expanded
           }`}
         >
-          {!isEditingPost ? (
+          {!isEditing.isEditing ? (
             <div className={styles.postBodyContainer}>
               <div
                 className={`${styles.postContainer} ${
@@ -258,6 +295,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                   width={40}
                   height={40}
                   alt="stop-edit"
+                  onClick={() => toggleEditingState("addComment", "", null)}
                 />
               </div>
               {commentsArr.length > 0 ? (
@@ -276,6 +314,12 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                       // profilePicture={item.author.profilePicture}
                       comment={item.comment}
                       loggedInUserId={loggedInUserId}
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                      isEditing={isEditing}
+                      toggleEditingState={toggleEditingState}
+                      setError={setError}
+                      setIsError={setIsError}
                     />
                   ))}
                 </div>
@@ -287,6 +331,8 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
               postBeforeEdit={postBody}
               setError={setError}
               setIsError={setIsError}
+              isEditing={isEditing}
+              loggedInUserId={loggedInUserId}
             />
           )}
         </div>
