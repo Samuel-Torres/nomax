@@ -35,7 +35,7 @@ function Sidebar() {
       <div className={styles.imageContainer}>
         <Image
           className={styles.icon}
-          src={data.profilePicture}
+          src={data?.profilePicture}
           width={80}
           height={80}
           alt="google"
