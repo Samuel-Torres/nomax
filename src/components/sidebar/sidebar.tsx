@@ -35,10 +35,14 @@ function Sidebar() {
       <div className={styles.imageContainer}>
         <Image
           className={styles.icon}
-          src={data?.profilePicture}
+          src={
+            data?.profilePicture
+              ? data?.profilePicture
+              : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+          }
           width={80}
           height={80}
-          alt="google"
+          alt="profile"
           data-test="googleImage"
         />
       </div>
