@@ -21,7 +21,7 @@ function Sidebar() {
   const [imgSrc, setImgSrc] = useState<any>("");
   const [data, setData] = useState<Users | null>(null);
   const { data: session } = useSession();
-  const [viewportWidth, setViewportWidth] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
