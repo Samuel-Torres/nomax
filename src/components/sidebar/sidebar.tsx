@@ -34,8 +34,7 @@ function Sidebar() {
         setData(res.data);
       })
       .catch((error) => {
-        console.log("ERROR: ", error);
-        // handle errors:
+        setIsError(true);
       });
 
     const handleResize = () => {
@@ -47,7 +46,7 @@ function Sidebar() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [session?.user?.email]);
+  }, [session?.user?.email, setIsError]);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
