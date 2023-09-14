@@ -56,6 +56,7 @@ const Comments = ({
       .delete(`/api/comments/${id}`)
       .then((response: any) => {
         if (response.status === 200) {
+          // handle things here:
           window.location.reload();
         } else {
           setError(new fetchError());

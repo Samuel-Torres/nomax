@@ -44,8 +44,41 @@
     height: 100vh;
     position: fixed;
 
-    .icon {
-      border-radius: 50%;
+    .imageContainer {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        border-radius: 50%;
+      }
+
+      .iconContainer {
+        width: 35px;
+        position: absolute;
+        top: 55px;
+        left: 75px;
+
+        &:hover {
+          cursor: pointer;
+          @include hoverEffect();
+        }
+      }
+
+      .centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+      }
+      .submitBtn {
+        @include btnStyles($margin: 0px 100px);
+      }
+
+      .editIcon {
+        position: relative;
+        z-index: 100;
+        width: 100%;
+      }
     }
 
     .linkContainer {

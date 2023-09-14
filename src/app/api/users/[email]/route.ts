@@ -40,12 +40,14 @@ export async function PUT(
   const updatedUserData: user = await request.json();
   let hashedPassword: string;
   let payload: {} = {};
+  
   if(updatedUserData.password){
     hashedPassword = await bcrypt.hash(updatedUserData.password, 10);
     payload = {...updatedUserData, password: hashedPassword, newUser: false}
   } else {
     payload = {...updatedUserData, newUser: false}
   }
+
   try {
     const updatedUser = await prisma.users.update({
       where: {
@@ -53,6 +55,8 @@ export async function PUT(
       },
       data: payload
     });
+
+    console.log("ATTEMPT: ", updatedUser)
     return NextResponse.json({ status: 200, ...updatedUser });
   } catch (error) {
     return NextResponse.json({ message: new Error(`${error}`) });

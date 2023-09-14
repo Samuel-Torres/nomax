@@ -115,6 +115,8 @@ const CreatePost = ({
       setImgSrc(onLoadEvent.target?.result);
     };
 
+    console.log("IMAGE: ", imgSrc);
+
     reader.readAsDataURL(changeEvent.target?.files[0]);
   };
 
