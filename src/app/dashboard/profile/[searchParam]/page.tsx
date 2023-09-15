@@ -16,8 +16,6 @@ const fetchUser = async (seachParam: number) => {
   }
 };
 
-const fetchPosts = async () => {};
-
 type paramTypes = {
   params: {
     searchParam: number;
@@ -29,7 +27,7 @@ import Banner from "@/components/profileComponents/banner/banner";
 
 const Profile = async ({ params }: paramTypes) => {
   const userData = await fetchUser(params.searchParam);
-  const user = await userData.fetchedUser;
+  const user: Users = await userData.fetchedUser;
 
   console.log("DATA: ", user);
   return (
