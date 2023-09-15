@@ -4,6 +4,7 @@ import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import { fetchError } from "@/app/lib/exceptions";
 import axios from "axios";
+import Link from "next/link";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
@@ -178,26 +179,28 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.postingUserInfo}>
-        <div className={styles.leftSection}>
-          <Image
-            className={styles.profilePicture}
-            src={
-              profilePicture
-                ? profilePicture
-                : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-            }
-            width={60}
-            height={60}
-            alt="google"
-          />
-          <div className={styles.secondaryLeftSection}>
-            <p className={styles.userName}>{authorUserName}</p>
-            <p className={styles.persona}>{authorPersona}</p>
-            <p className={styles.job}>
-              {authorJobTitle} at {authorCompany}
-            </p>
+        <Link className={styles.link} href={`/dashboard/profile/${authorId}`}>
+          <div className={styles.leftSection}>
+            <Image
+              className={styles.profilePicture}
+              src={
+                profilePicture
+                  ? profilePicture
+                  : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+              }
+              width={60}
+              height={60}
+              alt="google"
+            />
+            <div className={styles.secondaryLeftSection}>
+              <p className={styles.userName}>{authorUserName}</p>
+              <p className={styles.persona}>{authorPersona}</p>
+              <p className={styles.job}>
+                {authorJobTitle} at {authorCompany}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
         <div className={styles.rightSection}>
           <p className={styles.timePast}>{convertDateToRelative(createdAt)}</p>
         </div>

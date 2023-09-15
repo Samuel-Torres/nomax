@@ -7,6 +7,7 @@ import { fetchError } from "@/app/lib/exceptions";
 
 // components:
 import BallSpinner from "@/components/loadingStateComponents/ballSpinner";
+import Link from "next/link";
 
 type commentProps = {
   id: number;
@@ -101,13 +102,15 @@ const Comments = ({
             height={50}
             alt="profile"
           />
-          <div>
-            <p className={styles.userInfo}>{authorName}</p>
-            <p className={styles.userInfo}>{authorPersona}</p>
-            <p className={styles.userInfo}>
-              {authorJobTitle} at {authorCompanyName}
-            </p>
-          </div>
+          <Link className={styles.link} href={`/dashboard/profile/${authorId}`}>
+            <div>
+              <p className={styles.userInfo}>{authorName}</p>
+              <p className={styles.userInfo}>{authorPersona}</p>
+              <p className={styles.userInfo}>
+                {authorJobTitle} at {authorCompanyName}
+              </p>
+            </div>
+          </Link>
         </div>
         <div className={styles.commentIconConatiner}>
           {loggedInUserId === authorId && (

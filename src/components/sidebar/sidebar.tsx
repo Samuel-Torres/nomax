@@ -31,9 +31,10 @@ function Sidebar() {
     axios
       .get(`/api/users/${session?.user?.email}`)
       .then((res) => {
-        setData(res.data);
+        setData(res.data.fetchedUser);
       })
       .catch((error) => {
+        console.log("ERROR: ", error);
         setIsError(true);
       });
 
@@ -216,7 +217,7 @@ function Sidebar() {
           />
           <p className={styles.linkText}>Home</p>
         </Link>
-        <Link className={styles.link} href="/dashboard/profile">
+        <Link className={styles.link} href={`/dashboard/profile/${data?.id}`}>
           <Image
             className={styles.icon}
             src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247774/Nomex/dashboard/user_gtq9lo.png"
