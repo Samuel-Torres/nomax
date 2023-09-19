@@ -1,8 +1,7 @@
 import { useRef, useCallback, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./dashboardComponent.module.scss";
-import { useLoggedInUser } from "@/app/globalState/getRequests";
-
+import { useLoggedInUser } from "@/app/globalState/user";
 import { PostWithAuthor } from "@/utils/typeDefinitions/types";
 
 type postProps = {
@@ -20,6 +19,9 @@ type postProps = {
 import CreatePost from "./createPost/createPost";
 import PostCard from "./postCards/postCard";
 
+// state:
+import { useAllPosts } from "../../app/globalState/posts";
+
 export default function DashboardComponent({
   allPosts,
   page,
@@ -35,9 +37,7 @@ export default function DashboardComponent({
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
 
-  useEffect(() => {}, []);
-
-  const data = useLoggedInUser();
+  const userData = useLoggedInUser();
 
   const fetchMorePosts = useCallback(() => {
     if (!hasMore || isLoading) {
@@ -93,10 +93,11 @@ export default function DashboardComponent({
   const toggleForm = () => {
     setIsCreatingPost(!isCreatingPost);
   };
+
   return (
     <div className={styles.container}>
       <CreatePost
-        loggedInUser={data?.user}
+        loggedInUser={userData?.user}
         isCreatingPost={isCreatingPost}
         toggleForm={toggleForm}
         setNewPost={setNewPost}
@@ -115,7 +116,7 @@ export default function DashboardComponent({
             authorPersona={newPost?.author.persona}
             authorJobTitle={newPost?.author.jobTitle}
             authorCompany={newPost?.author.companyName}
-            loggedInUserId={data?.user?.id}
+            loggedInUserId={userData?.user?.id}
             profilePicture={newPost.author.profilePicture}
             imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
             videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
@@ -123,12 +124,12 @@ export default function DashboardComponent({
             setIsError={setIsError}
           />
         )}
-        {allPosts?.map((post, index) => {
+        {allPosts?.map((post: any, index: number) => {
           return (
             <PostCard
               key={post.id}
               id={post.id}
-              ref={index === allPosts.length - 1 ? lastBookElementRef : null}
+              ref={index === allPosts?.length - 1 ? lastBookElementRef : null}
               postBody={post.postBody}
               createdAt={post.createdAT}
               authorId={post.authorId}
@@ -136,7 +137,7 @@ export default function DashboardComponent({
               authorPersona={post.author.persona}
               authorJobTitle={post.author.jobTitle}
               authorCompany={post.author.companyName}
-              loggedInUserId={data?.user?.id}
+              loggedInUserId={userData?.user?.id}
               profilePicture={post.author.profilePicture}
               imageSrc={post?.imageSrc ? post?.imageSrc : ""}
               videoSrc={post?.videoSrc ? post?.videoSrc : ""}

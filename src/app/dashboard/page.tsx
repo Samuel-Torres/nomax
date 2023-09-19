@@ -2,11 +2,13 @@
 import styles from "./dashboardPage.module.scss";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import axios from "axios";
-import { AuthRequiredError, fetchError } from "../lib/exceptions";
+import { AuthRequiredError } from "../lib/exceptions";
 import Loading from "./loading";
-import useSWR, { SWRConfig } from "swr";
-import { useAllPosts, useLoggedInUser } from "../globalState/getRequests";
+import useSWR from "swr";
+
+// state:
+import { useAllPosts } from "../globalState/posts";
+import { useLoggedInUser } from "../globalState/user";
 
 // components:
 import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
@@ -16,28 +18,23 @@ import Error from "./error";
 import { PostWithAuthor } from "@/utils/typeDefinitions/types";
 
 function Dashboard() {
-  const [allPosts, setAllPosts] = useState<PostWithAuthor[] | []>([]);
-  const [newPost, setNewPost] = useState<PostWithAuthor | null>(null);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [error, setError] = useState<Error>();
-  const { data: session, status } = useSession();
   const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasFetched, setHasFetched] = useState(false);
-  const data = useLoggedInUser();
-
-  const fetchPosts = useAllPosts(
-    page,
-    setAllPosts,
-    setIsLoading,
-    setHasMore,
-    setHasFetched,
+  const [newPost, setNewPost] = useState<PostWithAuthor | null>(null);
+  const { data: session, status } = useSession();
+  const userData = useLoggedInUser();
+  const {
+    posts,
+    allPosts,
+    isError,
+    setIsError,
+    hasMore,
+    isLoading,
+    hasFetched,
     setError,
-    setIsError
-  );
-
-  console.log("ARRAY: ", allPosts);
+    setIsLoading,
+    error,
+  } = useAllPosts(page);
+  console.log("ALL POSTS ARRAY IN DASH", posts);
 
   const reset = () => {
     setIsError(false);
@@ -50,26 +47,15 @@ function Dashboard() {
       setIsError(true);
       setIsLoading(false);
     }
-  }, [status]);
-
-  console.log("ERROR: ", fetchPosts);
-
-  // Set error states:
-  //  • Move state hooks to fetch request & move them to be returned on object
+  }, [status, setError, setIsError, setIsLoading]);
 
   return (
-    <SWRConfig
-      value={{
-        fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json()),
-        // provider: () => new Map(),
-      }}
-    >
+    <div>
       {isLoading && hasFetched === false ? (
         <Loading />
       ) : (
         <div className={styles.container}>
-          {allPosts?.length > 0 && !isError && !data?.user?.newUser && (
+          {allPosts?.length > 0 && !isError && !userData?.user?.newUser && (
             <DashboardComponent
               allPosts={allPosts ? allPosts : []}
               newPost={newPost}
@@ -81,11 +67,11 @@ function Dashboard() {
               setError={setError}
             />
           )}
-          {data?.user?.newUser && <OnBoardingForm />}
+          {userData?.user?.newUser && <OnBoardingForm />}
           {isError && error && <Error error={error} reset={reset} />}
         </div>
       )}
-    </SWRConfig>
+    </div>
   );
 }
 

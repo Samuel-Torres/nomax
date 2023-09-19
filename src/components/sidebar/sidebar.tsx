@@ -14,7 +14,9 @@ import ImageError from "./imageError";
 import BallSpinner from "../loadingStateComponents/ballSpinner";
 
 // fetch:
-import { useLoggedInUser } from "@/app/globalState/getRequests";
+import { useLoggedInUser } from "@/app/globalState/user";
+
+import { revalidateQueries } from "@/app/globalState/middleware";
 
 function Sidebar() {
   const [isHovering, setIsHovering] = useState<boolean>(false);
@@ -73,7 +75,7 @@ function Sidebar() {
               )
               .then((res) => {
                 if (res.status === 200 && res.data) {
-                  setData(res.data);
+                  revalidateQueries();
                   setIsEditingPhoto(false);
                   setIsSubmitting(false);
                 } else {
@@ -143,6 +145,7 @@ function Sidebar() {
                   <Image
                     className={styles.icon}
                     src={data?.user?.profilePicture}
+                    priority={false}
                     width={80}
                     height={80}
                     alt="profile"

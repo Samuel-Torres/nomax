@@ -3,7 +3,7 @@ import { personaTypes } from "@prisma/client";
 import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
 import { useSession } from "next-auth/react";
-import { useLoggedInUser } from "@/app/globalState/getRequests";
+import { useLoggedInUser } from "@/app/globalState/user";
 
 type FormValues = {
   password: string;
