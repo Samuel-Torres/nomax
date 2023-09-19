@@ -29,8 +29,8 @@ const Banner = async ({ bannerPhoto, profilePicture }: bannerProps) => {
                 ? profilePicture
                 : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
             }
-            width={150}
-            height={150}
+            width={250}
+            height={250}
             alt="profile"
             data-test="googleImage"
           />

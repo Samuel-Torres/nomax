@@ -7,37 +7,29 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import { Users } from "@prisma/client";
 
 // components:
 import LogoutBtn from "../logout/logoutBtn";
 import ImageError from "./imageError";
 import BallSpinner from "../loadingStateComponents/ballSpinner";
 
+// fetch:
+import { useLoggedInUser } from "@/app/globalState/getRequests";
+
 function Sidebar() {
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [isEditingPhoto, setIsEditingPhoto] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imgSrc, setImgSrc] = useState<any>("");
-  const [data, setData] = useState<Users | null>(null);
   const { data: session } = useSession();
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const data = useLoggedInUser();
 
   const { handleSubmit, control, setValue } = useForm();
 
   useEffect(() => {
-    axios
-      .get(`/api/users/${session?.user?.email}`)
-      .then((res) => {
-        setData(res.data.fetchedUser);
-      })
-      .catch((error) => {
-        console.log("ERROR: ", error);
-        setIsError(true);
-      });
-
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -47,7 +39,7 @@ function Sidebar() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [session?.user?.email, setIsError]);
+  }, []);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
@@ -122,6 +114,8 @@ function Sidebar() {
     window.location.reload();
   };
 
+  // console.log("FIRST USE: ", data);
+
   return (
     <div className={styles.container}>
       <Controller
@@ -143,18 +137,18 @@ function Sidebar() {
                     fileInputRef.current = input;
                   }}
                 />
-                <Image
-                  className={styles.icon}
-                  src={
-                    data?.profilePicture
-                      ? data?.profilePicture
-                      : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-                  }
-                  width={80}
-                  height={80}
-                  alt="profile"
-                  data-test="googleImage"
-                />
+                {data?.isLoading ? (
+                  <BallSpinner />
+                ) : (
+                  <Image
+                    className={styles.icon}
+                    src={data?.user?.profilePicture}
+                    width={80}
+                    height={80}
+                    alt="profile"
+                    data-test="googleImage"
+                  />
+                )}
                 <div
                   className={styles.iconContainer}
                   onMouseEnter={handleMouseHover}
@@ -217,7 +211,10 @@ function Sidebar() {
           />
           <p className={styles.linkText}>Home</p>
         </Link>
-        <Link className={styles.link} href={`/dashboard/profile/${data?.id}`}>
+        <Link
+          className={styles.link}
+          href={`/dashboard/profile/${data?.user?.id}`}
+        >
           <Image
             className={styles.icon}
             src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693247774/Nomex/dashboard/user_gtq9lo.png"

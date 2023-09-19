@@ -27,6 +27,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     const hasMore = skip + take < totalCount; // Check if there are more pages
 
     if (allPosts) {
+      console.log("RAN: ", allPosts);
       return NextResponse.json(
         { hasMore: hasMore, allPosts: [...allPosts] },
         { status: 200 }

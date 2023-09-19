@@ -24,15 +24,17 @@ type paramTypes = {
 
 // components:
 import Banner from "@/components/profileComponents/banner/banner";
+import ProfileNav from "@/components/profileComponents/profileNav/profileNav";
 
 const Profile = async ({ params }: paramTypes) => {
   const userData = await fetchUser(params.searchParam);
   const user: Users = await userData.fetchedUser;
 
-  console.log("DATA: ", user);
+  // console.log("IN SERVER DATA: ", user);
   return (
     <div className={styles.container}>
       <Banner bannerPhoto={null} profilePicture={user?.profilePicture} />
+      <ProfileNav loggedInUserId={user?.id} />
     </div>
   );
 };

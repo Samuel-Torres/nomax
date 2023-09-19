@@ -1,23 +1,9 @@
 import { useRef, useCallback, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./dashboardComponent.module.scss";
-import useSWR from "swr";
+import { useLoggedInUser } from "@/app/globalState/getRequests";
 
-import { Prisma } from "@prisma/client";
-
-const postBodyAndAuthor = Prisma.validator<Prisma.PostsArgs>()({
-  select: {
-    id: true,
-    authorId: true,
-    createdAT: true,
-    imageSrc: true,
-    videoSrc: true,
-    postBody: true,
-    comments: true,
-    author: true,
-  },
-});
-type PostWithAuthor = Prisma.PostsGetPayload<typeof postBodyAndAuthor>;
+import { PostWithAuthor } from "@/utils/typeDefinitions/types";
 
 type postProps = {
   allPosts: PostWithAuthor[] | [];
@@ -51,9 +37,7 @@ export default function DashboardComponent({
 
   useEffect(() => {}, []);
 
-  const fetcher = (...args: string[]): Promise<any> =>
-    fetch(args.join(",")).then((res) => res.json());
-  const { data } = useSWR(`/api/users/${session?.user?.email}`, fetcher);
+  const data = useLoggedInUser();
 
   const fetchMorePosts = useCallback(() => {
     if (!hasMore || isLoading) {
@@ -109,11 +93,10 @@ export default function DashboardComponent({
   const toggleForm = () => {
     setIsCreatingPost(!isCreatingPost);
   };
-
   return (
     <div className={styles.container}>
       <CreatePost
-        loggedInUser={data}
+        loggedInUser={data?.user}
         isCreatingPost={isCreatingPost}
         toggleForm={toggleForm}
         setNewPost={setNewPost}
@@ -132,7 +115,7 @@ export default function DashboardComponent({
             authorPersona={newPost?.author.persona}
             authorJobTitle={newPost?.author.jobTitle}
             authorCompany={newPost?.author.companyName}
-            loggedInUserId={data?.id}
+            loggedInUserId={data?.user?.id}
             profilePicture={newPost.author.profilePicture}
             imageSrc={newPost?.imageSrc ? newPost?.imageSrc : ""}
             videoSrc={newPost?.videoSrc ? newPost?.videoSrc : ""}
@@ -153,7 +136,7 @@ export default function DashboardComponent({
               authorPersona={post.author.persona}
               authorJobTitle={post.author.jobTitle}
               authorCompany={post.author.companyName}
-              loggedInUserId={data?.id}
+              loggedInUserId={data?.user?.id}
               profilePicture={post.author.profilePicture}
               imageSrc={post?.imageSrc ? post?.imageSrc : ""}
               videoSrc={post?.videoSrc ? post?.videoSrc : ""}

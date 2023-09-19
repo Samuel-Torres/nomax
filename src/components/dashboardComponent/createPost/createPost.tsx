@@ -40,7 +40,7 @@ const CreatePost = ({
       imageSrc: "",
       // videoSrc: ""
     };
-
+    console.log("PAYLOAD: ", payload);
     // If Image url is present w/ or without text:
     if (data.image.length > 0) {
       await axios
