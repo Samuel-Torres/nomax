@@ -58,7 +58,6 @@ const Comments = ({
       .delete(`/api/comments/${id}`)
       .then((response: any) => {
         if (response.status === 200) {
-          // handle things here:
           commentMutate(`/api/comments/${id}`);
         } else {
           setError(new fetchError());
