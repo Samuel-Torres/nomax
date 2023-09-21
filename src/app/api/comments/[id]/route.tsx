@@ -64,7 +64,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: Record<string, any>
 ) {
-  console.log("RAN");
+  // console.log("RAN");
   const { id } = params;
 
   const comment = await prisma.comments.delete({

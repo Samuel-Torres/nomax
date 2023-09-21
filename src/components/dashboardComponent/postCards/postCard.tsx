@@ -42,25 +42,22 @@ type postCardProps = {
   profilePicture: string | null;
 };
 
-const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
-  {
-    id,
-    postBody,
-    createdAt,
-    authorId,
-    authorUserName,
-    authorPersona,
-    authorJobTitle,
-    authorCompany,
-    loggedInUserId,
-    imageSrc,
-    videoSrc,
-    setError,
-    setIsError,
-    profilePicture,
-  }: postCardProps,
-  ref
-) {
+const PostCard = function PostCard({
+  id,
+  postBody,
+  createdAt,
+  authorId,
+  authorUserName,
+  authorPersona,
+  authorJobTitle,
+  authorCompany,
+  loggedInUserId,
+  imageSrc,
+  videoSrc,
+  setError,
+  setIsError,
+  profilePicture,
+}: postCardProps) {
   const [isEditing, setIsEditing] = useState<{
     isEditing: boolean;
     type: string;
@@ -177,7 +174,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   };
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <div className={styles.postingUserInfo}>
         <Link className={styles.link} href={`/dashboard/profile/${authorId}`}>
           <div className={styles.leftSection}>
@@ -343,8 +340,6 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
       </div>
     </div>
   );
-});
-
-PostCard.displayName = "PostCard";
+};
 
 export default PostCard;

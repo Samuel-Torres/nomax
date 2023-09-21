@@ -78,9 +78,6 @@ function Sidebar() {
                   revalidateQueries();
                   setIsEditingPhoto(false);
                   setIsSubmitting(false);
-                } else {
-                  setIsError(true);
-                  setIsSubmitting(false);
                 }
               });
           } else {

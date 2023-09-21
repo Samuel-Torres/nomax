@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  console.log("RAN");
+  // console.log("RAN");
   const { loggedInUserId, postBody, postId } = await req.json();
 
   const comment = await prisma.comments.create({

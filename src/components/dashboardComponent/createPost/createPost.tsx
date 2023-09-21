@@ -5,12 +5,14 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { Users } from "@prisma/client";
 import { fetchError } from "../../../app/lib/exceptions";
+import { useSWRConfig } from "swr";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "@/app/globalState/posts";
 
 type createPostProps = {
   isCreatingPost: boolean;
   toggleForm: () => void;
   loggedInUser: Users;
-  setNewPost: Function;
   setError: Function;
   setIsError: Function;
 };
@@ -19,13 +21,13 @@ const CreatePost = ({
   isCreatingPost,
   toggleForm,
   loggedInUser,
-  setNewPost,
   setError,
   setIsError,
 }: createPostProps) => {
   const [imgSrc, setImgSrc] = useState<any>("");
   const { handleSubmit, control, setValue } = useForm();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { mutate } = useSWRConfig();
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -61,24 +63,21 @@ const CreatePost = ({
               .then((res) => {
                 if (res.status === 200 && res.data.dataResponse) {
                   console.log("SUCCESS RAN");
-                  setNewPost(res.data.dataResponse);
+                  mutate(unstable_serialize(getKey));
                   toggleForm();
                   setImgSrc("");
                   setValue("text", "");
                 } else {
-                  console.log("FIRST ELSE RAN");
                   setError(new fetchError());
                   setIsError(true);
                 }
               });
           } else {
-            console.log("ELSE RAN");
             setError(new fetchError());
             setIsError(true);
           }
         })
         .catch((error) => {
-          console.log("CATCH RAN");
           setError(new fetchError(error));
           setIsError(true);
         });
@@ -86,13 +85,11 @@ const CreatePost = ({
       await axios
         .post("/api/posts", payload)
         .then((res) => {
-          console.log("RAN");
           if (res.status === 200 && res.data.dataResponse) {
-            console.log("SUCCESS: ", res.data);
-            setNewPost(res.data.dataResponse);
             toggleForm();
             setImgSrc("");
             setValue("text", "");
+            mutate(unstable_serialize(getKey));
           } else {
             console.log("FAIL");
             setError(new fetchError());
@@ -100,7 +97,6 @@ const CreatePost = ({
           }
         })
         .catch((error) => {
-          console.log("CATCH RAN");
           setError(new fetchError(error));
           setIsError(true);
         });
@@ -114,8 +110,6 @@ const CreatePost = ({
       setValue("image", onLoadEvent.target?.result);
       setImgSrc(onLoadEvent.target?.result);
     };
-
-    console.log("IMAGE: ", imgSrc);
 
     reader.readAsDataURL(changeEvent.target?.files[0]);
   };
