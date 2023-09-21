@@ -6,7 +6,7 @@ type bannerProps = {
   profilePicture: string | null;
 };
 
-const Banner = async ({ bannerPhoto, profilePicture }: bannerProps) => {
+const Banner = ({ bannerPhoto, profilePicture }: bannerProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.bannerContainer}>
