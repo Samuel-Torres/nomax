@@ -27,7 +27,7 @@ import Banner from "@/components/profileComponents/banner/banner";
 import ProfileNav from "@/components/profileComponents/profileNav/profileNav";
 
 const Profile = async ({ params }: paramTypes) => {
-  const user = await fetchUser(params.searchParam);
+  const user: Users = await fetchUser(params.searchParam);
 
   console.log("USER DATA: ", user);
   return (
