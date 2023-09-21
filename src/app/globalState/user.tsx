@@ -8,7 +8,7 @@ export const useLoggedInUser = () => {
     `/api/users/${session?.user?.email}`,
     fetcher
   );
-
+  // console.log("DATA: ", data);
   return {
     user: data?.fetchedUser,
     isLoading,

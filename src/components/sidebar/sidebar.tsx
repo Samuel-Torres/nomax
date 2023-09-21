@@ -113,8 +113,6 @@ function Sidebar() {
     window.location.reload();
   };
 
-  // console.log("FIRST USE: ", data);
-
   return (
     <div className={styles.container}>
       <Controller
@@ -217,7 +215,7 @@ function Sidebar() {
         </Link>
         <Link
           className={styles.link}
-          href={`/dashboard/profile/${data?.user?.id}`}
+          href={`/dashboard/profile/${data?.user?.email}`}
         >
           <Image
             className={styles.icon}

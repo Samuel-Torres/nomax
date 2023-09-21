@@ -19,22 +19,14 @@ type user = {
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const { emailOrId } = params;  
-  const searchParam =  /^[0-9]+$/.test(emailOrId) ? parseInt(emailOrId, 10) : emailOrId;
+
   try {
-    let fetchedUser;
-    if (typeof searchParam === "string") {
-      fetchedUser = await prisma.users.findUnique({
+      const fetchedUser = await prisma.users.findUnique({
         where: {
-          email: searchParam,
+          email: emailOrId,
         },
       });
-    } else {
-      fetchedUser = await prisma.users.findUnique({
-        where: {
-          id: searchParam,
-        },
-      });
-    }
+
 
     if (typeof fetchedUser === "object") {
       return NextResponse.json({fetchedUser}, {status: 200});
