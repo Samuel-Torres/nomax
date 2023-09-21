@@ -4,12 +4,19 @@ import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import { fetchError } from "@/app/lib/exceptions";
 import axios from "axios";
+import Link from "next/link";
+import { useSWRConfig } from "swr";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "@/app/globalState/posts";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
 import Comment from "../comments/comments";
 
 import { Prisma } from "@prisma/client";
+
+// requests:
+import { useComments } from "@/app/globalState/comments";
 
 // Type Definitions:
 const commentWithAuthor = Prisma.validator<Prisma.CommentsArgs>()({
@@ -41,25 +48,22 @@ type postCardProps = {
   profilePicture: string | null;
 };
 
-const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
-  {
-    id,
-    postBody,
-    createdAt,
-    authorId,
-    authorUserName,
-    authorPersona,
-    authorJobTitle,
-    authorCompany,
-    loggedInUserId,
-    imageSrc,
-    videoSrc,
-    setError,
-    setIsError,
-    profilePicture,
-  }: postCardProps,
-  ref
-) {
+const PostCard = function PostCard({
+  id,
+  postBody,
+  createdAt,
+  authorId,
+  authorUserName,
+  authorPersona,
+  authorJobTitle,
+  authorCompany,
+  loggedInUserId,
+  imageSrc,
+  videoSrc,
+  setError,
+  setIsError,
+  profilePicture,
+}: postCardProps) {
   const [isEditing, setIsEditing] = useState<{
     isEditing: boolean;
     type: string;
@@ -76,8 +80,14 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   const [collapsedPostBody, setCollapsedPostBody] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [length, setLength] = useState<number>();
-  const [commentsArr, setCommentsArr] = useState<CommentWithAuthor[] | []>([]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isLoading, commentMutate } = useComments(id);
+  const commentsArr: CommentWithAuthor[] | [] =
+    data && typeof data !== "string" ? data : [];
+
+  console.log("ARRAY: ", commentsArr);
+
+  const { mutate } = useSWRConfig();
 
   const toggleEditingState = (
     type: string,
@@ -97,7 +107,6 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (imageSrc.length !== null) {
       if (imageSrc.length > 0) setIsImagePresent(true);
     }
@@ -115,27 +124,6 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
         setLength(postBody?.length);
       }
     }
-
-    axios
-      .get(`/api/comments/${id}`)
-      .then((res) => {
-        if (res.status === 200) {
-          setCommentsArr(res.data.data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        if (
-          error.response.status === 404 ||
-          error.response.status === 500 ||
-          error.status === 400 ||
-          error.status === 500
-        ) {
-          setError(new fetchError());
-          setIsError(true);
-          setIsLoading(false);
-        }
-      });
   }, [imageSrc, videoSrc, postBody, id, setError, setIsError]);
 
   const insertSeeMoreBtn = () => {
@@ -156,10 +144,7 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
       .delete(`/api/posts/${id}`)
       .then((response) => {
         if (response.status === 200) {
-          window.location.reload();
-        } else {
-          setError(new fetchError());
-          setIsError(true);
+          mutate(unstable_serialize(getKey));
         }
       })
       .catch((error) => {
@@ -176,28 +161,30 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
   };
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <div className={styles.postingUserInfo}>
-        <div className={styles.leftSection}>
-          <Image
-            className={styles.profilePicture}
-            src={
-              profilePicture
-                ? profilePicture
-                : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
-            }
-            width={60}
-            height={60}
-            alt="google"
-          />
-          <div className={styles.secondaryLeftSection}>
-            <p className={styles.userName}>{authorUserName}</p>
-            <p className={styles.persona}>{authorPersona}</p>
-            <p className={styles.job}>
-              {authorJobTitle} at {authorCompany}
-            </p>
+        <Link className={styles.link} href={`/dashboard/profile/${authorId}`}>
+          <div className={styles.leftSection}>
+            <Image
+              className={styles.profilePicture}
+              src={
+                profilePicture
+                  ? profilePicture
+                  : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+              }
+              width={60}
+              height={60}
+              alt="google"
+            />
+            <div className={styles.secondaryLeftSection}>
+              <p className={styles.userName}>{authorUserName}</p>
+              <p className={styles.persona}>{authorPersona}</p>
+              <p className={styles.job}>
+                {authorJobTitle} at {authorCompany}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
         <div className={styles.rightSection}>
           <p className={styles.timePast}>{convertDateToRelative(createdAt)}</p>
         </div>
@@ -279,8 +266,6 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                         className={styles.postImg}
                         src={imageSrc}
                         fill={true}
-                        // width={450}
-                        // height={450}
                         alt="post-img"
                       />
                     </div>
@@ -315,12 +300,12 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
                       profilePicture={item.author.profilePicture}
                       comment={item.comment}
                       loggedInUserId={loggedInUserId}
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
                       isEditing={isEditing}
                       toggleEditingState={toggleEditingState}
                       setError={setError}
                       setIsError={setIsError}
+                      isLoading={isLoading}
+                      commentMutate={commentMutate}
                     />
                   ))}
                 </div>
@@ -334,14 +319,14 @@ const PostCard = forwardRef<HTMLDivElement, postCardProps>(function PostCard(
               setIsError={setIsError}
               isEditing={isEditing}
               loggedInUserId={loggedInUserId}
+              commentMutate={commentMutate}
+              toggleEditingState={toggleEditingState}
             />
           )}
         </div>
       </div>
     </div>
   );
-});
-
-PostCard.displayName = "PostCard";
+};
 
 export default PostCard;

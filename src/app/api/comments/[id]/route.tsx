@@ -37,7 +37,6 @@ export async function PUT(req: NextRequest, { params }: Record<string, any>) {
   const { id } = params;
   const commentId = parseInt(id);
   const body = await req.json();
-  console.log("POST BODY: ", body.postBody);
   const comment = await prisma.comments.update({
     where: {
       id: commentId,
@@ -65,7 +64,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: Record<string, any>
 ) {
-  console.log("RAN");
+  // console.log("RAN");
   const { id } = params;
 
   const comment = await prisma.comments.delete({
@@ -73,7 +72,6 @@ export async function DELETE(
       id: parseInt(id),
     },
   });
-  console.log("DELETED: ", comment);
   try {
     if (typeof comment === "object") {
       return NextResponse.json({ data: comment }, { status: 200 });
@@ -84,7 +82,6 @@ export async function DELETE(
       );
     }
   } catch (error) {
-    console.log("ERROR: ", error);
     return NextResponse.json({ message: error }, { status: 500 });
   }
 }

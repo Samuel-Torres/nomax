@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient, personaTypes } from "@prisma/client";
+import { PrismaClient, Users, personaTypes } from "@prisma/client";
 const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
@@ -18,17 +18,23 @@ type user = {
 };
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  const { email } = params;
+  const { emailOrId } = params;  
+
   try {
-    const fetchedUser = await prisma.users.findUnique({
-      where: {
-        email: email,
-      }
-    });
-    if (fetchedUser) return NextResponse.json(fetchedUser);
-    return NextResponse.json({ message: new Error("User not Found") });
+      const fetchedUser = await prisma.users.findUnique({
+        where: {
+          email: emailOrId,
+        },
+      });
+
+
+    if (typeof fetchedUser === "object") {
+      return NextResponse.json({fetchedUser}, {status: 200});
+    } else {
+      return NextResponse.json({ message: new Error("User not Found") }, {status: 404});
+    }
   } catch (error) {
-    return NextResponse.json({ message: new Error(`${error}`) });
+    return NextResponse.json({ message: new Error(`${error}`) }, {status: 500});
   }
 }
 
@@ -56,7 +62,6 @@ export async function PUT(
       data: payload
     });
 
-    console.log("ATTEMPT: ", updatedUser)
     return NextResponse.json({ status: 200, ...updatedUser });
   } catch (error) {
     return NextResponse.json({ message: new Error(`${error}`) });

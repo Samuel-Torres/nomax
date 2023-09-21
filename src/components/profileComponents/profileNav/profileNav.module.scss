@@ -1,0 +1,26 @@
+@import "../../../styles/mixins.module.scss";
+@import "../../../styles/variables.module.scss";
+
+.container {
+  border: 2px solid red;
+  height: 250px;
+  padding: 1rem;
+  .topSection {
+    border: 2px solid yellow;
+    height: 50%;
+    width: 50%;
+  }
+  .bottomSection {
+    border: 2px solid green;
+    height: 50%;
+    display: flex;
+  }
+  .leftSection {
+    border: 2px solid blue;
+    width: 50%;
+  }
+  .rightSection {
+    border: 2px solid yellow;
+    width: 50%;
+  }
+}

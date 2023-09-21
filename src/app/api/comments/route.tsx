@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  console.log("RAN");
+  // console.log("RAN");
   const { loggedInUserId, postBody, postId } = await req.json();
 
   const comment = await prisma.comments.create({
@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
   console.log("DELETED: ", comment);
   try {
     if (typeof comment === "object") {
+      console.log("RETURNED: ", { data: comment });
       return NextResponse.json({ data: comment }, { status: 200 });
     } else {
       return NextResponse.json(

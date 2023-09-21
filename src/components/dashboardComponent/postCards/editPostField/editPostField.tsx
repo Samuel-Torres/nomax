@@ -3,6 +3,10 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styles from "../postCard.module.scss";
 import axios from "axios";
 import { fetchError } from "@/app/lib/exceptions";
+import { KeyedMutator } from "swr";
+import { useSWRConfig } from "swr";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "@/app/globalState/posts";
 
 type editPostProps = {
   postId: number;
@@ -16,6 +20,12 @@ type editPostProps = {
     commentId: number | null;
   };
   loggedInUserId: number;
+  commentMutate: KeyedMutator<any>;
+  toggleEditingState: (
+    type: string,
+    originalComment: string,
+    commentId: number | null
+  ) => void;
 };
 
 type EditPostValues = {
@@ -29,6 +39,8 @@ const EditPostField = ({
   setIsError,
   isEditing,
   loggedInUserId,
+  commentMutate,
+  toggleEditingState,
 }: editPostProps) => {
   const {
     control,
@@ -42,8 +54,10 @@ const EditPostField = ({
         ? { post: postBeforeEdit }
         : { post: isEditing.originalComment },
   });
+  const { mutate } = useSWRConfig();
 
-  const onSubmit: SubmitHandler<EditPostValues> = (data) => {
+  const onSubmit: SubmitHandler<EditPostValues> = (data, event) => {
+    event?.preventDefault();
     if (isEditing.type === "post") {
       axios
         .put("/api/posts", {
@@ -52,11 +66,8 @@ const EditPostField = ({
         })
         .then((response: any) => {
           if (response.status === 200) {
-            console.log("RESPONSE: ", response);
-            window.location.reload();
-          } else {
-            setError(new fetchError());
-            setIsError(true);
+            mutate(unstable_serialize(getKey));
+            toggleEditingState("", "", null);
           }
         })
         .catch((err: any) => {
@@ -79,10 +90,8 @@ const EditPostField = ({
         })
         .then((response: any) => {
           if (response.status === 200) {
-            window.location.reload();
-          } else {
-            setError(new fetchError());
-            setIsError(true);
+            commentMutate(`/api/comments/${isEditing.commentId}`);
+            toggleEditingState("", "", null);
           }
         })
         .catch((err: any) => {
@@ -107,10 +116,8 @@ const EditPostField = ({
         .then((response: any) => {
           console.log("RES: ", response);
           if (response.status === 200) {
-            window.location.reload();
-          } else {
-            setError(new fetchError());
-            setIsError(true);
+            commentMutate(`/api/comments/${isEditing.commentId}`);
+            toggleEditingState("", "", null);
           }
         })
         .catch((err: any) => {

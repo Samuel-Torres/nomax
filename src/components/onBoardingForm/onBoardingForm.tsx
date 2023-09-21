@@ -2,9 +2,8 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
-import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import { Users } from "@prisma/client";
+import { useLoggedInUser } from "@/app/globalState/user";
 
 type FormValues = {
   password: string;
@@ -18,10 +17,7 @@ type FormValues = {
 
 const OnBoardingForm = () => {
   const session = useSession();
-  const { data } = useSWR<Users>(
-    `/api/users/${session.data?.user?.email}`,
-    axios
-  );
+  const data = useLoggedInUser();
 
   const {
     control,
@@ -65,7 +61,7 @@ const OnBoardingForm = () => {
             <h1>Onboarding</h1>
 
             <div className={styles.inputContainer}>
-              {!data?.password ? (
+              {!data?.user?.password ? (
                 <div>
                   <label>Password</label>
                   <input
@@ -131,7 +127,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data?.jobTitle}`}
+                placeholder={`${data?.user?.jobTitle}`}
                 {...register("jobTitle", {
                   required: true,
                   minLength: 3,
@@ -148,7 +144,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data?.companyName}`}
+                placeholder={`${data?.user?.companyName}`}
                 {...register("companyName", {
                   required: true,
                   validate: (value) => value.trim().length > 0,
@@ -164,7 +160,7 @@ const OnBoardingForm = () => {
               <input
                 className={styles.input}
                 type="text"
-                placeholder={`${data?.userName}`}
+                placeholder={`${data?.user?.userName}`}
                 {...register("userName", {
                   required: true,
                   minLength: 8,
@@ -182,7 +178,7 @@ const OnBoardingForm = () => {
             <Controller
               name="bio"
               control={control}
-              defaultValue={data?.bio !== null ? data?.bio : ""}
+              defaultValue={data?.user?.bio !== null ? data?.user?.bio : ""}
               rules={{
                 required: true,
                 minLength: 25,
@@ -194,7 +190,7 @@ const OnBoardingForm = () => {
                   <textarea
                     {...field}
                     className={styles.input}
-                    placeholder={`Your current bio: \n \n ${data?.bio}... \n \n keep in mind your bio must be between 25 & 500 characters long.`}
+                    placeholder={`Your current bio: \n \n ${data?.user?.bio}... \n \n keep in mind your bio must be between 25 & 500 characters long.`}
                     onChange={(e) => {
                       field.onChange(e); // Update the form state when textarea value changes
                     }}

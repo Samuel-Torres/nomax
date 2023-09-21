@@ -4,9 +4,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  const { pageNameOrId } = params;
+  console.log("STARTED");
+  const { pageNameOrId, name } = params;
   const itemsPerPage = 10;
-
+  console.log("SIZE: ", pageNameOrId);
   try {
     const skip = (pageNameOrId - 1) * itemsPerPage; // Calculate the number of posts to skip
     const take = itemsPerPage; // Number of posts to take
@@ -21,16 +22,14 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         author: true,
       },
     });
-
+    console.log("FETCHED: ", allPosts);
     const totalCount = await prisma.posts.count(); // Get the total number of posts
 
     const hasMore = skip + take < totalCount; // Check if there are more pages
 
     if (allPosts) {
-      return NextResponse.json(
-        { hasMore: hasMore, allPosts: [...allPosts] },
-        { status: 200 }
-      );
+      // console.log("RAN: ", allPosts);
+      return NextResponse.json({ hasMore: hasMore, allPosts }, { status: 200 });
     } else {
       return NextResponse.json({ error: "Not Found" }, { status: 404 });
     }

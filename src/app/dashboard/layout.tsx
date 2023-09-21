@@ -1,6 +1,11 @@
+"use client";
 import Sidebar from "../../components/sidebar/sidebar";
 import styles from "./layout.module.scss";
 import DashboardWrapper from "@/components/dashboardWrapper/dashboardWrapper";
+import { SWRConfig } from "swr";
+
+// middleware:
+import { trackLiveQueries } from "../globalState/middleware";
 
 export default function DashboardWrapperLayout({
   children,
@@ -9,8 +14,18 @@ export default function DashboardWrapperLayout({
 }) {
   return (
     <div className={styles.container}>
-      <Sidebar />
-      <DashboardWrapper>{children}</DashboardWrapper>
+      <SWRConfig
+        value={{
+          fetcher: (resource, init) =>
+            fetch(resource, init).then((res) => res.json()),
+          dedupingInterval: 100,
+          use: [trackLiveQueries],
+          // provider: () => new Map(),
+        }}
+      >
+        <Sidebar />
+        <DashboardWrapper>{children}</DashboardWrapper>
+      </SWRConfig>
     </div>
   );
 }
