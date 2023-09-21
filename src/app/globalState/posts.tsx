@@ -1,30 +1,28 @@
-import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { PostWithAuthor } from "@/utils/typeDefinitions/types";
+import { useState } from "react";
 
 import axios from "axios";
+import { has } from "cypress/types/lodash";
 
-export const getKey = (pageIndex: number, previousPageData: any) => {
+// , previousPageData: any
+export const getKey = (pageIndex: number) => {
   pageIndex = pageIndex + 1;
-  console.log("PREV PAGE DATA & INDEX: ", pageIndex, previousPageData);
-
   return `/api/posts/${pageIndex}`;
 };
 
 // GET POSTS:
 export const useAllPosts = () => {
-  console.log("RAN ALL PPOSTS");
   const [error, setError] = useState<Error>();
   const [isError, setIsError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasFetched, setHasFetched] = useState(false);
 
   const fetcher = (url: string) =>
     axios
       .get(url)
       .then((res) => {
         setHasMore(res.data.hasMore);
+        setHasFetched(true);
         return res.data.allPosts;
       })
       .catch((error) => {
@@ -32,9 +30,10 @@ export const useAllPosts = () => {
         setError(new Error(error));
       });
 
-  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
-
-  console.log("Has More: ", hasMore);
+  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher
+  );
 
   return {
     posts: data?.flat(),
@@ -46,5 +45,7 @@ export const useAllPosts = () => {
     hasMore,
     size,
     setSize,
+    isValidating,
+    hasFetched,
   };
 };

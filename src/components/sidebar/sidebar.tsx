@@ -141,7 +141,11 @@ function Sidebar() {
                 ) : (
                   <Image
                     className={styles.icon}
-                    src={data?.user?.profilePicture}
+                    src={
+                      data?.user?.profilePicture
+                        ? data?.user?.profilePicture
+                        : "https://res.cloudinary.com/dvz91qyth/image/upload/v1693247245/Nomex/dashboard/earth-with-thin-waves-pattern_katll8.png"
+                    } // set fallback image here to stop warning in browser.
                     priority={false}
                     width={80}
                     height={80}

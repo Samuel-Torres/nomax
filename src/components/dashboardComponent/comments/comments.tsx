@@ -4,6 +4,7 @@ import Image from "next/image";
 import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import axios from "axios";
 import { fetchError } from "@/app/lib/exceptions";
+import { KeyedMutator } from "swr";
 
 // components:
 import BallSpinner from "@/components/loadingStateComponents/ballSpinner";
@@ -21,8 +22,6 @@ type commentProps = {
   profilePicture: string | null;
   comment: string;
   loggedInUserId: number;
-  isLoading: boolean;
-  setIsLoading: Function;
   isEditing: {
     isEditing: boolean;
     type: string;
@@ -30,6 +29,8 @@ type commentProps = {
   toggleEditingState: Function;
   setError: Function;
   setIsError: Function;
+  isLoading: boolean;
+  commentMutate: KeyedMutator<any>;
 };
 
 const Comments = ({
@@ -44,12 +45,12 @@ const Comments = ({
   profilePicture,
   comment,
   loggedInUserId,
-  isLoading,
-  setIsLoading,
   isEditing,
   toggleEditingState,
   setError,
   setIsError,
+  isLoading,
+  commentMutate,
 }: commentProps) => {
   const deleteComment = () => {
     console.log("RAN");
@@ -58,7 +59,7 @@ const Comments = ({
       .then((response: any) => {
         if (response.status === 200) {
           // handle things here:
-          window.location.reload();
+          commentMutate(`/api/comments/${id}`);
         } else {
           setError(new fetchError());
           setIsError(true);

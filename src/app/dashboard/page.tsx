@@ -27,6 +27,8 @@ function Dashboard() {
     error,
     size,
     setSize,
+    isValidating,
+    hasFetched,
   } = useAllPosts();
 
   const reset = () => {
@@ -41,11 +43,9 @@ function Dashboard() {
     }
   }, [status, setError, setIsError]);
 
-  console.log("POSTS: ", posts);
-
   return (
     <div>
-      {isLoading === true ? (
+      {isLoading === true && hasFetched === false ? (
         <Loading />
       ) : (
         <div className={styles.container}>

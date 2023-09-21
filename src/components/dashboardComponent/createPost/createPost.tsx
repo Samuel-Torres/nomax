@@ -62,7 +62,6 @@ const CreatePost = ({
               )
               .then((res) => {
                 if (res.status === 200 && res.data.dataResponse) {
-                  console.log("SUCCESS RAN");
                   mutate(unstable_serialize(getKey));
                   toggleForm();
                   setImgSrc("");

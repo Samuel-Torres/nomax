@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
   console.log("DELETED: ", comment);
   try {
     if (typeof comment === "object") {
+      console.log("RETURNED: ", { data: comment });
       return NextResponse.json({ data: comment }, { status: 200 });
     } else {
       return NextResponse.json(

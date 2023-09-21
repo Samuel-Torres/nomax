@@ -5,12 +5,18 @@ import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import { fetchError } from "@/app/lib/exceptions";
 import axios from "axios";
 import Link from "next/link";
+import { useSWRConfig } from "swr";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "@/app/globalState/posts";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
 import Comment from "../comments/comments";
 
 import { Prisma } from "@prisma/client";
+
+// requests:
+import { useComments } from "@/app/globalState/comments";
 
 // Type Definitions:
 const commentWithAuthor = Prisma.validator<Prisma.CommentsArgs>()({
@@ -74,8 +80,14 @@ const PostCard = function PostCard({
   const [collapsedPostBody, setCollapsedPostBody] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [length, setLength] = useState<number>();
-  const [commentsArr, setCommentsArr] = useState<CommentWithAuthor[] | []>([]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isLoading, commentMutate } = useComments(id);
+  const commentsArr: CommentWithAuthor[] | [] =
+    data && typeof data !== "string" ? data : [];
+
+  console.log("ARRAY: ", commentsArr);
+
+  const { mutate } = useSWRConfig();
 
   const toggleEditingState = (
     type: string,
@@ -95,7 +107,6 @@ const PostCard = function PostCard({
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (imageSrc.length !== null) {
       if (imageSrc.length > 0) setIsImagePresent(true);
     }
@@ -113,27 +124,6 @@ const PostCard = function PostCard({
         setLength(postBody?.length);
       }
     }
-
-    axios
-      .get(`/api/comments/${id}`)
-      .then((res) => {
-        if (res.status === 200) {
-          setCommentsArr(res.data.data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        if (
-          error.response.status === 404 ||
-          error.response.status === 500 ||
-          error.status === 400 ||
-          error.status === 500
-        ) {
-          setError(new fetchError());
-          setIsError(true);
-          setIsLoading(false);
-        }
-      });
   }, [imageSrc, videoSrc, postBody, id, setError, setIsError]);
 
   const insertSeeMoreBtn = () => {
@@ -154,10 +144,7 @@ const PostCard = function PostCard({
       .delete(`/api/posts/${id}`)
       .then((response) => {
         if (response.status === 200) {
-          window.location.reload();
-        } else {
-          setError(new fetchError());
-          setIsError(true);
+          mutate(unstable_serialize(getKey));
         }
       })
       .catch((error) => {
@@ -279,8 +266,6 @@ const PostCard = function PostCard({
                         className={styles.postImg}
                         src={imageSrc}
                         fill={true}
-                        // width={450}
-                        // height={450}
                         alt="post-img"
                       />
                     </div>
@@ -315,12 +300,12 @@ const PostCard = function PostCard({
                       profilePicture={item.author.profilePicture}
                       comment={item.comment}
                       loggedInUserId={loggedInUserId}
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
                       isEditing={isEditing}
                       toggleEditingState={toggleEditingState}
                       setError={setError}
                       setIsError={setIsError}
+                      isLoading={isLoading}
+                      commentMutate={commentMutate}
                     />
                   ))}
                 </div>
@@ -334,6 +319,8 @@ const PostCard = function PostCard({
               setIsError={setIsError}
               isEditing={isEditing}
               loggedInUserId={loggedInUserId}
+              commentMutate={commentMutate}
+              toggleEditingState={toggleEditingState}
             />
           )}
         </div>

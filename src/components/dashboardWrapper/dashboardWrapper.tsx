@@ -1,18 +1,23 @@
 "use client";
-import React from "react";
+import { useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+
 interface DashboardWrapperProps {
   children: React.ReactNode;
 }
 
 const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
-  if (status !== "authenticated" && status !== "loading") {
-    router.push("/auth");
-  }
+
+  useEffect(() => {
+    if (status !== "authenticated" && status !== "loading") {
+      router.push("/auth");
+    }
+  }, [router, status]);
+
   return <div className={styles.container}>{children}</div>;
 };
 
