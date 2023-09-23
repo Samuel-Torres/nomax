@@ -7,6 +7,22 @@ import { KeyedMutator } from "swr";
 import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { getKey } from "@/app/globalState/posts";
+import { toast } from "react-toastify";
+
+import { toastifyError } from "@/utils/toastifyError";
+
+const successResponses = [
+  "🔥 Nice job! Your post has been updated.",
+  "📰 Great work! Your changes are live.",
+  "🔥 Well done! Your edits have been saved.",
+  "😊 You're on fire! Post updated successfully.",
+  "😊 Congratulations! Your changes are up.",
+  "😊 Awesome! Your post has been edited.",
+  "😊 🔨Fantastic work! Your edits are live.",
+  "🤯 Keep it up! Your changes have been published.",
+  "👏 Bravo! Your post is updated and looking good.",
+  "👏 You've got the touch! Post edited successfully.",
+];
 
 type editPostProps = {
   postId: number;
@@ -56,6 +72,22 @@ const EditPostField = ({
   });
   const { mutate } = useSWRConfig();
 
+  const toastifySuccess = () => {
+    toast.success(
+      successResponses[Math.floor(Math.random() * successResponses.length)],
+      {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      }
+    );
+  };
+
   const onSubmit: SubmitHandler<EditPostValues> = (data, event) => {
     event?.preventDefault();
     if (isEditing.type === "post") {
@@ -65,21 +97,14 @@ const EditPostField = ({
           postBody: data.post,
         })
         .then((response: any) => {
-          if (response.status === 200) {
-            mutate(unstable_serialize(getKey));
-            toggleEditingState("", "", null);
-          }
+          toastifySuccess();
+          mutate(unstable_serialize(getKey));
+          toggleEditingState("", "", null);
         })
         .catch((err: any) => {
-          if (
-            err.response.status === 404 ||
-            err.response.status === 500 ||
-            err.status === 400 ||
-            err.status === 500
-          ) {
-            setError(new fetchError());
-            setIsError(true);
-          }
+          toastifyError();
+          setError(new fetchError());
+          setIsError(true);
         });
     }
     if (isEditing.type === "comment") {
@@ -88,21 +113,14 @@ const EditPostField = ({
           postBody: data.post,
         })
         .then((response: any) => {
-          if (response.status === 200) {
-            commentMutate(`/api/comments/${isEditing.commentId}`);
-            toggleEditingState("", "", null);
-          }
+          toastifySuccess();
+          commentMutate(`/api/comments/${isEditing.commentId}`);
+          toggleEditingState("", "", null);
         })
         .catch((err: any) => {
-          if (
-            err.response.status === 404 ||
-            err.response.status === 500 ||
-            err.status === 400 ||
-            err.status === 500
-          ) {
-            setError(new fetchError());
-            setIsError(true);
-          }
+          toastifyError();
+          setError(new fetchError());
+          setIsError(true);
         });
     }
     if (isEditing.type === "addComment") {
@@ -113,21 +131,14 @@ const EditPostField = ({
           postId: postId,
         })
         .then((response: any) => {
-          if (response.status === 200) {
-            commentMutate(`/api/comments/${isEditing.commentId}`);
-            toggleEditingState("", "", null);
-          }
+          toastifySuccess();
+          commentMutate(`/api/comments/${isEditing.commentId}`);
+          toggleEditingState("", "", null);
         })
         .catch((err: any) => {
-          if (
-            err.response.status === 404 ||
-            err.response.status === 500 ||
-            err.status === 400 ||
-            err.status === 500
-          ) {
-            setError(new fetchError());
-            setIsError(true);
-          }
+          toastifyError();
+          setError(new fetchError());
+          setIsError(true);
         });
     }
   };

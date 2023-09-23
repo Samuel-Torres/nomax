@@ -10,6 +10,8 @@ import { unstable_serialize } from "swr/infinite";
 import { getKey } from "@/app/globalState/posts";
 import { toast } from "react-toastify";
 
+import { toastifyError } from "@/utils/toastifyError";
+
 type createPostProps = {
   isCreatingPost: boolean;
   toggleForm: () => void;
@@ -89,22 +91,16 @@ const CreatePost = ({
                 imageSecureUrl ? { ...payload, imageSrc: imageSecureUrl } : null
               )
               .then((res) => {
-                if (res.status === 200 && res.data.dataResponse) {
-                  mutate(unstable_serialize(getKey));
-                  toggleForm();
-                  setImgSrc("");
-                  setValue("text", "");
-                } else {
-                  setError(new fetchError());
-                  setIsError(true);
-                }
+                mutate(unstable_serialize(getKey));
+                toggleForm();
+                setImgSrc("");
+                setValue("text", "");
+                toastifySuccess();
               });
-          } else {
-            setError(new fetchError());
-            setIsError(true);
           }
         })
         .catch((error) => {
+          toastifyError();
           setError(new fetchError(error));
           setIsError(true);
         });
@@ -112,15 +108,14 @@ const CreatePost = ({
       await axios
         .post("/api/posts", payload)
         .then((res) => {
-          if (res.status === 200 && res.data.dataResponse) {
-            toggleForm();
-            setImgSrc("");
-            setValue("text", "");
-            toastifySuccess();
-            mutate(unstable_serialize(getKey));
-          }
+          mutate(unstable_serialize(getKey));
+          toggleForm();
+          setImgSrc("");
+          setValue("text", "");
+          toastifySuccess();
         })
         .catch((error) => {
+          toastifyError();
           setError(new fetchError(error));
           setIsError(true);
         });
