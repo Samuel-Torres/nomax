@@ -159,19 +159,7 @@ const PostCard = function PostCard({
         mutate(unstable_serialize(getKey));
       })
       .catch((error) => {
-        toast.error(
-          "Sorry an issue occured on our end. But, no worries we will fix it!",
-          {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          }
-        );
+        toastifyError();
         setError(new fetchError());
         setIsError(true);
       });
