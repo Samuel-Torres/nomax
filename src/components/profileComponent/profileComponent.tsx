@@ -1,6 +1,7 @@
 "use client";
-
 import styles from "../dashboardComponent/dashboardComponent.module.scss";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // components:
 import DashboardComponent from "../dashboardComponent/dashboardComponent";
@@ -40,6 +41,18 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
         <Loading pageType="server" />
       ) : (
         <div className={styles.container}>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
           {posts && posts?.length > 0 && (
             <DashboardComponent
               allPosts={posts}

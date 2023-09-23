@@ -10,6 +10,7 @@ import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { getKey } from "@/app/globalState/posts";
 import { toast } from "react-toastify";
+import { toastifyError } from "@/utils/toastifyError";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
@@ -145,43 +146,22 @@ const PostCard = function PostCard({
     axios
       .delete(`/api/posts/${id}`)
       .then((response) => {
-        if (response.status === 200) {
-          toast.success("Your post was deleted!", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          mutate(unstable_serialize(getKey));
-        }
+        toast.success("Your post was deleted!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        mutate(unstable_serialize(getKey));
       })
       .catch((error) => {
-        if (
-          error.response.status === 404 ||
-          error.response.status === 500 ||
-          error.status === 400 ||
-          error.status === 500
-        ) {
-          toast.error(
-            "Sorry an issue occured on our end. But, no worries we will fix it!",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            }
-          );
-          setError(new fetchError());
-          setIsError(true);
-        }
+        toastifyError();
+        setError(new fetchError());
+        setIsError(true);
       });
   };
 

@@ -5,6 +5,22 @@ import convertDateToRelative from "@/utils/convertDateToRelativeTime";
 import axios from "axios";
 import { fetchError } from "@/app/lib/exceptions";
 import { KeyedMutator } from "swr";
+import { toast } from "react-toastify";
+
+import { toastifyError } from "@/utils/toastifyError";
+
+const commentSuccessResponses = [
+  "🔥 Well said! Your comment has been posted.",
+  "📰 Great comment! It's now live.",
+  "🔥 Nice input! Your comment is up.",
+  "😊 You're nailing it! Comment posted successfully.",
+  "😊 Fantastic! Your comment is now visible.",
+  "😊 Good job! Your comment has been published.",
+  "😊 Way to go! Comment created successfully.",
+  "🤯 Well done! Your input is now live.",
+  "👏 You've got the touch! Comment added successfully.",
+  "👏 Bravo! Your comment is live and ready to be seen.",
+];
 
 // components:
 import BallSpinner from "@/components/loadingStateComponents/ballSpinner";
@@ -56,23 +72,27 @@ const Comments = ({
     axios
       .delete(`/api/comments/${id}`)
       .then((response: any) => {
-        if (response.status === 200) {
-          commentMutate(`/api/comments/${id}`);
-        } else {
-          setError(new fetchError());
-          setIsError(true);
-        }
+        toast.success(
+          commentSuccessResponses[
+            Math.floor(Math.random() * commentSuccessResponses.length)
+          ],
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+        commentMutate(`/api/comments/${id}`);
       })
       .catch((err: any) => {
-        if (
-          err.response.status === 404 ||
-          err.response.status === 500 ||
-          err.status === 400 ||
-          err.status === 500
-        ) {
-          setError(new fetchError());
-          setIsError(true);
-        }
+        toastifyError();
+        setError(new fetchError());
+        setIsError(true);
       });
   };
 
