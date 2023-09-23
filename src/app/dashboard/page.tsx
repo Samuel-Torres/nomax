@@ -29,7 +29,7 @@ function Dashboard() {
     setSize,
     isValidating,
     hasFetched,
-  } = useAllPosts();
+  } = useAllPosts("client");
 
   const reset = () => {
     setIsError(false);
@@ -46,7 +46,7 @@ function Dashboard() {
   return (
     <div>
       {isLoading === true && hasFetched === false ? (
-        <Loading />
+        <Loading pageType="client" />
       ) : (
         <div className={styles.container}>
           {posts &&

@@ -1,25 +1,51 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import styles from "./profileNav.module.scss";
+import { Users } from "@prisma/client";
 
 type profileNavProps = {
-  loggedInUserId: number;
+  loggedInUser: Users;
 };
 
-const ProfileNav = ({ loggedInUserId }: profileNavProps) => {
+const ProfileNav = ({ loggedInUser }: profileNavProps) => {
+  const [activeTab, setActiveTab] = useState(1);
+
+  const setActive = (tabId: number) => {
+    setActiveTab(tabId);
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.topSection}></div>
+      <div className={styles.topSection}>
+        <h1>{loggedInUser.userName}</h1>
+        <p>{loggedInUser.persona}</p>
+        <p>
+          {loggedInUser.jobTitle} at {loggedInUser.companyName}
+        </p>
+      </div>
       <div className={styles.bottomSection}>
-        <div className={styles.leftSection}></div>
-        <div className={styles.rightSection}>
-          <Link href={`/dashboard/profile/${loggedInUserId}`}>Posts</Link>
-          <Link href={`/dashboard/profile/${loggedInUserId}/photos`}>
-            Photos
-          </Link>
-          <Link href={`/dashboard/profile/${loggedInUserId}/friends`}>
-            Friends
-          </Link>
-        </div>
+        <Link
+          className={`${styles.tab} ${activeTab === 1 ? styles.active : ""} `}
+          href={`/dashboard/profile/${loggedInUser.email}`}
+          onClick={() => setActive(1)}
+        >
+          Posts
+        </Link>
+        <Link
+          className={`${styles.tab} ${activeTab === 2 ? styles.active : ""}`}
+          href={`/dashboard/profile/${loggedInUser.email}/photos`}
+          onClick={() => setActive(2)}
+        >
+          Photos
+        </Link>
+        <Link
+          className={`${styles.tab} ${activeTab === 3 ? styles.active : ""}`}
+          href={`/dashboard/profile/${loggedInUser.email}/friends`}
+          onClick={() => setActive(3)}
+        >
+          Friends
+        </Link>
       </div>
     </div>
   );

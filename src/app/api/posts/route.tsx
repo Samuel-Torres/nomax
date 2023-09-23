@@ -46,7 +46,6 @@ export async function POST(req: NextRequest) {
         author: true,
       },
     });
-    console.log("created post: ", createdPost);
     if (typeof createdPost === "object") {
       return NextResponse.json({ dataResponse: createdPost }, { status: 200 });
     } else {
@@ -56,7 +55,6 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.log("ERROR: ", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }

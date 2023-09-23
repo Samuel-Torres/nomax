@@ -4,14 +4,60 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  console.log("STARTED");
-  const { pageNameOrId, name } = params;
-  const itemsPerPage = 10;
-  console.log("SIZE: ", pageNameOrId);
-  try {
-    const skip = (pageNameOrId - 1) * itemsPerPage; // Calculate the number of posts to skip
-    const take = itemsPerPage; // Number of posts to take
+  if (
+    req.headers.get("Page-Index") === null ||
+    req.headers.get("Param-Type") === null
+  ) {
+    return NextResponse.json(
+      { error: "Page-Index & Param-Type must be sent in headers" },
+      { status: 400 }
+    );
+  }
 
+  const paramType = req.headers.get("Param-Type");
+  const index = req.headers.get("Page-Index");
+
+  const { pageIndexOrEmail } = params;
+
+  const itemsPerPage = 10;
+  const take = itemsPerPage;
+  try {
+    if (paramType === "email" && index) {
+      const pageIndex: number = parseInt(index);
+      const skip = (pageIndex - 1) * itemsPerPage; // Calculate the number of posts to skip
+      const allPosts = await prisma.posts.findMany({
+        where: {
+          author: {
+            email: "fourth@gmail.com",
+          },
+        },
+        skip,
+        take,
+        orderBy: {
+          createdAT: "desc",
+        },
+        include: {
+          author: true,
+        },
+      });
+      const totalCount = await prisma.posts.count({
+        where: {
+          author: {
+            email: pageIndexOrEmail,
+          },
+        },
+      });
+      const hasMore = skip + take < totalCount;
+      if (allPosts) {
+        return NextResponse.json(
+          { hasMore: hasMore, allPosts },
+          { status: 200 }
+        );
+      } else {
+        return NextResponse.json({ error: "Not Found" }, { status: 404 });
+      }
+    }
+    const skip = (pageIndexOrEmail - 1) * itemsPerPage;
     const allPosts = await prisma.posts.findMany({
       skip,
       take,
@@ -22,20 +68,18 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         author: true,
       },
     });
-    console.log("FETCHED: ", allPosts);
     const totalCount = await prisma.posts.count(); // Get the total number of posts
-
     const hasMore = skip + take < totalCount; // Check if there are more pages
-
     if (allPosts) {
-      // console.log("RAN: ", allPosts);
       return NextResponse.json({ hasMore: hasMore, allPosts }, { status: 200 });
     } else {
       return NextResponse.json({ error: "Not Found" }, { status: 404 });
     }
   } catch (error) {
     return NextResponse.json(
-      { error: "An issue happened on our end. Please come back later." },
+      {
+        error: `An issue happened on our end. Please come back later.`,
+      },
       { status: 500 }
     );
   }

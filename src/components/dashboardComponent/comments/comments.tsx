@@ -53,7 +53,6 @@ const Comments = ({
   commentMutate,
 }: commentProps) => {
   const deleteComment = () => {
-    console.log("RAN");
     axios
       .delete(`/api/comments/${id}`)
       .then((response: any) => {
@@ -65,7 +64,6 @@ const Comments = ({
         }
       })
       .catch((err: any) => {
-        console.log("ERROR: ", err);
         if (
           err.response.status === 404 ||
           err.response.status === 500 ||

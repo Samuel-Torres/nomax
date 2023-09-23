@@ -83,7 +83,6 @@ const EditPostField = ({
         });
     }
     if (isEditing.type === "comment") {
-      console.log(isEditing.commentId);
       axios
         .put(`/api/comments/${isEditing.commentId}`, {
           postBody: data.post,
@@ -114,7 +113,6 @@ const EditPostField = ({
           postId: postId,
         })
         .then((response: any) => {
-          console.log("RES: ", response);
           if (response.status === 200) {
             commentMutate(`/api/comments/${isEditing.commentId}`);
             toggleEditingState("", "", null);

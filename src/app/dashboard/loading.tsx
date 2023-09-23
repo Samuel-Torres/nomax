@@ -1,11 +1,21 @@
 import styles from "./loading.module.scss";
 import LoadingText from "@/components/loadingStateComponents/loadingText";
 
-export default function Loading() {
+type loadingProps = {
+  pageType: string | null;
+};
+
+export default function Loading({ pageType }: loadingProps) {
   return (
     <div>
       <div className={styles.container} style={{ margin: "15px auto" }}>
-        <div className={styles.loadingContainer}>
+        <div
+          className={
+            pageType === "server"
+              ? styles.serverContainer
+              : styles.clientContainer
+          }
+        >
           <LoadingText />
         </div>
       </div>

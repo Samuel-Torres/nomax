@@ -61,7 +61,6 @@ export async function PUT(
       },
       data: payload
     });
-
     return NextResponse.json({ status: 200, ...updatedUser });
   } catch (error) {
     return NextResponse.json({ message: new Error(`${error}`) });

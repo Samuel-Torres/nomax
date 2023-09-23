@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, forwardRef, useEffect } from "react";
 import styles from "./postCard.module.scss";
 import Image from "next/image";
@@ -84,8 +85,6 @@ const PostCard = function PostCard({
   const { data, isLoading, commentMutate } = useComments(id);
   const commentsArr: CommentWithAuthor[] | [] =
     data && typeof data !== "string" ? data : [];
-
-  console.log("ARRAY: ", commentsArr);
 
   const { mutate } = useSWRConfig();
 

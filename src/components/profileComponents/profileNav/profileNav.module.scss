@@ -2,25 +2,61 @@
 @import "../../../styles/variables.module.scss";
 
 .container {
-  border: 2px solid red;
   height: 250px;
   padding: 1rem;
+  margin-bottom: 5rem;
   .topSection {
-    border: 2px solid yellow;
-    height: 50%;
-    width: 50%;
+    width: 100%;
+    padding-top: 130px;
+    h1 {
+      text-align: center;
+    }
   }
   .bottomSection {
-    border: 2px solid green;
-    height: 50%;
     display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid $brandBlack;
+    height: 50%;
+    .tab {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: black;
+      height: 50px;
+      width: 100px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $mainBrandColor;
+        color: $lightShade;
+        border-radius: 0.5rem;
+      }
+    }
+    .active {
+      color: $darkShade;
+      border-bottom: 5px solid $darkShade;
+
+      &:hover {
+        background-color: white;
+        color: $mainBrandColor;
+      }
+    }
   }
-  .leftSection {
-    border: 2px solid blue;
-    width: 50%;
-  }
-  .rightSection {
-    border: 2px solid yellow;
-    width: 50%;
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    .topSection {
+      padding-left: 110px;
+      h1 {
+        text-align: start;
+      }
+    }
+    .bottomSection {
+      justify-content: start;
+    }
   }
 }
