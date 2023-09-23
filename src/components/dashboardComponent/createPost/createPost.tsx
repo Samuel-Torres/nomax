@@ -8,6 +8,7 @@ import { fetchError } from "../../../app/lib/exceptions";
 import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { getKey } from "@/app/globalState/posts";
+import { toast } from "react-toastify";
 
 type createPostProps = {
   isCreatingPost: boolean;
@@ -28,6 +29,34 @@ const CreatePost = ({
   const { handleSubmit, control, setValue } = useForm();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { mutate } = useSWRConfig();
+  const successResponses = [
+    "🔥Great job! Your post is live.",
+    "📰 Awesome work! Your post has been published.",
+    "🔥 You're on fire! Post created successfully.",
+    "😊 Congratulations! Your post is up.",
+    "😊 Well done! Your post is now live.",
+    "😊 Way to go! Your post has been published.",
+    "😊🔨 You're nailing it! Post created successfully.",
+    "🤯 Fantastic! Your post is now up.",
+    "👏 Keep it up! Your post has been published.",
+    "👏 Bravo! Your post is live and ready to be seen.",
+  ];
+
+  const toastifySuccess = () => {
+    toast.success(
+      successResponses[Math.floor(Math.random() * successResponses.length)],
+      {
+        position: "top-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      }
+    );
+  };
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -87,10 +116,8 @@ const CreatePost = ({
             toggleForm();
             setImgSrc("");
             setValue("text", "");
+            toastifySuccess();
             mutate(unstable_serialize(getKey));
-          } else {
-            setError(new fetchError());
-            setIsError(true);
           }
         })
         .catch((error) => {

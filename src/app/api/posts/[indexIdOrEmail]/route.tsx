@@ -16,13 +16,43 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     );
   }
 
-  const { indexOrId } = params;
+  const { indexIdOrEmail } = params;
 
   const itemsPerPage = 10;
   const take = itemsPerPage;
   try {
     if (FETCH_BY_TYPE !== "index") {
-      const skip = (indexOrId - 1) * itemsPerPage;
+      const skip = (indexIdOrEmail - 1) * itemsPerPage;
+      const allPosts = await prisma.posts.findMany({
+        where: {
+          authorId: parseInt(PROFILE_ID),
+        },
+        skip,
+        take,
+        orderBy: {
+          createdAT: "desc",
+        },
+        include: {
+          author: true,
+        },
+      });
+      const totalCount = await prisma.posts.count({
+        where: {
+          authorId: parseInt(PROFILE_ID),
+        },
+      });
+      const hasMore = skip + take < totalCount;
+      if (allPosts) {
+        return NextResponse.json(
+          { hasMore: hasMore, allPosts },
+          { status: 200 }
+        );
+      } else {
+        return NextResponse.json({ error: "Not Found" }, { status: 404 });
+      }
+    }
+    if (FETCH_BY_TYPE !== "index") {
+      const skip = (indexIdOrEmail - 1) * itemsPerPage;
       const allPosts = await prisma.posts.findMany({
         where: {
           authorId: parseInt(PROFILE_ID),
@@ -52,7 +82,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
       }
     }
 
-    const skip = (indexOrId - 1) * itemsPerPage;
+    const skip = (indexIdOrEmail - 1) * itemsPerPage;
     const allPosts = await prisma.posts.findMany({
       skip,
       take,
@@ -84,12 +114,12 @@ export async function DELETE(
   req: NextRequest,
   { params }: Record<string, any>
 ) {
-  const { indexOrId } = params;
+  const { indexIdOrEmail } = params;
 
   try {
     const deletedPost = await prisma.posts.delete({
       where: {
-        id: parseInt(indexOrId),
+        id: parseInt(indexIdOrEmail),
       },
     });
     if (typeof deletedPost === "object") {
