@@ -28,7 +28,6 @@ function Sidebar() {
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const data = useLoggedInUser();
-  console.log("USER: ", data);
   const { handleSubmit, control, setValue } = useForm();
 
   useEffect(() => {

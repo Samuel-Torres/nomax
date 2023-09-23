@@ -18,15 +18,12 @@ type user = {
 };
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  console.log("RAN")
   function containsOnlyDigits(inputStr: string): boolean {
     const isNumber: boolean =  /^\d+$/.test(inputStr);
-    console.log("IS NUMBER: ", isNumber)
     return isNumber
    
 }
   const { emailOrId } = await params;  
-  console.log("EMAIL OR ID: ", emailOrId)
   let fetchedUser;
 
   try {
@@ -48,8 +45,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
           id: parseInt(emailOrId),
         },
       });
-
-      console.log("FETCHED USER: ", fetchedUser)
         
     if (typeof fetchedUser === "object") {
       return NextResponse.json({fetchedUser}, {status: 200});
