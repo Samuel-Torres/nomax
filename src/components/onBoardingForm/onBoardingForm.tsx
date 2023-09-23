@@ -45,7 +45,6 @@ const OnBoardingForm = () => {
         jobTitle,
       })
       .then((res) => {
-        console.log("RESPONSE: ", res);
         window.location.reload();
       })
       .catch((err) => {

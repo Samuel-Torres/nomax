@@ -86,8 +86,6 @@ const PostCard = function PostCard({
   const commentsArr: CommentWithAuthor[] | [] =
     data && typeof data !== "string" ? data : [];
 
-  console.log("ARRAY: ", commentsArr);
-
   const { mutate } = useSWRConfig();
 
   const toggleEditingState = (

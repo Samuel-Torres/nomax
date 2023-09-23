@@ -73,7 +73,6 @@ const Register = ({ error, signIn, toggleMode }: LoginFormProps) => {
         try {
           await signIn("credentials", { email, password });
         } catch (loginError) {
-          // console.error("Login Error: ", loginError);
           // Handle login error if needed
         }
       }

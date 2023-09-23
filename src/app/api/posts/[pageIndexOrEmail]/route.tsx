@@ -17,9 +17,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const paramType = req.headers.get("Param-Type");
   const index = req.headers.get("Page-Index");
 
-  // console.log(index, paramType);
   const { pageIndexOrEmail } = params;
-  console.log("PAGE NAME OR ID: ", pageIndexOrEmail);
 
   const itemsPerPage = 10;
   const take = itemsPerPage;
@@ -51,7 +49,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
       });
       const hasMore = skip + take < totalCount;
       if (allPosts) {
-        console.log("RAN: ", allPosts);
         return NextResponse.json(
           { hasMore: hasMore, allPosts },
           { status: 200 }
