@@ -4,32 +4,28 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  if (
-    req.headers.get("Page-Index") === null ||
-    req.headers.get("Param-Type") === null
-  ) {
+  const FETCH_BY_TYPE: string | null = req.headers.get("FETCH-BY-TYPE");
+  const PROFILE_ID: string | null = req.headers.get("PROFILE-ID");
+  if (!FETCH_BY_TYPE || !PROFILE_ID) {
     return NextResponse.json(
-      { error: "Page-Index & Param-Type must be sent in headers" },
+      {
+        error:
+          "Both fetchByType & profileId must be passed in as headers to complete this request",
+      },
       { status: 400 }
     );
   }
 
-  const paramType = req.headers.get("Param-Type");
-  const index = req.headers.get("Page-Index");
-
-  const { pageIndexOrEmail } = params;
+  const { indexOrId } = params;
 
   const itemsPerPage = 10;
   const take = itemsPerPage;
   try {
-    if (paramType === "email" && index) {
-      const pageIndex: number = parseInt(index);
-      const skip = (pageIndex - 1) * itemsPerPage; // Calculate the number of posts to skip
+    if (FETCH_BY_TYPE !== "index") {
+      const skip = (indexOrId - 1) * itemsPerPage;
       const allPosts = await prisma.posts.findMany({
         where: {
-          author: {
-            email: "fourth@gmail.com",
-          },
+          authorId: parseInt(PROFILE_ID),
         },
         skip,
         take,
@@ -42,9 +38,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
       });
       const totalCount = await prisma.posts.count({
         where: {
-          author: {
-            email: pageIndexOrEmail,
-          },
+          authorId: parseInt(PROFILE_ID),
         },
       });
       const hasMore = skip + take < totalCount;
@@ -57,7 +51,8 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         return NextResponse.json({ error: "Not Found" }, { status: 404 });
       }
     }
-    const skip = (pageIndexOrEmail - 1) * itemsPerPage;
+
+    const skip = (indexOrId - 1) * itemsPerPage;
     const allPosts = await prisma.posts.findMany({
       skip,
       take,
@@ -89,12 +84,12 @@ export async function DELETE(
   req: NextRequest,
   { params }: Record<string, any>
 ) {
-  const { pageNameOrId } = params;
+  const { indexOrId } = params;
 
   try {
     const deletedPost = await prisma.posts.delete({
       where: {
-        id: parseInt(pageNameOrId),
+        id: parseInt(indexOrId),
       },
     });
     if (typeof deletedPost === "object") {

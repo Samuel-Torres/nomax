@@ -53,6 +53,7 @@ export default function DashboardComponent({
               authorPersona={post.author.persona}
               authorJobTitle={post.author.jobTitle}
               authorCompany={post.author.companyName}
+              authorEmail={post?.author?.email}
               loggedInUserId={userData?.user?.id}
               profilePicture={post.author.profilePicture}
               imageSrc={post?.imageSrc ? post?.imageSrc : ""}

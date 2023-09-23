@@ -18,16 +18,39 @@ type user = {
 };
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  const { emailOrId } = params;  
+  console.log("RAN")
+  function containsOnlyDigits(inputStr: string): boolean {
+    const isNumber: boolean =  /^\d+$/.test(inputStr);
+    console.log("IS NUMBER: ", isNumber)
+    return isNumber
+   
+}
+  const { emailOrId } = await params;  
+  console.log("EMAIL OR ID: ", emailOrId)
+  let fetchedUser;
 
   try {
-      const fetchedUser = await prisma.users.findUnique({
+      if(!containsOnlyDigits(emailOrId)) {
+        fetchedUser = await prisma.users.findUnique({
+          where: {
+            email: emailOrId,
+          },
+        });
+        if (typeof fetchedUser === "object") {
+          return NextResponse.json({fetchedUser}, {status: 200});
+        } else {
+          return NextResponse.json({ message: new Error("User not Found") }, {status: 404});
+        }
+      }
+
+      fetchedUser = await prisma.users.findUnique({
         where: {
-          email: emailOrId,
+          id: parseInt(emailOrId),
         },
       });
 
-
+      console.log("FETCHED USER: ", fetchedUser)
+        
     if (typeof fetchedUser === "object") {
       return NextResponse.json({fetchedUser}, {status: 200});
     } else {

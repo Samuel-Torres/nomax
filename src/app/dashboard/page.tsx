@@ -29,7 +29,7 @@ function Dashboard() {
     setSize,
     isValidating,
     hasFetched,
-  } = useAllPosts("client");
+  } = useAllPosts("index", "bypass");
 
   const reset = () => {
     setIsError(false);

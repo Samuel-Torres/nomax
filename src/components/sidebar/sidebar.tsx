@@ -28,7 +28,7 @@ function Sidebar() {
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const data = useLoggedInUser();
-
+  console.log("USER: ", data);
   const { handleSubmit, control, setValue } = useForm();
 
   useEffect(() => {
@@ -215,7 +215,7 @@ function Sidebar() {
         </Link>
         <Link
           className={styles.link}
-          href={`/dashboard/profile/${data?.user?.email}`}
+          href={`/dashboard/profile/${data?.user?.id}`}
         >
           <Image
             className={styles.icon}
