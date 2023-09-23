@@ -31,7 +31,7 @@ export default async function ProfilePageLayout({
   return (
     <div className={styles.container}>
       <Banner bannerPhoto={null} profilePicture={user?.profilePicture} />
-      <ProfileNav loggedInUserEmail={user?.email} />
+      <ProfileNav loggedInUser={user} />
       {children}
     </div>
   );

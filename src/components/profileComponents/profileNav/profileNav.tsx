@@ -2,12 +2,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import styles from "./profileNav.module.scss";
+import { Users } from "@prisma/client";
 
 type profileNavProps = {
-  loggedInUserEmail: string;
+  loggedInUser: Users;
 };
 
-const ProfileNav = ({ loggedInUserEmail }: profileNavProps) => {
+const ProfileNav = ({ loggedInUser }: profileNavProps) => {
   const [activeTab, setActiveTab] = useState(1);
 
   const setActive = (tabId: number) => {
@@ -16,25 +17,31 @@ const ProfileNav = ({ loggedInUserEmail }: profileNavProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.topSection}></div>
+      <div className={styles.topSection}>
+        <h1>{loggedInUser.userName}</h1>
+        <p>{loggedInUser.persona}</p>
+        <p>
+          {loggedInUser.jobTitle} at {loggedInUser.companyName}
+        </p>
+      </div>
       <div className={styles.bottomSection}>
         <Link
-          className={`${styles.tab} ${activeTab === 1 ? styles.active : ""}`}
-          href={`/dashboard/profile/${loggedInUserEmail}`}
+          className={`${styles.tab} ${activeTab === 1 ? styles.active : ""} `}
+          href={`/dashboard/profile/${loggedInUser.email}`}
           onClick={() => setActive(1)}
         >
           Posts
         </Link>
         <Link
           className={`${styles.tab} ${activeTab === 2 ? styles.active : ""}`}
-          href={`/dashboard/profile/${loggedInUserEmail}/photos`}
+          href={`/dashboard/profile/${loggedInUser.email}/photos`}
           onClick={() => setActive(2)}
         >
           Photos
         </Link>
         <Link
           className={`${styles.tab} ${activeTab === 3 ? styles.active : ""}`}
-          href={`/dashboard/profile/${loggedInUserEmail}/friends`}
+          href={`/dashboard/profile/${loggedInUser.email}/friends`}
           onClick={() => setActive(3)}
         >
           Friends

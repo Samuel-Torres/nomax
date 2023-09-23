@@ -2,12 +2,15 @@
 @import "../../../styles/variables.module.scss";
 
 .container {
-  border: 2px solid red;
   height: 250px;
   padding: 1rem;
+  margin-bottom: 5rem;
   .topSection {
-    height: 50%;
-    width: 50%;
+    width: 100%;
+    padding-top: 130px;
+    h1 {
+      text-align: center;
+    }
   }
   .bottomSection {
     display: flex;
@@ -25,16 +28,33 @@
       height: 50px;
       width: 100px;
       text-decoration: none;
+
+      &:hover {
+        background-color: $mainBrandColor;
+        color: $lightShade;
+        border-radius: 0.5rem;
+      }
     }
     .active {
-      color: $mainBrandColor;
-      border-bottom: 5px solid $mainBrandColor;
+      color: $darkShade;
+      border-bottom: 5px solid $darkShade;
+
+      &:hover {
+        background-color: white;
+        color: $mainBrandColor;
+      }
     }
   }
 }
 
 @media (min-width: $smallDesktop) {
   .container {
+    .topSection {
+      padding-left: 110px;
+      h1 {
+        text-align: start;
+      }
+    }
     .bottomSection {
       justify-content: start;
     }
