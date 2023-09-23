@@ -41,6 +41,7 @@ type postCardProps = {
   authorPersona: string | null;
   authorJobTitle: string | null;
   authorCompany: string | null;
+  authorEmail: string | null;
   loggedInUserId: number;
   imageSrc: string;
   videoSrc: string;
@@ -64,6 +65,7 @@ const PostCard = function PostCard({
   setError,
   setIsError,
   profilePicture,
+  authorEmail,
 }: postCardProps) {
   const [isEditing, setIsEditing] = useState<{
     isEditing: boolean;

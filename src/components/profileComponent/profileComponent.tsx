@@ -10,7 +10,11 @@ import Error from "@/app/error";
 // state:
 import { useAllPosts } from "@/app/globalState/posts";
 
-const ProfileComponent = () => {
+type profileComponentProps = {
+  emailOrId: number;
+};
+
+const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
   const {
     posts,
     isError,
@@ -23,12 +27,13 @@ const ProfileComponent = () => {
     setSize,
     isValidating,
     hasFetched,
-  } = useAllPosts("server");
+  } = useAllPosts("id", emailOrId);
 
   const reset = () => {
     setIsError(false);
     window.location.reload();
   };
+
   return (
     <div className={styles.container}>
       {isLoading === true && hasFetched === false ? (

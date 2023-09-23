@@ -4,7 +4,7 @@ import ProfileNav from "@/components/profileComponents/profileNav/profileNav";
 import { Users } from "@prisma/client";
 import styles from "./layout.module.scss";
 
-const fetchUser = async (seachParam: string) => {
+const fetchUser = async (seachParam: number) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${seachParam}`,
@@ -24,10 +24,10 @@ export default async function ProfilePageLayout({
 }: {
   children: React.ReactNode;
   params: {
-    email: string;
+    emailOrId: number;
   };
 }) {
-  const user: Users = await fetchUser(params?.email);
+  const user: Users = await fetchUser(params?.emailOrId);
   return (
     <div className={styles.container}>
       <Banner bannerPhoto={null} profilePicture={user?.profilePicture} />

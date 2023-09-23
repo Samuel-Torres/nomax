@@ -1,17 +1,18 @@
 "use client";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
-
 import axios from "axios";
 
-// , previousPageData: any
 export const getKey = (pageIndex: number) => {
   pageIndex = pageIndex + 1;
   return `/api/posts/${pageIndex}`;
 };
 
 // GET POSTS:
-export const useAllPosts = (pageType: string) => {
+export const useAllPosts = (
+  fetchByType: string | null,
+  profileId: number | string
+) => {
   const [error, setError] = useState<Error>();
   const [isError, setIsError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -21,8 +22,8 @@ export const useAllPosts = (pageType: string) => {
     axios
       .get(url, {
         headers: {
-          "Param-Type": "normal",
-          "Page-Index": "pass",
+          "FETCH-BY-TYPE": fetchByType,
+          "PROFILE-ID": profileId,
         },
       })
       .then((res) => {

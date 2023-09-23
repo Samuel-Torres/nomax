@@ -6,14 +6,14 @@ import ProfileComponent from "@/components/profileComponent/profileComponent";
 
 type paramTypes = {
   params: {
-    email: string;
+    emailOrId: number;
   };
 };
 
 const Profile = async ({ params }: paramTypes) => {
   return (
     <div className={styles.container}>
-      <ProfileComponent />
+      <ProfileComponent emailOrId={params?.emailOrId} />
     </div>
   );
 };
