@@ -1,8 +1,8 @@
+"use client";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 
 import axios from "axios";
-import { has } from "cypress/types/lodash";
 
 // , previousPageData: any
 export const getKey = (pageIndex: number) => {
@@ -11,7 +11,7 @@ export const getKey = (pageIndex: number) => {
 };
 
 // GET POSTS:
-export const useAllPosts = () => {
+export const useAllPosts = (pageType: string) => {
   const [error, setError] = useState<Error>();
   const [isError, setIsError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -19,7 +19,12 @@ export const useAllPosts = () => {
 
   const fetcher = (url: string) =>
     axios
-      .get(url)
+      .get(url, {
+        headers: {
+          "Param-Type": "normal",
+          "Page-Index": "pass",
+        },
+      })
       .then((res) => {
         setHasMore(res.data.hasMore);
         setHasFetched(true);
@@ -30,7 +35,7 @@ export const useAllPosts = () => {
         setError(new Error(error));
       });
 
-  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
+  const { data, size, setSize, isValidating, isLoading } = useSWRInfinite(
     getKey,
     fetcher
   );

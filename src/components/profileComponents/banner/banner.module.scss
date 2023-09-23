@@ -9,21 +9,55 @@
     justify-content: center;
     // position: absolute;
 
+    .banner {
+      width: 100%;
+      object-fit: cover;
+    }
+
     .profilePictureContainer {
       background-color: white;
       position: absolute;
       z-index: 100;
-      left: 100px;
-      top: 275px;
+      left: 50%;
+      transform: translate(-50%, 320px);
       border-radius: 50%;
-      width: 260px;
-      height: 260px;
+      width: 160px;
+      height: 160px;
     }
     .profilePicture {
       border-radius: 50%;
       position: absolute;
       left: 5px;
       top: 5px;
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+@media (min-width: $smallMobile) {
+  .container {
+    .bannerContainer {
+      .profilePictureContainer {
+        width: 260px;
+        height: 260px;
+        transform: translate(-50%, 275px);
+      }
+      .profilePicture {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  }
+}
+@media (min-width: $smallDesktop) {
+  .container {
+    .bannerContainer {
+      .profilePictureContainer {
+        left: 100px;
+        top: 275px;
+        transform: none;
+      }
     }
   }
 }

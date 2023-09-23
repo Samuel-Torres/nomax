@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, forwardRef, useEffect } from "react";
 import styles from "./postCard.module.scss";
 import Image from "next/image";

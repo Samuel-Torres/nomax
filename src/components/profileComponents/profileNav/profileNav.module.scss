@@ -6,21 +6,37 @@
   height: 250px;
   padding: 1rem;
   .topSection {
-    border: 2px solid yellow;
     height: 50%;
     width: 50%;
   }
   .bottomSection {
-    border: 2px solid green;
-    height: 50%;
     display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid $brandBlack;
+    height: 50%;
+    .tab {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: black;
+      height: 50px;
+      width: 100px;
+      text-decoration: none;
+    }
+    .active {
+      color: $mainBrandColor;
+      border-bottom: 5px solid $mainBrandColor;
+    }
   }
-  .leftSection {
-    border: 2px solid blue;
-    width: 50%;
-  }
-  .rightSection {
-    border: 2px solid yellow;
-    width: 50%;
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    .bottomSection {
+      justify-content: start;
+    }
   }
 }

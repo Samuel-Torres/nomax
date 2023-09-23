@@ -1,25 +1,44 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import styles from "./profileNav.module.scss";
 
 type profileNavProps = {
-  loggedInUserId: number;
+  loggedInUserEmail: string;
 };
 
-const ProfileNav = ({ loggedInUserId }: profileNavProps) => {
+const ProfileNav = ({ loggedInUserEmail }: profileNavProps) => {
+  const [activeTab, setActiveTab] = useState(1);
+
+  const setActive = (tabId: number) => {
+    setActiveTab(tabId);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.topSection}></div>
       <div className={styles.bottomSection}>
-        <div className={styles.leftSection}></div>
-        <div className={styles.rightSection}>
-          <Link href={`/dashboard/profile/${loggedInUserId}`}>Posts</Link>
-          <Link href={`/dashboard/profile/${loggedInUserId}/photos`}>
-            Photos
-          </Link>
-          <Link href={`/dashboard/profile/${loggedInUserId}/friends`}>
-            Friends
-          </Link>
-        </div>
+        <Link
+          className={`${styles.tab} ${activeTab === 1 ? styles.active : ""}`}
+          href={`/dashboard/profile/${loggedInUserEmail}`}
+          onClick={() => setActive(1)}
+        >
+          Posts
+        </Link>
+        <Link
+          className={`${styles.tab} ${activeTab === 2 ? styles.active : ""}`}
+          href={`/dashboard/profile/${loggedInUserEmail}/photos`}
+          onClick={() => setActive(2)}
+        >
+          Photos
+        </Link>
+        <Link
+          className={`${styles.tab} ${activeTab === 3 ? styles.active : ""}`}
+          href={`/dashboard/profile/${loggedInUserEmail}/friends`}
+          onClick={() => setActive(3)}
+        >
+          Friends
+        </Link>
       </div>
     </div>
   );
