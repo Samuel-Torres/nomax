@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { AuthRequiredError } from "../lib/exceptions";
 import Loading from "./loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // state:
 import { useAllPosts } from "../globalState/posts";
@@ -15,6 +17,18 @@ import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 import Error from "./error";
 
 function Dashboard() {
+  const notify = () => {
+    toast.success("🦄 Wow so easy!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
   const { status } = useSession();
   const userData = useLoggedInUser();
   const {
@@ -49,6 +63,19 @@ function Dashboard() {
         <Loading pageType="client" />
       ) : (
         <div className={styles.container}>
+          <button onClick={notify}>Notify !</button>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
           {posts &&
             posts?.length > 0 &&
             !isError &&
