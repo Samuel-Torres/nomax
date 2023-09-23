@@ -49,7 +49,7 @@ const CreatePost = ({
       successResponses[Math.floor(Math.random() * successResponses.length)],
       {
         position: "top-right",
-        autoClose: false,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
