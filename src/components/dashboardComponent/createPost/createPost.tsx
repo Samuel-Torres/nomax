@@ -67,6 +67,8 @@ const CreatePost = ({
     let imageSecureUrl: string;
     // let videoSecureUrl: string;
 
+    setImgSrc("");
+
     const payload = {
       postBody: data.text || "",
       authorId: loggedInUser.id,
@@ -91,15 +93,19 @@ const CreatePost = ({
                 imageSecureUrl ? { ...payload, imageSrc: imageSecureUrl } : null
               )
               .then((res) => {
-                mutate(unstable_serialize(getKey));
-                toggleForm();
                 setImgSrc("");
                 setValue("text", "");
+                setValue("image", "");
+                toggleForm();
                 toastifySuccess();
+                mutate(unstable_serialize(getKey));
               });
           }
         })
         .catch((error) => {
+          setImgSrc("");
+          setValue("text", "");
+          setValue("image", "");
           toastifyError();
           setError(new fetchError(error));
           setIsError(true);
@@ -108,13 +114,17 @@ const CreatePost = ({
       await axios
         .post("/api/posts", payload)
         .then((res) => {
-          mutate(unstable_serialize(getKey));
-          toggleForm();
           setImgSrc("");
           setValue("text", "");
+          setValue("image", "");
+          toggleForm();
           toastifySuccess();
+          mutate(unstable_serialize(getKey));
         })
         .catch((error) => {
+          setImgSrc("");
+          setValue("text", "");
+          setValue("image", "");
           toastifyError();
           setError(new fetchError(error));
           setIsError(true);
@@ -140,6 +150,7 @@ const CreatePost = ({
   const clearNToggleForm = () => {
     setImgSrc("");
     setValue("text", "");
+    setValue("image", "");
     toggleForm();
   };
 
