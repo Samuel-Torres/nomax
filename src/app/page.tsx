@@ -6,7 +6,6 @@ import HomePageHero from "@/components/homePageHero/homePageHero";
 
 // Data:
 import { homePageHeroData } from "@/staticData";
-
 export default function Home() {
   return (
     <main>

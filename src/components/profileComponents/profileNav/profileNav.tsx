@@ -27,21 +27,21 @@ const ProfileNav = ({ loggedInUser }: profileNavProps) => {
       <div className={styles.bottomSection}>
         <Link
           className={`${styles.tab} ${activeTab === 1 ? styles.active : ""} `}
-          href={`/dashboard/profile/${loggedInUser.email}`}
+          href={`/dashboard/profile/${loggedInUser.id}`}
           onClick={() => setActive(1)}
         >
           Posts
         </Link>
         <Link
           className={`${styles.tab} ${activeTab === 2 ? styles.active : ""}`}
-          href={`/dashboard/profile/${loggedInUser.email}/photos`}
+          href={`/dashboard/profile/${loggedInUser.id}/photos`}
           onClick={() => setActive(2)}
         >
           Photos
         </Link>
         <Link
           className={`${styles.tab} ${activeTab === 3 ? styles.active : ""}`}
-          href={`/dashboard/profile/${loggedInUser.email}/friends`}
+          href={`/dashboard/profile/${loggedInUser.id}/friends`}
           onClick={() => setActive(3)}
         >
           Friends
