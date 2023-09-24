@@ -9,17 +9,17 @@ import { toast } from "react-toastify";
 
 import { toastifyError } from "@/utils/toastifyError";
 
-const commentSuccessResponses = [
-  "🔥 Well said! Your comment has been posted.",
-  "📰 Great comment! It's now live.",
-  "🔥 Nice input! Your comment is up.",
-  "😊 You're nailing it! Comment posted successfully.",
-  "😊 Fantastic! Your comment is now visible.",
-  "😊 Good job! Your comment has been published.",
-  "😊 Way to go! Comment created successfully.",
-  "🤯 Well done! Your input is now live.",
-  "👏 You've got the touch! Comment added successfully.",
-  "👏 Bravo! Your comment is live and ready to be seen.",
+const deleteCommentSuccessResponses = [
+  "🗑️ Comment successfully deleted.",
+  "👋 Farewell, comment! It's been removed.",
+  "🎉 Comment successfully removed from view.",
+  "🚮 Successfully deleted your comment.",
+  "🚫 Your comment has been removed.",
+  "👏 Comment successfully eliminated.",
+  "👋 Farewell, comment! You've been deleted.",
+  "👌 Successfully removed your comment.",
+  "✨ Your comment is no more.",
+  "👍 Comment successfully expunged from existence.",
 ];
 
 // components:
@@ -73,8 +73,8 @@ const Comments = ({
       .delete(`/api/comments/${id}`)
       .then((response: any) => {
         toast.success(
-          commentSuccessResponses[
-            Math.floor(Math.random() * commentSuccessResponses.length)
+          deleteCommentSuccessResponses[
+            Math.floor(Math.random() * deleteCommentSuccessResponses.length)
           ],
           {
             position: "top-right",
