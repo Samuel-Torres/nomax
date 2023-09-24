@@ -11,6 +11,7 @@ import { unstable_serialize } from "swr/infinite";
 import { getKey } from "@/app/globalState/posts";
 import { toast } from "react-toastify";
 import { toastifyError } from "@/utils/toastifyError";
+// import useSWR from "swr";
 
 // sub-components:
 import EditPostField from "./editPostField/editPostField";
@@ -143,9 +144,11 @@ const PostCard = function PostCard({
 
   const deletePost = async (postId: number) => {
     const id = postId;
+    console.log("POST ID: ", id);
     axios
       .delete(`/api/posts/${id}`)
       .then((response) => {
+        mutate(unstable_serialize(getKey));
         toast.success("Your post was deleted!", {
           position: "top-right",
           autoClose: 3000,
@@ -156,7 +159,6 @@ const PostCard = function PostCard({
           progress: undefined,
           theme: "light",
         });
-        mutate(unstable_serialize(getKey));
       })
       .catch((error) => {
         toastifyError();
