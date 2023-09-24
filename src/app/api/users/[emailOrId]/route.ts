@@ -1,8 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient, Users, personaTypes } from "@prisma/client";
+import { Users, personaTypes } from "@prisma/client";
+import prisma from "@/prisma/client/client";
 const bcrypt = require("bcrypt");
-
-const prisma = new PrismaClient();
 
 type user = {
   id: number;

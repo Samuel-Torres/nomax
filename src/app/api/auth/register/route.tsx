@@ -1,8 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma/client/client";
 const bcrypt = require("bcrypt");
-
-const prisma = new PrismaClient();
 
 // CREATE NEW USER:
 export async function POST(req: NextRequest) {

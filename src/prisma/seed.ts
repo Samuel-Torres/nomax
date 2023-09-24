@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "./client/client";
 const bcrypt = require("bcrypt");
 import { Users } from "@prisma/client";
-const prisma = new PrismaClient();
 
 function getRandomUser(allUsers: Users[] , currentUser: Users) {
   const filteredUsers = allUsers.filter((user: Users) => user.id !== currentUser.id);
