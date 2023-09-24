@@ -1,10 +1,8 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "@prisma/client";
 import { validatePassword } from "../../middleware/validatePassword";
-
-const prisma = new PrismaClient();
+import prisma from "@/prisma/client/client";
 
 interface Auth {
   clientId: string;
