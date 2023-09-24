@@ -42,6 +42,7 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
       ) : (
         <div className={styles.container}>
           <ToastContainer
+            style={{ fontSize: "1.6rem", textAlign: "center" }}
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
