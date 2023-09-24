@@ -115,13 +115,42 @@ export async function DELETE(
   { params }: Record<string, any>
 ) {
   const { indexIdOrEmail } = params;
+  const id = parseInt(indexIdOrEmail);
 
   try {
-    const deletedPost = await prisma.posts.delete({
+    const post = await prisma.posts.findUnique({
       where: {
-        id: parseInt(indexIdOrEmail),
+        id: id,
+      },
+      include: {
+        comments: true,
       },
     });
+
+    if (!post) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    // Delete associated comments
+    for (const comment of post.comments) {
+      await prisma.comments.delete({
+        where: {
+          id: comment.id,
+        },
+      });
+    }
+
+    // Delete the post
+    const deletedPost = await prisma.posts.delete({
+      where: {
+        id: id,
+      },
+      include: {
+        comments: true,
+      },
+    });
+
+    console.log("Attempted: ", deletedPost);
     if (typeof deletedPost === "object") {
       return NextResponse.json({ deletedPost: deletedPost }, { status: 200 });
     } else {
@@ -130,8 +159,7 @@ export async function DELETE(
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          "An issue happened on our end while deleting this post. Please come back later.",
+        error: `An issue happened on our end while deleting this post. Please come back later. Error: ${error}`,
       },
       { status: 500 }
     );
