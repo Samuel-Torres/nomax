@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { AuthRequiredError } from "../lib/exceptions";
 import Loading from "./loading";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "@/components/toast/toastContainer";
 
 // state:
 import { useAllPosts } from "../globalState/posts";
@@ -51,19 +50,7 @@ function Dashboard() {
         <Loading pageType="client" />
       ) : (
         <div className={styles.container}>
-          <ToastContainer
-            style={{ fontSize: "1.6rem", textAlign: "center" }}
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
+          <Toast />
           {posts &&
             posts?.length > 0 &&
             !isError &&
