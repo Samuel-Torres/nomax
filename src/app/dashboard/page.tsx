@@ -28,7 +28,6 @@ function Dashboard() {
     error,
     size,
     setSize,
-    isValidating,
     hasFetched,
   } = useAllPosts("index", "bypass");
 
@@ -65,7 +64,9 @@ function Dashboard() {
               />
             )}
           {userData?.user?.newUser && <OnBoardingForm />}
-          {isError && error && <Error error={error} reset={reset} />}
+          {isError && error && (
+            <Error error={error} reset={reset} pageType="dashboard" />
+          )}
         </div>
       )}
     </div>
