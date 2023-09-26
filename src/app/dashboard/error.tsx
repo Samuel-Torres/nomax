@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 type ErrorProps = {
   error: Error;
   reset: () => void;
+  pageType: string;
 };
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function Error({ error, reset, pageType }: ErrorProps) {
   const router = useRouter();
 
   const routeToAuthPage = () => {
@@ -16,7 +17,10 @@ export default function Error({ error, reset }: ErrorProps) {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{ height: pageType === "dashboard" ? "100vh" : "" }}
+    >
       <Image
         src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693680614/Nomex/dashboard/error_clodv1.png"
         width={150}

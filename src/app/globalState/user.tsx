@@ -6,12 +6,15 @@ export const useLoggedInUser = () => {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(
     `/api/users/${session?.user?.email}`,
-    fetcher
+    fetcher,
+    {
+      dedupingInterval: 5000,
+    }
   );
 
   return {
     user: data?.fetchedUser,
-    isLoading,
+    isLoadingUser: isLoading,
     isError: error,
   };
 };

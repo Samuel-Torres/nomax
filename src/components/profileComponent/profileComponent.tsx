@@ -1,11 +1,12 @@
 "use client";
 import styles from "../dashboardComponent/dashboardComponent.module.scss";
 import Toast from "../toast/toastContainer";
+import { reset } from "@/utils/reset";
 
 // components:
 import DashboardComponent from "../dashboardComponent/dashboardComponent";
 import Loading from "@/app/dashboard/loading";
-import Error from "@/app/error";
+import Error from "@/app/dashboard/error";
 
 // state:
 import { useAllPosts } from "@/app/globalState/posts";
@@ -25,14 +26,8 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
     error,
     size,
     setSize,
-    isValidating,
     hasFetched,
   } = useAllPosts("id", emailOrId);
-
-  const reset = () => {
-    setIsError(false);
-    window.location.reload();
-  };
 
   return (
     <div className={styles.container}>
@@ -52,7 +47,13 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
             />
           )}
 
-          {isError && error && <Error error={error} reset={reset} />}
+          {isError && error && (
+            <Error
+              error={error}
+              reset={() => reset(setIsError)}
+              pageType="profile"
+            />
+          )}
         </div>
       )}
     </div>

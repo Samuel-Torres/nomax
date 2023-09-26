@@ -27,6 +27,7 @@ function Sidebar() {
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [id, setId] = useState<number>();
   const data = useLoggedInUser();
   const { handleSubmit, control, setValue } = useForm();
 
@@ -36,11 +37,12 @@ function Sidebar() {
     };
 
     window.addEventListener("resize", handleResize);
+    setId(data?.user?.id);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [data, setId]);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
@@ -50,9 +52,9 @@ function Sidebar() {
     let imageSecureUrl: string;
 
     const payload = {
+      id: id,
       email: session?.user?.email,
       profilePicture: "",
-      password: data.password,
     };
 
     if (data.image.length > 0) {
@@ -65,26 +67,32 @@ function Sidebar() {
           imageSecureUrl = response.data.secure_url;
 
           if (response.status === 200) {
+            console.log("FRONT END RAN");
             await axios
               .put(
                 "/api/users/",
                 imageSecureUrl
-                  ? { ...payload, profilePicture: imageSecureUrl }
+                  ? {
+                      ...payload,
+                      profilePicture: imageSecureUrl,
+                    }
                   : null
               )
               .then((res) => {
-                if (res.status === 200 && res.data) {
-                  revalidateQueries();
-                  setIsEditingPhoto(false);
-                  setIsSubmitting(false);
-                }
+                console.log("RESPONSE: ", res);
+                revalidateQueries();
+                setIsEditingPhoto(false);
+                setIsSubmitting(false);
+              })
+              .catch((error) => {
+                console.log("SECOND ERROR: ", error);
+                setIsError(true);
+                setIsSubmitting(false);
               });
-          } else {
-            setIsError(true);
-            setIsSubmitting(false);
           }
         })
         .catch((error) => {
+          console.log("FIRST ERROR: ", error);
           setIsError(true);
           setIsSubmitting(false);
         });

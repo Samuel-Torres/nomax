@@ -31,6 +31,20 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 export async function POST(req: NextRequest) {
   const payload = await req.json();
   try {
+    payload?.imageSrc?.length > 0
+      ? await prisma.photos.create({
+          data: {
+            description: payload?.postBody,
+            imageSrc: payload?.imageSrc,
+            user: {
+              connect: {
+                id: payload?.authorId,
+              },
+            },
+          },
+        })
+      : null;
+
     const createdPost = await prisma.posts.create({
       data: {
         postBody: payload.postBody,
