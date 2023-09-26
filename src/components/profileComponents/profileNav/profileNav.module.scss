@@ -14,11 +14,13 @@
   }
   .bottomSection {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
     padding: 1rem;
     margin-top: 1rem;
     border-top: 1px solid $brandBlack;
     height: 50%;
+
     .tab {
       display: flex;
       justify-content: center;
@@ -43,6 +45,17 @@
         background-color: white;
         color: $mainBrandColor;
       }
+    }
+    .leftBottom {
+      display: flex;
+      border: 2px solid blue;
+      width: 80%;
+    }
+    .rightBottom {
+      border: 2px solid green;
+      width: 20%;
+      display: flex;
+      justify-content: center;
     }
   }
 }

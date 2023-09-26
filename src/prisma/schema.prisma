@@ -6,10 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_PRISMA_URL") // uses connection pooling
-  directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+  provider = "postgresql"
+  url      = env("DATABASE_PRISMA_URL") // uses connection pooling
+  // directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  // shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
 }
 
 enum personaTypes {
@@ -20,21 +20,47 @@ enum personaTypes {
   BACKPACKER
 }
 
+enum notificationType {
+  friend_request
+  message
+  comment_post
+  comment_reply
+  comment_photo
+}
+
+enum notificationStatus {
+  pending
+  accepted
+  read
+}
+
+enum friendStatus {
+  pending
+  accepted
+  rejected
+  blocked
+  inactive
+}
+
 model Users {
-  id             Int           @id @unique @default(autoincrement())
-  email          String        @unique
-  password       String?
-  created_At     DateTime      @default(now())
-  bio            String?       @db.Text
-  persona        personaTypes?
-  jobTitle       String?
-  companyName    String?
-  userName       String?
-  newUser        Boolean       @default(true)
-  profilePicture String?
-  Posts          Posts[]
-  comments       Comments[]
-  photos         Photos[]
+  id                     Int             @id @unique @default(autoincrement())
+  email                  String          @unique
+  password               String?
+  created_At             DateTime        @default(now())
+  bio                    String?         @db.Text
+  persona                personaTypes?
+  jobTitle               String?
+  companyName            String?
+  userName               String?
+  newUser                Boolean         @default(true)
+  profilePicture         String?
+  Posts                  Posts[]
+  comments               Comments[]
+  photos                 Photos[]
+  sentFriendRequests     Notifications[] @relation("SentFriendRequests")
+  receivedFriendRequests Notifications[] @relation("ReceivedFriendRequests")
+  friendsA               Friends[]       @relation("FriendsA")
+  friendsB               Friends[]       @relation("FriendsB")
 }
 
 model Posts {
@@ -70,4 +96,29 @@ model Photos {
   // relations:
   user   Users @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model Notifications {
+  id      Int                @id @unique @default(autoincrement())
+  message String
+  type    notificationType
+  status  notificationStatus
+
+  // relations:
+  sender   Users @relation("SentFriendRequests", fields: [senderId], references: [id])
+  senderId Int
+
+  receiver   Users @relation("ReceivedFriendRequests", fields: [receiverId], references: [id])
+  receiverId Int
+}
+
+model Friends {
+  id     Int          @id @default(autoincrement())
+  userA  Int
+  userB  Int
+  status friendStatus
+
+  // relations:
+  userARef Users @relation("FriendsA", fields: [userA], references: [id])
+  userBRef Users @relation("FriendsB", fields: [userB], references: [id])
 }
