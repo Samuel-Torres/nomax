@@ -141,7 +141,7 @@ function Sidebar() {
                     fileInputRef.current = input;
                   }}
                 />
-                {data?.isLoading ? (
+                {data?.isLoadingUser ? (
                   <BallSpinner />
                 ) : (
                   <Image
