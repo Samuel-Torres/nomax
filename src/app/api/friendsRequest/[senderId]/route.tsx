@@ -17,15 +17,15 @@ export async function POST(req: NextRequest) {
     console.log("CHECK: ", requestIsPending);
 
     // check if pending request already exists:
-    // if (requestIsPending) {
-    //   return NextResponse.json(
-    //     {
-    //       error:
-    //         "There is already a pending request for this operation. Please, give the user some time to respond. Thanks!",
-    //     },
-    //     { status: 409 }
-    //   );
-    // }
+    if (requestIsPending) {
+      return NextResponse.json(
+        {
+          error:
+            "There is already a pending request for this operation. Please, give the user some time to respond. Thanks!",
+        },
+        { status: 409 }
+      );
+    }
 
     // try sending reuest:
     const sentFriendRequest = await prisma.friends.create({
