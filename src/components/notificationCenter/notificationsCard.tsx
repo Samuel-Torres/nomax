@@ -1,3 +1,4 @@
+"use client";
 import { personaTypes } from "@prisma/client";
 import React from "react";
 import styles from "./styles.module.scss";
@@ -46,6 +47,7 @@ const NotificationsCard = ({
   mutateNotifications,
 }: notificationCardProps) => {
   const { id } = useLoggedInUser();
+  console.log("ID: ", id);
 
   const acceptanceMessages = [
     "🎉 Yay! Let's be friends!",

@@ -26,7 +26,7 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
     loggedInUserId,
     "IS_PENDING"
   );
-
+  console.log("ID: ", loggedInUserId);
   const handleRefresh = () => {
     window.location.reload();
   };
