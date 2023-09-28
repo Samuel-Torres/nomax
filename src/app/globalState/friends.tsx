@@ -5,7 +5,7 @@ import axios from "axios";
 
 // GET POSTS:
 export const useUserFriends = (
-  visitedUserId: number,
+  visitedUserId: number | null,
   loggedInUserId: number | null,
   fetchType: string
 ) => {
@@ -38,7 +38,6 @@ export const useUserFriends = (
     fetcher
   );
 
-  console.log("DATA: ", data);
   return {
     data,
     error,

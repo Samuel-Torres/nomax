@@ -7,7 +7,6 @@ import { useLoggedInUser } from "./user";
 export const useNotifications = () => {
   const { id: loggedInUserId } = useLoggedInUser();
 
-  console.log("ID: ", loggedInUserId);
   const fetcher = (url: string) =>
     axios
       .get(url)
@@ -17,7 +16,7 @@ export const useNotifications = () => {
     `/api/notifications/${loggedInUserId}`,
     fetcher
   );
-  console.log("NOTI DATA: ", data?.length);
+
   return {
     notifications: data,
     count: data?.length,

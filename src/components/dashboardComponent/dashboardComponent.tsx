@@ -34,7 +34,6 @@ export default function DashboardComponent({
 
   return (
     <>
-      <NotificationCenter />
       <div className={styles.container}>
         <CreatePost
           loggedInUser={userData?.user}

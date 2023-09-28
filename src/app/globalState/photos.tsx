@@ -20,7 +20,6 @@ export const useUserPhotos = (id: number) => {
         setIsError(true);
         setError(new Error(error));
       });
-  //   console.log("ID: ", id);
   const { data, isValidating, isLoading, mutate } = useSWR(
     `/api/photos/${id}`,
     fetcher

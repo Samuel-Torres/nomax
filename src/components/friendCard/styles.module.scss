@@ -1,0 +1,105 @@
+@import "../../styles/mixins.module.scss";
+@import "../../styles/variables.module.scss";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .friendCardContainer {
+    display: flex;
+    justify-content: space-between;
+    background-color: $lightShade;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: 400px;
+    min-width: 300px;
+
+    height: 150px;
+    border-radius: 1rem;
+
+    .leftSide {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      .friendImg {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+      }
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+
+    .userName {
+      font-weight: bolder;
+      margin-left: 0.4rem;
+      font-size: 1.6rem;
+    }
+
+    .jobTitle {
+      text-align: center;
+    }
+
+    .rightSide {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+      width: 50%;
+
+      .btnContent {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+      }
+
+      .btnImage {
+        margin-right: 1rem;
+      }
+
+      button {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        @include btnStyles(
+          $boderColor: $danger,
+          $fontColor: black,
+          $preOpacity: 1
+        );
+        border-radius: 0.5rem;
+      }
+
+      button:nth-child(1) {
+        display: flex;
+        justify-content: space-around;
+        @include btnStyles(
+          $boderColor: none,
+          $fontColor: $warning,
+          $preOpacity: 1,
+          $bgColor: $darkShade
+        );
+        text-align: center;
+        border-radius: 0.5rem;
+      }
+
+      .blockText {
+        margin-left: 1rem;
+        color: $danger;
+        font-weight: bolder;
+      }
+    }
+  }
+}
