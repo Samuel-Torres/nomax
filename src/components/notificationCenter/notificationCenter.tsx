@@ -11,7 +11,7 @@ import NotificationsCard from "./notificationsCard";
 
 const NotificationCenter = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { notifications, isLoading, error, mutateNotifications } =
+  const { notifications, isLoading, error, mutateNotifications, count } =
     useNotifications();
 
   const toggleNotificationCenter = () => {
@@ -30,14 +30,19 @@ const NotificationCenter = () => {
           alt="notification center"
         />
       ) : (
-        <Image
-          className={styles.icon}
-          src="https://res.cloudinary.com/dvz91qyth/image/upload/v1695842979/Nomex/dashboard/bell_1_ohmecw.png"
-          onClick={toggleNotificationCenter}
-          width={40}
-          height={40}
-          alt="notification center"
-        />
+        <>
+          <div className={styles.countContainer}>
+            <p>{count}</p>
+          </div>
+          <Image
+            className={styles.icon}
+            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1695842979/Nomex/dashboard/bell_1_ohmecw.png"
+            onClick={toggleNotificationCenter}
+            width={40}
+            height={40}
+            alt="notification center"
+          />
+        </>
       )}
       <div
         className={`${styles.notifications} ${isOpen ? styles.clicked : ""}`}
