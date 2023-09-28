@@ -46,6 +46,7 @@ const NotificationsCard = ({
   mutateNotifications,
 }: notificationCardProps) => {
   const { id } = useLoggedInUser();
+  console.log("ID: ", id);
 
   const acceptanceMessages = [
     "🎉 Yay! Let's be friends!",
