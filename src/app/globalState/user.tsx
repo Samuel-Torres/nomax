@@ -23,7 +23,13 @@ export const useLoggedInUser = () => {
 
   const storedId: string = localStorage.getItem("athUsr") as string;
 
-  if (!storedId && data && status !== "loading" && status === "authenticated") {
+  if (
+    !storedId &&
+    data &&
+    status !== "loading" &&
+    status === "authenticated" &&
+    typeof window !== "undefined"
+  ) {
     localStorage.setItem("athUsr", data?.fetchedUser.id);
   }
 

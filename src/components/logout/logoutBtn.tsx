@@ -17,7 +17,9 @@ const LogoutBtn = ({ colorScheme }: logOutButtonProps) => {
   }
 
   const handleLogOut = () => {
-    localStorage.removeItem("athUsr");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("athUsr");
+    }
     signOut();
   };
 

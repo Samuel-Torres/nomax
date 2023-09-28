@@ -4,7 +4,10 @@ import axios from "axios";
 import { useLoggedInUser } from "./user";
 
 export const useNotifications = () => {
-  const loggedInUserId = localStorage.getItem("athUsr") as string;
+  let loggedInUserId;
+  if (typeof window !== "undefined") {
+    loggedInUserId = localStorage.getItem("athUsr") as string;
+  }
   console.log("ID: ", loggedInUserId);
   const fetcher = (url: string) =>
     axios
