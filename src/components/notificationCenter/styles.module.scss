@@ -7,6 +7,24 @@
   top: 10px;
   z-index: 100;
 
+  .countContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: $darkShade;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    top: 15px;
+
+    p {
+      font-size: 1.6rem;
+      font-weight: bolder;
+      color: white;
+    }
+  }
+
   .icon {
     &:hover {
       cursor: pointer;

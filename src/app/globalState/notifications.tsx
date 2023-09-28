@@ -17,9 +17,10 @@ export const useNotifications = () => {
     `/api/notifications/${loggedInUserId}`,
     fetcher
   );
-  console.log("NOTI DATA: ", data);
+  console.log("NOTI DATA: ", data?.length);
   return {
     notifications: data,
+    count: data?.length,
     isLoading,
     mutateNotifications: mutate,
     error,
