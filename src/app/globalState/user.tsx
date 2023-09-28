@@ -39,6 +39,6 @@ export const useLoggedInUser = () => {
     user: data?.fetchedUser,
     isLoadingUser: isLoading,
     isError: error,
-    id: storedId,
+    id: parseInt(storedId),
   };
 };

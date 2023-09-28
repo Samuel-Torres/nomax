@@ -23,7 +23,7 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
   const { mutateNotifications } = useNotifications();
   const { data, isError, status, mutate, isLoading } = useUserFriends(
     visitedUser?.id,
-    parseInt(loggedInUserId),
+    loggedInUserId,
     "IS_PENDING"
   );
   console.log("ID: ", loggedInUserId);
