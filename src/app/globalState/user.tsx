@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export const useLoggedInUser = () => {
-  // const [loggedInUserId, setLoggedInUserId] = useState<number>();
   const { data: session, status } = useSession();
   const router = useRouter();
   const fetcher = async (url: string) => await fetch(url).then((r) => r.json());
@@ -21,7 +20,11 @@ export const useLoggedInUser = () => {
     router.push("/auth");
   }
 
-  const storedId: string = localStorage.getItem("athUsr") as string;
+  let storedId: string | null = null;
+
+  if (typeof window !== "undefined") {
+    storedId = localStorage.getItem("athUsr");
+  }
 
   if (
     !storedId &&
@@ -39,6 +42,6 @@ export const useLoggedInUser = () => {
     user: data?.fetchedUser,
     isLoadingUser: isLoading,
     isError: error,
-    id: parseInt(storedId),
+    id: parseInt(storedId || "0"), // Return 0 if storedId is null
   };
 };
