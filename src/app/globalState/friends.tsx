@@ -1,9 +1,7 @@
 "use client";
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 // GET POSTS:
 export const useUserFriends = (
@@ -13,9 +11,9 @@ export const useUserFriends = (
 ) => {
   //   const [error, setError] = useState<Error>();
   const [isError, setIsError] = useState<boolean>(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [status, setStatus] = useState<number>();
 
-  const fetcher = (url: string) =>
+  const fetcher = async (url: string) =>
     axios
       .get(url, {
         headers: {
@@ -23,21 +21,24 @@ export const useUserFriends = (
           "LOGGED-ID": loggedInUserId,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
         setIsError(false);
+        setStatus(res.status);
         console.log("RES: ", res);
+        return res?.data;
       })
       .catch((error) => {
         setIsError(true);
         console.log("ERROR: ", error?.response?.data?.message);
         return error?.response?.data?.message;
       });
-  //   console.log("ID: ", id);
+
   const { data, isLoading, mutate, error } = useSWR(
     `/api/friends/${visitedUserId}`,
     fetcher
   );
-  console.log("DATA: ", data, isLoading);
+
+  console.log("DATA: ", data);
   return {
     data,
     error,
@@ -45,6 +46,6 @@ export const useUserFriends = (
     setIsError,
     isLoading,
     mutate,
-    setRefreshKey,
+    status,
   };
 };

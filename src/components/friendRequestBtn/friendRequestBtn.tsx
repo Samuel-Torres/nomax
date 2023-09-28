@@ -3,8 +3,8 @@
 import { Users } from "@prisma/client";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Image from "next/image";
 import styles from "./styles.module.scss";
+import Image from "next/image";
 
 // state:
 import { useLoggedInUser } from "@/app/globalState/user";
@@ -12,19 +12,23 @@ import { useUserFriends } from "@/app/globalState/friends";
 
 //  components:
 import BallSpinner from "../loadingStateComponents/ballSpinner";
+import { useNotifications } from "@/app/globalState/notifications";
 
 type friendRequestBtnProps = {
   visitedUser: Users;
 };
 
 const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
-  const loggedInUser = useLoggedInUser();
-  const { data, error, isError, setIsError, isLoading, mutate, setRefreshKey } =
-    useUserFriends(visitedUser?.id, null, "IS_PENDING");
+  const { user, isLoadingUser, id: loggedInUserId } = useLoggedInUser();
+  const { mutateNotifications } = useNotifications();
+  const { data, isError, status, mutate, isLoading } = useUserFriends(
+    visitedUser?.id,
+    loggedInUserId,
+    "IS_PENDING"
+  );
 
   const handleRefresh = () => {
-    console.log("RAN");
-    setRefreshKey((prevKey) => prevKey + 1);
+    window.location.reload();
   };
 
   const handleFriendRequest = (receiverId: number, senderId: number) => {
@@ -45,7 +49,7 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
           progress: undefined,
           theme: "light",
         });
-        // mutate:
+        mutate(`/api/friends/${visitedUser?.id}`);
       })
       .catch((error) => {
         toast.error(
@@ -63,20 +67,14 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
             theme: "light",
           }
         );
-        //   mutate:
-        console.log("ERROR: ", error.response.status, error);
       });
   };
 
-  if (
-    visitedUser === null ||
-    loggedInUser.isLoadingUser ||
-    loggedInUser === null
-  ) {
+  if (visitedUser === null || isLoadingUser || user === null || isLoading) {
     return <BallSpinner />;
   }
 
-  if (error) {
+  if (isError && status !== 200) {
     return (
       <div className={styles.errorContainer}>
         <Image
@@ -98,14 +96,13 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
 
   return (
     <div>
-      {visitedUser.id !== loggedInUser?.user?.id && !error && (
+      {visitedUser.id !== loggedInUserId && (
         <button
-          onClick={() =>
-            handleFriendRequest(visitedUser.id, loggedInUser?.user?.id)
-          }
+          onClick={() => handleFriendRequest(visitedUser.id, loggedInUserId)}
           type="button"
+          disabled={data.status === "pending" ? true : false}
         >
-          Add Friend
+          {data.status === "pending" ? "Pending" : "Add Friend"}
         </button>
       )}
     </div>

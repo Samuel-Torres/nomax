@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
     const checkForPendingRequests = await prisma.friends.findMany({
       where: {
         userA: senderId,
+        userB: receiverId,
         status: "pending",
       },
     });
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
       data: {
         senderId: senderId,
         receiverId: receiverId,
+        friendId: sentFriendRequest.id,
         type: "friend_request",
         status: "pending",
         message: `${sentFriendRequest.userARef.userName} has sent you a friend request! Would you like to accept?`,

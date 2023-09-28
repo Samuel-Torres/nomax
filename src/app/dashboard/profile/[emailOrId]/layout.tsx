@@ -28,6 +28,7 @@ export default async function ProfilePageLayout({
   };
 }) {
   const user: Users = await fetchUser(params?.emailOrId);
+
   return (
     <div className={styles.container}>
       <Banner bannerPhoto={null} profilePicture={user?.profilePicture} />

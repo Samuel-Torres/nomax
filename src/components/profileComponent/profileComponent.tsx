@@ -35,7 +35,7 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
         <Loading pageType="server" />
       ) : (
         <div className={styles.container}>
-          <Toast />
+          <Toast alignment="top-left" />
           {posts && posts?.length > 0 && (
             <DashboardComponent
               allPosts={posts}
