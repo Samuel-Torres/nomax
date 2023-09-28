@@ -1,3 +1,4 @@
+"use client";
 import { personaTypes } from "@prisma/client";
 import React from "react";
 import styles from "./styles.module.scss";
