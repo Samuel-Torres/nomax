@@ -1,0 +1,10 @@
+@import "..//../styles/mixins.module.scss";
+@import "..//../styles/variables.module.scss";
+
+.errorContainer {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}

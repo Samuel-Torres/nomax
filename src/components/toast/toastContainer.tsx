@@ -1,11 +1,15 @@
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, ToastPosition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ToastWrapper = () => {
+type toastContainerProps = {
+  alignment: ToastPosition;
+};
+
+const ToastWrapper = ({ alignment }: toastContainerProps) => {
   return (
     <ToastContainer
       style={{ fontSize: "1.6rem", textAlign: "center" }}
-      position="top-right"
+      position={`${alignment}`}
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

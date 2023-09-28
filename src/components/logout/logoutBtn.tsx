@@ -16,8 +16,15 @@ const LogoutBtn = ({ colorScheme }: logOutButtonProps) => {
     );
   }
 
+  const handleLogOut = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("athUsr");
+    }
+    signOut();
+  };
+
   return (
-    <button className={styles.btn} onClick={() => signOut()}>
+    <button className={styles.btn} onClick={handleLogOut}>
       log out
     </button>
   );

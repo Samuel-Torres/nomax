@@ -1,0 +1,103 @@
+@import "../../styles/mixins.module.scss";
+@import "../../styles/variables.module.scss";
+
+.container {
+  position: fixed;
+  right: 20px;
+  top: 10px;
+  z-index: 100;
+
+  .icon {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .notifications {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    right: -350px;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    height: calc(100dvh - 150px);
+    width: 350px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1.5rem 0rem 0rem 1.5rem;
+    background-color: $darkShade;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: $mainBrandColor $darkShade;
+    margin-top: 0.5rem;
+    &::-webkit-scrollbar {
+      width: 5px;
+      border-radius: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $mainBrandColor;
+      border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $darkShade;
+      border-radius: 6px;
+    }
+  }
+
+  .clicked {
+    right: 0px;
+    opacity: 1;
+  }
+
+  .notiContainer {
+    padding: 1rem;
+    margin: 1rem 0.5rem;
+    background-color: white;
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+
+    .profileImg {
+      border-radius: 50%;
+    }
+
+    .message {
+      font-size: 1.6rem;
+      text-align: center;
+    }
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    .btnContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 0.5rem;
+
+      .accept {
+        @include btnStyles($boderColor: $success, $fontColor: black);
+        margin-top: 0.5rem;
+      }
+      .deny {
+        @include btnStyles($boderColor: $danger, $fontColor: black);
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    .notifications {
+      height: calc(100dvh - 80px);
+      width: 400px;
+    }
+  }
+}

@@ -49,7 +49,7 @@ function Dashboard() {
         <Loading pageType="client" />
       ) : (
         <div className={styles.container}>
-          <Toast />
+          <Toast alignment="top-right" />
           {posts &&
             posts?.length > 0 &&
             !isError &&
