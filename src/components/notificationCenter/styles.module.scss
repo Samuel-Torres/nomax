@@ -99,13 +99,17 @@
       justify-content: space-around;
       margin-top: 0.5rem;
 
+      button {
+        margin-top: 1rem;
+      }
+
       .accept {
         @include btnStyles($boderColor: $success, $fontColor: black);
-        margin-top: 0.5rem;
+        margin-top: 1rem;
       }
       .deny {
         @include btnStyles($boderColor: $danger, $fontColor: black);
-        margin-top: 0.5rem;
+        margin-top: 1rem;
       }
     }
   }
