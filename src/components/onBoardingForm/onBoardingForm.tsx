@@ -1,3 +1,4 @@
+"use client";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { personaTypes } from "@prisma/client";
 import axios from "axios";
