@@ -36,8 +36,6 @@ export const useLoggedInUser = () => {
     localStorage.setItem("athUsr", data?.fetchedUser.id);
   }
 
-  console.log("ID: ", storedId);
-
   return {
     user: data?.fetchedUser,
     isLoadingUser: isLoading,

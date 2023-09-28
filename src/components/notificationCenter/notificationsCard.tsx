@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
+import { mutate } from "swr";
 
 // components:
 import BallSpinner from "../loadingStateComponents/ballSpinner";
@@ -47,7 +48,6 @@ const NotificationsCard = ({
   mutateNotifications,
 }: notificationCardProps) => {
   const { id } = useLoggedInUser();
-  console.log("ID: ", id);
 
   const acceptanceMessages = [
     "🎉 Yay! Let's be friends!",
@@ -126,6 +126,7 @@ const NotificationsCard = ({
             }
           );
           mutateNotifications();
+          mutate(`/api/friends/${id}`);
         }
         if (res.data.postedAction.status === "rejected") {
           toast.success(

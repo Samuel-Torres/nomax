@@ -4,6 +4,8 @@ import ProfileNav from "@/components/profileComponents/profileNav/profileNav";
 import { Users } from "@prisma/client";
 import styles from "./layout.module.scss";
 
+import NotificationCenter from "@/components/notificationCenter/notificationCenter";
+
 const fetchUser = async (seachParam: number) => {
   try {
     const res = await fetch(
@@ -33,6 +35,7 @@ export default async function ProfilePageLayout({
     <div className={styles.container}>
       <Banner bannerPhoto={null} profilePicture={user?.profilePicture} />
       <ProfileNav visitedUser={user} />
+
       {children}
     </div>
   );

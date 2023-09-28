@@ -14,6 +14,7 @@ import { useLoggedInUser } from "../globalState/user";
 import DashboardComponent from "@/components/dashboardComponent/dashboardComponent";
 import OnBoardingForm from "@/components/onBoardingForm/onBoardingForm";
 import Error from "./error";
+import NotificationCenter from "@/components/notificationCenter/notificationCenter";
 
 function Dashboard() {
   const { status } = useSession();
@@ -54,14 +55,17 @@ function Dashboard() {
             posts?.length > 0 &&
             !isError &&
             !userData?.user?.newUser && (
-              <DashboardComponent
-                allPosts={posts}
-                hasMore={hasMore}
-                setIsError={setIsError}
-                setError={setError}
-                size={size}
-                setSize={setSize}
-              />
+              <>
+                <NotificationCenter />
+                <DashboardComponent
+                  allPosts={posts}
+                  hasMore={hasMore}
+                  setIsError={setIsError}
+                  setError={setError}
+                  size={size}
+                  setSize={setSize}
+                />
+              </>
             )}
           {userData?.user?.newUser && <OnBoardingForm />}
           {isError && error && (

@@ -5,6 +5,7 @@ import styles from "./profileNav.module.scss";
 import { Users } from "@prisma/client";
 
 import FriendRequestBtn from "@/components/friendRequestBtn/friendRequestBtn";
+import NotificationCenter from "@/components/notificationCenter/notificationCenter";
 
 type profileNavProps = {
   visitedUser: Users;
@@ -19,6 +20,7 @@ const ProfileNav = ({ visitedUser }: profileNavProps) => {
 
   return (
     <div className={styles.container}>
+      <NotificationCenter />
       <div className={styles.topSection}>
         <h1>{visitedUser.userName}</h1>
         <p>{visitedUser.persona}</p>
