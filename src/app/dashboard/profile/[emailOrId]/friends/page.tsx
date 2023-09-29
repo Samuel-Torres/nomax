@@ -2,10 +2,17 @@ import styles from "./friends.module.scss";
 
 import FriendsCard from "@/components/friendCard/friendsCard";
 
-const Friends = () => {
+type paramTypes = {
+  params: {
+    emailOrId: string;
+  };
+};
+
+const Friends = ({ params }: paramTypes) => {
+  console.log(typeof params.emailOrId);
   return (
     <div className={styles.container}>
-      <FriendsCard />
+      <FriendsCard id={params?.emailOrId} />
     </div>
   );
 };

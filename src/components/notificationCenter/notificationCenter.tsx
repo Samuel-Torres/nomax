@@ -1,15 +1,19 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
+import { Users } from "@prisma/client";
 
 // state:
 import { useNotifications } from "@/app/globalState/notifications";
 
 // components:
-// import BallSpinner from "../loadingStateComponents/ballSpinner";
 import NotificationsCard from "./notificationsCard";
 
-const NotificationCenter = () => {
+type notificationCenterProps = {
+  visitedUser: Users;
+};
+
+const NotificationCenter = ({ visitedUser }: notificationCenterProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { notifications, isLoading, error, mutateNotifications, count } =
     useNotifications();
@@ -60,6 +64,7 @@ const NotificationCenter = () => {
                 notificationType={noti.type}
                 sender={noti.sender}
                 friendRequestId={noti.friendId}
+                visitedUser={visitedUser}
                 mutateNotifications={mutateNotifications}
               />
             );

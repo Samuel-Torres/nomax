@@ -12,7 +12,7 @@
     color: black;
   }
 
-  .friendCardContainer {
+  .loggedInFriendsCardContainer {
     display: flex;
     justify-content: space-between;
     background-color: $lightShade;
@@ -31,6 +31,7 @@
       flex-direction: column;
       align-items: center;
       width: 50%;
+
       .friendImg {
         width: 8rem;
         height: 8rem;
@@ -100,6 +101,48 @@
         color: $danger;
         font-weight: bolder;
       }
+    }
+  }
+
+  .visitingFriendsCardContainer {
+    display: flex;
+    justify-content: center;
+    background-color: $lightShade;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: 200px;
+    // min-width: 300px;
+
+    height: 200px;
+    border-radius: 1rem;
+
+    .leftSide {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      .friendImg {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+      }
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+
+    .userName {
+      font-weight: bolder;
+      margin-left: 0.4rem;
+      font-size: 1.6rem;
+    }
+
+    .jobTitle {
+      text-align: center;
     }
   }
 }

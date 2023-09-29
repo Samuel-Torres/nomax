@@ -48,3 +48,22 @@ export const useUserFriends = (
     status,
   };
 };
+
+export const useFetchFriends = (visitedUserId: number) => {
+  console.log("ID: ", visitedUserId);
+  const fetcher = (url: string) =>
+    axios
+      .get(url)
+      .then((res) => res?.data?.data)
+      .catch((err) => err);
+  const { data, isLoading, mutate, error } = useSWR(
+    `/api/friendsList/${visitedUserId}`,
+    fetcher
+  );
+  console.log("DATA: ", data);
+  return {
+    data,
+    isLoading,
+    mutate,
+  };
+};

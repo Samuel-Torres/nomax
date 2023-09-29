@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
   const loggedInUserId: number | null =
     typeof LOGGED_IN_USER_ID === "string" ? parseInt(LOGGED_IN_USER_ID) : null;
   // console.log(LOGGED_IN_USER_ID);
-  console.log("ID: ", loggedInUserId);
+  console.log("ID: ", FETCH_TYPE, loggedInUserId);
 
   switch (FETCH_TYPE) {
     case "IS_PENDING":
@@ -47,36 +47,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         },
         { status: 200 }
       );
-    case "FETCH_FRIENDS":
-      console.log("FETCH TYPE IS: ", FETCH_TYPE);
-      if (!loggedInUserId) {
-        return NextResponse.json(
-          {
-            message:
-              "An Issue occurred on our end. Our development team is working urgently to resolve this issue. Error: loggedId should not be null.",
-          },
-          { status: 400 }
-        );
-      }
-      const fetchedFriends = await prisma.friends.findMany({
-        where: {
-          userB: loggedInUserId,
-          status: "accepted",
-        },
-        include: {
-          userARef: true,
-        },
-      });
-      console.log("LOGGED IN USERS FRIENDS: ", fetchedFriends);
-      console.log("RAN");
-      if (fetchedFriends) {
-        return NextResponse.json(
-          {
-            data: fetchedFriends,
-          },
-          { status: 200 }
-        );
-      }
   }
 }
 

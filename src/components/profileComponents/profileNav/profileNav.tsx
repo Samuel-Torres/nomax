@@ -20,7 +20,7 @@ const ProfileNav = ({ visitedUser }: profileNavProps) => {
 
   return (
     <div className={styles.container}>
-      <NotificationCenter />
+      <NotificationCenter visitedUser={visitedUser} />
       <div className={styles.topSection}>
         <h1>{visitedUser.userName}</h1>
         <p>{visitedUser.persona}</p>

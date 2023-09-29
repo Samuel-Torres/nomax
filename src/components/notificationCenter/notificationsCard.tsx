@@ -6,11 +6,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
 import { mutate } from "swr";
+import { Users } from "@prisma/client";
 
 // components:
 import BallSpinner from "../loadingStateComponents/ballSpinner";
 import axios from "axios";
-import { useLoggedInUser } from "@/app/globalState/user";
 
 type notificationCardProps = {
   isLoading: boolean;
@@ -33,6 +33,7 @@ type notificationCardProps = {
     newUser: boolean;
     profilePicture: string | null;
   };
+  visitedUser: Users;
   mutateNotifications: KeyedMutator<string>;
 };
 
@@ -45,9 +46,10 @@ const NotificationsCard = ({
   notificationType,
   sender,
   friendRequestId,
+  visitedUser,
   mutateNotifications,
 }: notificationCardProps) => {
-  const { id } = useLoggedInUser();
+  // const { id } = useLoggedInUser();
 
   const acceptanceMessages = [
     "🎉 Yay! Let's be friends!",
@@ -126,7 +128,7 @@ const NotificationsCard = ({
             }
           );
           mutateNotifications();
-          mutate(`/api/friends/${id}`);
+          mutate(`/api/friendsList/${visitedUser?.id}`);
         }
         if (res.data.postedAction.status === "rejected") {
           toast.success(
