@@ -2,13 +2,10 @@ import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/prisma/client/client";
 
 export async function GET(req: NextRequest, { params }: Record<string, any>) {
-  console.log("RAN");
   const { id } = params;
   const visitedUserId: number = parseInt(id);
-  console.log("NEW: ", typeof visitedUserId, visitedUserId);
 
   try {
-    console.log("RAN");
     const fetchedFriends = await prisma.friends.findMany({
       where: {
         userB: visitedUserId,
@@ -18,10 +15,6 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
         userARef: true,
       },
     });
-    console.log("RAN");
-    console.log("LOGGED IN USERS FRIENDS: ", fetchedFriends);
-    console.log("RAN");
-
     return NextResponse.json(
       {
         data: fetchedFriends.length > 0 ? fetchedFriends : [],
@@ -30,6 +23,73 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     );
   } catch (error) {
     console.log("ERROR: ", error);
+    return NextResponse.json(
+      {
+        error,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: Record<string, any>
+) {
+  const LOGGED_IN_USER_ID = req.headers.get("LOGGED-USER");
+  const userB: number = parseInt(LOGGED_IN_USER_ID as string);
+  const { id } = params;
+  const userA: number = parseInt(id);
+  console.log("ID's: ", typeof userA, typeof userB);
+
+  try {
+    // const notificationToDelete = await prisma.notifications.findFirst({
+    //   where: {
+    //     receiverId: userB,
+    //     senderId: userA,
+    //   },
+    // });
+
+    const findFriendRequest = await prisma.friends.findFirst({
+      where: {
+        userA: userA,
+        userB: userB,
+        status: "accepted",
+      },
+    });
+    console.log("FRIEND REQ: ", findFriendRequest);
+    // console.log("FRIEND NOTI: ", notificationToDelete);
+
+    // const deleteNotification = await prisma.notifications.delete({
+    //   where: {
+    //     id: notificationToDelete?.id,
+    //   },
+    // });
+    // console.log("DELETED: ", deleteNotification);
+
+    const deletedFriend = await prisma.friends.delete({
+      where: {
+        id: findFriendRequest?.id,
+      },
+    });
+
+    console.log("DELETED FRIEND: ", deletedFriend);
+
+    if (deletedFriend.userA === userA) {
+      return NextResponse.json(
+        {
+          deletedFriend,
+        },
+        { status: 200 }
+      );
+    }
+    return NextResponse.json(
+      {
+        message: "Friend not found",
+      },
+      { status: 404 }
+    );
+  } catch (error) {
     return NextResponse.json(
       {
         error,
