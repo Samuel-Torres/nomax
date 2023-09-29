@@ -56,7 +56,7 @@ function Dashboard() {
             !isError &&
             !userData?.user?.newUser && (
               <>
-                <NotificationCenter />
+                <NotificationCenter visitedUser={null} />
                 <DashboardComponent
                   allPosts={posts}
                   hasMore={hasMore}
