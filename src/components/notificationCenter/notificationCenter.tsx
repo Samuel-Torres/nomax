@@ -10,7 +10,7 @@ import { useNotifications } from "@/app/globalState/notifications";
 import NotificationsCard from "./notificationsCard";
 
 type notificationCenterProps = {
-  visitedUser: Users;
+  visitedUser: Users | null;
 };
 
 const NotificationCenter = ({ visitedUser }: notificationCenterProps) => {

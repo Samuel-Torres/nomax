@@ -33,7 +33,7 @@ type notificationCardProps = {
     newUser: boolean;
     profilePicture: string | null;
   };
-  visitedUser: Users;
+  visitedUser: Users | null;
   mutateNotifications: KeyedMutator<string>;
 };
 
