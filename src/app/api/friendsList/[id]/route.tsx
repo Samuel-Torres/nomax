@@ -40,16 +40,14 @@ export async function DELETE(
   const userB: number = parseInt(LOGGED_IN_USER_ID as string);
   const { id } = params;
   const userA: number = parseInt(id);
-  console.log("ID's: ", typeof userA, typeof userB);
 
   try {
-    // const notificationToDelete = await prisma.notifications.findFirst({
-    //   where: {
-    //     receiverId: userB,
-    //     senderId: userA,
-    //   },
-    // });
-
+    const notificationToDelete = await prisma.notifications.findFirst({
+      where: {
+        receiverId: userB,
+        senderId: userA,
+      },
+    });
     const findFriendRequest = await prisma.friends.findFirst({
       where: {
         userA: userA,
@@ -57,24 +55,16 @@ export async function DELETE(
         status: "accepted",
       },
     });
-    console.log("FRIEND REQ: ", findFriendRequest);
-    // console.log("FRIEND NOTI: ", notificationToDelete);
-
-    // const deleteNotification = await prisma.notifications.delete({
-    //   where: {
-    //     id: notificationToDelete?.id,
-    //   },
-    // });
-    // console.log("DELETED: ", deleteNotification);
-
+    const deleteNotification = await prisma.notifications.delete({
+      where: {
+        id: notificationToDelete?.id,
+      },
+    });
     const deletedFriend = await prisma.friends.delete({
       where: {
         id: findFriendRequest?.id,
       },
     });
-
-    console.log("DELETED FRIEND: ", deletedFriend);
-
     if (deletedFriend.userA === userA) {
       return NextResponse.json(
         {
