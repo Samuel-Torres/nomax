@@ -51,7 +51,7 @@ const NotificationCenter = ({ visitedUser }: notificationCenterProps) => {
       <div
         className={`${styles.notifications} ${isOpen ? styles.clicked : ""}`}
       >
-        {notifications ? (
+        {notifications && notifications.length > 0 ? (
           notifications.map((noti: any) => {
             return (
               <NotificationsCard
@@ -70,7 +70,7 @@ const NotificationCenter = ({ visitedUser }: notificationCenterProps) => {
             );
           })
         ) : (
-          <p>
+          <p className={styles.p}>
             You don&apos;t have any notifications right now. Please, check back
             later!
           </p>

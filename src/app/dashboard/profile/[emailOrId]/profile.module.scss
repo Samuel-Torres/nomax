@@ -1,12 +1,7 @@
 @import "../../../../styles/variables.module.scss";
 @import "../../../../styles/mixins.module.scss";
 
-@media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
-}
-
-@media (min-width: $smallDesktop) {
-  .container {
-    width: 100%;
-    margin-top: 1rem;
-  }
+.container {
+  width: 100%;
+  margin-top: 15rem;
 }

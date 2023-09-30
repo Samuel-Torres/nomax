@@ -31,8 +31,8 @@ const ProfileNav = ({ visitedUser }: profileNavProps) => {
       <NotificationCenter visitedUser={visitedUser} />
       <div className={styles.topSection}>
         <h1>{visitedUser.userName}</h1>
-        <p>{visitedUser.persona}</p>
-        <p>
+        <p className={styles.persona}>{visitedUser.persona}</p>
+        <p className={styles.jobTitle}>
           {visitedUser.jobTitle} at {visitedUser.companyName}
         </p>
       </div>
