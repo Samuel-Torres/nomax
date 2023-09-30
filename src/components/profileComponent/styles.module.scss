@@ -1,0 +1,12 @@
+@import "../../styles/mixins.module.scss";
+@import "../../styles/variables.module.scss";
+
+.profileContainer {
+  margin-top: 10rem;
+}
+
+@media (min-width: $smallDesktop) {
+  .profileContainer {
+    margin-top: 0rem;
+  }
+}

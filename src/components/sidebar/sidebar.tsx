@@ -24,25 +24,11 @@ function Sidebar() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imgSrc, setImgSrc] = useState<any>("");
   const { data: session } = useSession();
-  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [id, setId] = useState<number>();
   const data = useLoggedInUser();
   const { handleSubmit, control, setValue } = useForm();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    setId(data?.user?.id);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [data, setId]);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
@@ -234,7 +220,7 @@ function Sidebar() {
           />
           <p className={styles.linkText}>Profile</p>
         </Link>
-        <Link className={styles.link} href="/dashboard/blogs">
+        {/* <Link className={styles.link} href="/dashboard/blogs">
           <Image
             className={styles.icon}
             src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248320/Nomex/dashboard/blog_vrb3il.png"
@@ -244,20 +230,19 @@ function Sidebar() {
             data-test="blog"
           />
           <p className={styles.linkText}>Blogs</p>
+        </Link> */}
+
+        <Link className={styles.link} href="/dashboard/settings">
+          <Image
+            className={styles.icon}
+            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
+            width={30}
+            height={30}
+            alt="google"
+            data-test="settings"
+          />
+          <p className={styles.linkText}>Settings</p>
         </Link>
-        {viewportWidth && viewportWidth < 1025 && (
-          <Link className={styles.link} href="/dashboard/settings">
-            <Image
-              className={styles.icon}
-              src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
-              width={30}
-              height={30}
-              alt="google"
-              data-test="settings"
-            />
-            <p className={styles.linkText}>Settings</p>
-          </Link>
-        )}
       </div>
       <div className={styles.logoutContainer}>
         <LogoutBtn />
