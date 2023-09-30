@@ -1,36 +1,35 @@
 @import "../../styles/variables.module.scss";
 @import "../../styles/mixins.module.scss";
 
-@media only screen and (min-width: 0px) and (max-width: $smallDesktop) {
-  .container {
-    margin-top: 70px;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem;
+  margin-top: 50px;
+
+  .postContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: scroll;
+    overflow: visible;
+    margin: 0 auto;
+    align-items: center;
+    width: 100%;
+  }
+
+  .loadMoreBtn {
+    @include btnStyles(
+      $boderColor: $darkShade,
+      $margin: 15px 0px,
+      $fontColor: $brandBlack
+    );
   }
 }
 
 @media (min-width: $smallDesktop) {
   .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 1.5rem;
-
-    .postContainer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow-y: scroll;
-      overflow: visible;
-      margin: 0 auto;
-      align-items: center;
-      width: 100%;
-    }
-
-    .loadMoreBtn {
-      @include btnStyles(
-        $boderColor: $darkShade,
-        $margin: 15px 0px,
-        $fontColor: $brandBlack
-      );
-    }
+    margin-top: 0px;
   }
 }
