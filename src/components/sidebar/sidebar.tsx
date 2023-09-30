@@ -245,19 +245,18 @@ function Sidebar() {
           />
           <p className={styles.linkText}>Blogs</p>
         </Link>
-        {viewportWidth && viewportWidth < 1025 && (
-          <Link className={styles.link} href="/dashboard/settings">
-            <Image
-              className={styles.icon}
-              src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
-              width={30}
-              height={30}
-              alt="google"
-              data-test="settings"
-            />
-            <p className={styles.linkText}>Settings</p>
-          </Link>
-        )}
+
+        <Link className={styles.link} href="/dashboard/settings">
+          <Image
+            className={styles.icon}
+            src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248373/Nomex/dashboard/settings_iyfkfn.png"
+            width={30}
+            height={30}
+            alt="google"
+            data-test="settings"
+          />
+          <p className={styles.linkText}>Settings</p>
+        </Link>
       </div>
       <div className={styles.logoutContainer}>
         <LogoutBtn />
