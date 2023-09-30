@@ -220,7 +220,7 @@ function Sidebar() {
           />
           <p className={styles.linkText}>Profile</p>
         </Link>
-        <Link className={styles.link} href="/dashboard/blogs">
+        {/* <Link className={styles.link} href="/dashboard/blogs">
           <Image
             className={styles.icon}
             src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693248320/Nomex/dashboard/blog_vrb3il.png"
@@ -230,7 +230,7 @@ function Sidebar() {
             data-test="blog"
           />
           <p className={styles.linkText}>Blogs</p>
-        </Link>
+        </Link> */}
 
         <Link className={styles.link} href="/dashboard/settings">
           <Image
