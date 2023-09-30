@@ -12,7 +12,6 @@ import { useUserFriends } from "@/app/globalState/friends";
 
 //  components:
 import BallSpinner from "../loadingStateComponents/ballSpinner";
-import { useNotifications } from "@/app/globalState/notifications";
 
 type friendRequestBtnProps = {
   visitedUser: Users;
@@ -20,7 +19,6 @@ type friendRequestBtnProps = {
 
 const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
   const { user, isLoadingUser, id: loggedInUserId } = useLoggedInUser();
-  const { mutateNotifications } = useNotifications();
   const { data, isError, status, mutate, isLoading } = useUserFriends(
     visitedUser?.id,
     loggedInUserId,
