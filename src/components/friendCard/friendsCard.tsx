@@ -97,7 +97,7 @@ const FriendsCard = ({ id }: friendsCardProps) => {
 
   return (
     <div className={styles.container}>
-      {friends?.length > 0 &&
+      {friends?.length > 0 ? (
         friends?.map((friend: any) => {
           return (
             <>
@@ -161,7 +161,13 @@ const FriendsCard = ({ id }: friendsCardProps) => {
               </div>
             </>
           );
-        })}
+        })
+      ) : (
+        <p className={styles.p}>
+          You don&apos;t have any friends. Now would be a great time to meet
+          people! Click Home and network!
+        </p>
+      )}
     </div>
   );
 };

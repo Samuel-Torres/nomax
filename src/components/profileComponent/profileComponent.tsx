@@ -34,7 +34,7 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
       {isLoading === true && hasFetched === false ? (
         <Loading pageType="server" />
       ) : (
-        <div className={styles.container}>
+        <div className={styles.profileContainer}>
           <Toast alignment="top-left" />
           {posts && posts?.length > 0 && (
             <DashboardComponent
