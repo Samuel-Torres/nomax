@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./profileNav.module.scss";
 import { Users } from "@prisma/client";
@@ -12,10 +12,18 @@ type profileNavProps = {
 };
 
 const ProfileNav = ({ visitedUser }: profileNavProps) => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState<number>(1);
+
+  useEffect(() => {
+    const storedTab = localStorage.getItem("activeTab");
+    if (storedTab) {
+      setActiveTab(parseInt(storedTab, 10));
+    }
+  }, []);
 
   const setActive = (tabId: number) => {
     setActiveTab(tabId);
+    localStorage.setItem("activeTab", tabId.toString());
   };
 
   return (

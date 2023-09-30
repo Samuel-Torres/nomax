@@ -12,7 +12,6 @@ import { useUserFriends } from "@/app/globalState/friends";
 
 //  components:
 import BallSpinner from "../loadingStateComponents/ballSpinner";
-import { useNotifications } from "@/app/globalState/notifications";
 
 type friendRequestBtnProps = {
   visitedUser: Users;
@@ -20,7 +19,6 @@ type friendRequestBtnProps = {
 
 const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
   const { user, isLoadingUser, id: loggedInUserId } = useLoggedInUser();
-  const { mutateNotifications } = useNotifications();
   const { data, isError, status, mutate, isLoading } = useUserFriends(
     visitedUser?.id,
     loggedInUserId,
@@ -95,9 +93,10 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
   }
 
   return (
-    <div>
+    <>
       {visitedUser.id !== loggedInUserId && (
         <button
+          className={data.status === "pending" ? styles.btnPending : styles.btn}
           onClick={() => handleFriendRequest(visitedUser.id, loggedInUserId)}
           type="button"
           disabled={data.status === "pending" ? true : false}
@@ -105,7 +104,7 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
           {data.status === "pending" ? "Pending" : "Add Friend"}
         </button>
       )}
-    </div>
+    </>
   );
 };
 
