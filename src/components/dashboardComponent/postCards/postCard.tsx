@@ -119,7 +119,7 @@ const PostCard = function PostCard({
     }
     if (postBody) {
       if (postBody?.length >= 38) {
-        setCollapsedPostBody(`${postBody?.substring(0, 38)}`);
+        setCollapsedPostBody(`${postBody?.substring(0, 250)}`);
         setIsCollapsed(true);
         setLength(postBody?.length);
       } else {
@@ -131,7 +131,7 @@ const PostCard = function PostCard({
   }, [imageSrc, videoSrc, postBody, id, setError, setIsError]);
 
   const insertSeeMoreBtn = () => {
-    if (!postBody || (length && length < 38)) return;
+    if (!postBody || (length && length < 250)) return;
     return (
       <p
         className={`${styles.readMore} ${styles.toggleBtn}`}
