@@ -8,3 +8,18 @@
   justify-content: space-around;
   align-items: center;
 }
+
+.btn {
+  width: 10rem;
+  height: 4rem;
+  border: 0.3rem solid $darkShade;
+  color: black;
+}
+
+.btnPending {
+  opacity: 0.5;
+  width: 10rem;
+  height: 4rem;
+  border: 0.3rem solid $darkShade;
+  color: black;
+}
