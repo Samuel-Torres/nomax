@@ -24,25 +24,11 @@ function Sidebar() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imgSrc, setImgSrc] = useState<any>("");
   const { data: session } = useSession();
-  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [id, setId] = useState<number>();
   const data = useLoggedInUser();
   const { handleSubmit, control, setValue } = useForm();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    setId(data?.user?.id);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [data, setId]);
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
