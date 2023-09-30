@@ -94,8 +94,6 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
     );
   }
 
-  console.log("STATUS: ", data.status === "pending");
-
   return (
     <>
       {visitedUser.id !== loggedInUserId && (
