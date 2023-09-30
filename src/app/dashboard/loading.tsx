@@ -8,7 +8,7 @@ type loadingProps = {
 export default function Loading({ pageType }: loadingProps) {
   return (
     <div>
-      <div className={styles.container} style={{ margin: "15px auto" }}>
+      <div className={styles.container}>
         <div
           className={
             pageType === "server"

@@ -1,5 +1,6 @@
 "use client";
 import styles from "../dashboardComponent/dashboardComponent.module.scss";
+import componentStyles from "./styles.module.scss";
 import Toast from "../toast/toastContainer";
 import { reset } from "@/utils/reset";
 
@@ -30,7 +31,7 @@ const ProfileComponent = ({ emailOrId }: profileComponentProps) => {
   } = useAllPosts("id", emailOrId);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${componentStyles.profileContainer}`}>
       {isLoading === true && hasFetched === false ? (
         <Loading pageType="server" />
       ) : (

@@ -1,3 +1,4 @@
+@import "../../styles/variables.module.scss";
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans);
 
 .loading {
@@ -11,7 +12,7 @@
 
 .loadingText {
   text-align: center;
-  font-size: 4rem;
+  font-size: 2rem;
   span {
     display: inline-block;
     margin: 0 5px;
@@ -32,5 +33,13 @@
   }
   100% {
     filter: blur(4px);
+  }
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    .loadingText {
+      font-size: 4rem;
+    }
   }
 }
