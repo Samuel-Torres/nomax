@@ -25,3 +25,31 @@ export async function GET(req: NextRequest, { params }: Record<string, any>) {
     );
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: Record<string, any>
+) {
+  const { id } = params;
+  const photoId: number = parseInt(id);
+
+  try {
+    const deletedPhoto = await prisma.photos.delete({
+      where: {
+        id: photoId,
+      },
+    });
+    if (deletedPhoto.id === photoId) {
+      return NextResponse.json({ deletedPhoto }, { status: 200 });
+    }
+    return NextResponse.json(
+      { message: "Users photos not found" },
+      { status: 404 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: `An error occurred on our end. Error: ${error}` },
+      { status: 500 }
+    );
+  }
+}
