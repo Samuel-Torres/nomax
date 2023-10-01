@@ -40,4 +40,52 @@
       transform: translateY(-3px);
     }
   }
+
+  .demoBtn {
+    all: unset;
+    color: black;
+    padding: 10px;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-in-out;
+    opacity: 0.7;
+    font-size: 1.8rem;
+    background-color: white;
+    position: fixed;
+    top: 90%;
+    left: 50%;
+    transition: all 0.1s ease-in-out;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+    &:hover {
+      cursor: pointer;
+      transition-timing-function: ease-in;
+      transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: translate(-50%, -60%);
+      opacity: 1;
+    }
+  }
+
+  .testContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: $lightShade;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 500;
+
+    p {
+      font-size: 2rem;
+      margin-top: 1rem;
+    }
+  }
 }
