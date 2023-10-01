@@ -14,10 +14,8 @@ type photoCardListProps = {
 };
 
 const PhotoCardList = ({ user }: photoCardListProps) => {
-  const { photos, error, setError, isError, setIsError, isLoading } =
+  const { photos, error, setError, isError, setIsError, isLoading, mutate } =
     useUserPhotos(user.id);
-
-  console.log("PHOTOS: ", photos);
 
   return (
     <div className={styles.container}>
@@ -25,12 +23,13 @@ const PhotoCardList = ({ user }: photoCardListProps) => {
         photos?.map((photo: Photos) => {
           return (
             <PhotoCard
+              key={photo.id}
               id={photo.id}
               imageSrc={photo.imageSrc}
               description={photo.description}
               createdAt={photo.createdAt}
               userId={photo.userId}
-              key={photo.id}
+              mutate={mutate}
             />
           );
         })}
