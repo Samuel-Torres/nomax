@@ -3,8 +3,6 @@
 
 .container {
   width: 100%;
-  max-width: 100px;
-  height: 200px;
   margin: 0px 0px 15px 0px;
   display: flex;
   flex-direction: column;
@@ -12,19 +10,35 @@
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 
-  p {
+  .desc {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     margin-top: 1rem;
   }
 
   .imgContainer {
     position: relative;
     background-color: $lightShade;
-    height: 100px;
-    max-width: 100%;
+    width: 100%;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+  }
+
+  .actionContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+
+    .date {
+      font-size: medium;
+      font-weight: bold;
+      color: black;
+    }
+
+    .delete {
+      @include hoverEffect();
+    }
   }
 
   img {
@@ -36,10 +50,10 @@
 @media (min-width: $smallMobile) {
   .container {
     max-width: 400px;
-    height: 500px;
+    // height: 500px;
 
-    p {
-      font-size: 2.4rem;
+    .desc {
+      padding: 1rem 0.5rem;
     }
 
     .imgContainer {
@@ -55,18 +69,6 @@
     height: 400px;
     margin: 15px 15px;
     align-items: center;
-
-    .imgContainer {
-      height: 300px;
-      width: 300px;
-    }
-  }
-}
-
-@media (min-width: $tablet) {
-  .container {
-    max-width: 300px;
-    height: 500px;
 
     .imgContainer {
       height: 300px;

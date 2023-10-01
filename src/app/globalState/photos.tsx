@@ -33,5 +33,6 @@ export const useUserPhotos = (id: number) => {
     setIsError,
     isLoading,
     isValidating,
+    mutate,
   };
 };

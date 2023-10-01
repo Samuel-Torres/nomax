@@ -8,6 +8,7 @@ import useSWR from "swr";
 // components:
 import PhotoCardList from "@/components/photoCard/photoCardList";
 import BallSpinner from "@/components/loadingStateComponents/ballSpinner";
+import ToastWrapper from "@/components/toast/toastContainer";
 
 const Photos = () => {
   const { data: session } = useSession();
@@ -30,6 +31,7 @@ const Photos = () => {
   if (!isLoading && data.fetchedUser !== null)
     return (
       <div className={styles.container}>
+        <ToastWrapper alignment="top-left" />
         <PhotoCardList user={data.fetchedUser} />
       </div>
     );

@@ -3,5 +3,12 @@
 
 .container {
   margin-top: 8rem;
-  padding: 1rem 5rem;
+  padding: 1rem 0rem;
+}
+
+@media (min-width: $smallDesktop) {
+  .container {
+    margin-top: 8rem;
+    padding: 1rem 5rem;
+  }
 }
