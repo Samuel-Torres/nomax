@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { Users, personaTypes } from "@prisma/client";
 import prisma from "@/prisma/client/client";
+import { update } from "cypress/types/lodash";
 const bcrypt = require("bcrypt");
 
 type user = {
@@ -59,7 +60,7 @@ export async function PUT(
   request: NextRequest,
   { params }: Record<string, any>
 ) {
-  const { email } = params;
+  const { emailOrId } = params;
   const updatedUserData: user = await request.json();
   let hashedPassword: string;
   let payload: {} = {};
@@ -70,16 +71,19 @@ export async function PUT(
   } else {
     payload = {...updatedUserData, newUser: false}
   }
-
+  
   try {
     const updatedUser = await prisma.users.update({
       where: {
-        email: email,
+        email: emailOrId,
       },
       data: payload
     });
-    return NextResponse.json({ status: 200, ...updatedUser });
+    if(updatedUser.email === emailOrId) {
+      return NextResponse.json({  updatedUser }, { status: 200 });
+    }
+    return NextResponse.json({  message: "User not found. This might be an issue with your login. Please, try logging in again." }, { status: 404 });
   } catch (error) {
-    return NextResponse.json({ message: new Error(`${error}`) });
+    return NextResponse.json({ message: `An error occurred while updating account. We are working on this issue. Please, try again later. Error: ${error}` }, { status: 500});
   }
 }
