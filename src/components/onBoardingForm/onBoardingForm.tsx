@@ -5,6 +5,7 @@ import axios from "axios";
 import styles from "./onBoardingForm.module.scss";
 import { useSession } from "next-auth/react";
 import { useLoggedInUser } from "@/app/globalState/user";
+import { toast } from "react-toastify";
 
 type FormValues = {
   password: string;
@@ -20,6 +21,19 @@ const OnBoardingForm = () => {
   const session = useSession();
   const data = useLoggedInUser();
 
+  const updateUserSuccessResponses = [
+    "🔄 User information successfully updated.",
+    "👍 User profile updated successfully.",
+    "✨ User details have been modified.",
+    "🌟 User information successfully changed.",
+    "🎉 User profile updated!",
+    "👌 Successfully updated user information.",
+    "👋 Updated user details.",
+    "💼 User profile successfully modified.",
+    "🚀 User information has been updated.",
+    "👏 User details have been successfully changed.",
+  ];
+
   const {
     control,
     register,
@@ -32,10 +46,6 @@ const OnBoardingForm = () => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const { password, bio, persona, companyName, userName, jobTitle } = data;
-
-    // use immutability here:
-    // const payload = {...data};
-
     axios
       .put(`/api/users/${session.data?.user?.email}`, {
         password,
@@ -46,10 +56,39 @@ const OnBoardingForm = () => {
         jobTitle,
       })
       .then((res) => {
+        toast.success(
+          updateUserSuccessResponses[
+            Math.floor(Math.random() * updateUserSuccessResponses.length)
+          ],
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
         window.location.reload();
       })
       .catch((err) => {
-        // find a way to handle errors
+        toast.error(
+          err.response.data.message
+            ? `😢 ${err.response.data.message}`
+            : "😢 An issue occurred on our end please check back later ",
+          {
+            position: "top-left",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
       });
   };
 
