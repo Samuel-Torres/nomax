@@ -24,7 +24,7 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
     loggedInUserId,
     "IS_PENDING"
   );
-  console.log("DATA: ", data);
+
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -39,7 +39,6 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
         receiverId,
       })
       .then((res) => {
-        console.log("STATUS: ", res.status, res);
         toast.success(`${res.data.message}`, {
           position: "top-right",
           autoClose: 3000,
