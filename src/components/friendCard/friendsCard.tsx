@@ -1,6 +1,6 @@
 "use client";
 import styles from "./styles.module.scss";
-import { useUserFriends, useFetchFriends } from "@/app/globalState/friends";
+import { useFetchFriends } from "@/app/globalState/friends";
 import { useLoggedInUser } from "@/app/globalState/user";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +17,6 @@ type friendsCardProps = {
 const FriendsCard = ({ id }: friendsCardProps) => {
   const { id: loggedInUserId } = useLoggedInUser();
   const { data: friends, isLoading, mutate } = useFetchFriends(parseInt(id));
-  console.log("FRIENDS: ", friends);
 
   const removalMessages = [
     "😢 Adiós, my former friend!",
@@ -103,7 +102,7 @@ const FriendsCard = ({ id }: friendsCardProps) => {
             <>
               <div
                 className={
-                  loggedInUserId.toString() === id
+                  loggedInUserId && loggedInUserId.toString() === id
                     ? `${styles.loggedInFriendsCardContainer}`
                     : `${styles.visitingFriendsCardContainer}`
                 }
@@ -134,7 +133,7 @@ const FriendsCard = ({ id }: friendsCardProps) => {
                     ) : null}
                   </Link>
                 </div>
-                {loggedInUserId.toString() === id ? (
+                {loggedInUserId && loggedInUserId.toString() === id ? (
                   <div className={styles.rightSide}>
                     <button
                       onClick={() =>

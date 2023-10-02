@@ -24,12 +24,15 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
     loggedInUserId,
     "IS_PENDING"
   );
-
+  console.log("DATA: ", data);
   const handleRefresh = () => {
     window.location.reload();
   };
 
-  const handleFriendRequest = (receiverId: number, senderId: number) => {
+  const handleFriendRequest = (
+    receiverId: number,
+    senderId: number | undefined
+  ) => {
     axios
       .post(`/api/friendsRequest/${senderId}`, {
         senderId,
@@ -68,28 +71,14 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
       });
   };
 
-  if (visitedUser === null || isLoadingUser || user === null || isLoading) {
+  if (
+    visitedUser === null ||
+    isLoadingUser ||
+    user === null ||
+    isLoading ||
+    !data
+  ) {
     return <BallSpinner />;
-  }
-
-  if (isError && status !== 200) {
-    return (
-      <div className={styles.errorContainer}>
-        <Image
-          src="https://res.cloudinary.com/dvz91qyth/image/upload/v1693680614/Nomex/dashboard/error_clodv1.png"
-          width={50}
-          height={50}
-          alt="add button erroe"
-        />
-        <Image
-          onClick={handleRefresh}
-          src="https://res.cloudinary.com/dvz91qyth/image/upload/v1695773063/Nomex/dashboard/refresh-page-option_k1rato.png"
-          width={35}
-          height={35}
-          alt="refresh icon"
-        />
-      </div>
-    );
   }
 
   return (

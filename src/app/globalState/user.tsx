@@ -6,10 +6,11 @@ import { useSession } from "next-auth/react";
 
 export const useLoggedInUser = () => {
   const { data: session, status } = useSession();
+  console.log("SESSION: ", session);
   const router = useRouter();
   const fetcher = async (url: string) => await fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(
-    `/api/users/${session?.user?.email}`,
+    `/api/users/${session?.user?.id}`,
     fetcher,
     {
       dedupingInterval: 5000,
@@ -20,26 +21,10 @@ export const useLoggedInUser = () => {
     router.push("/auth");
   }
 
-  let storedId: string | null = null;
-
-  if (typeof window !== "undefined") {
-    storedId = localStorage.getItem("athUsr");
-  }
-
-  if (
-    !storedId &&
-    data &&
-    status !== "loading" &&
-    status === "authenticated" &&
-    typeof window !== "undefined"
-  ) {
-    localStorage.setItem("athUsr", data?.fetchedUser.id);
-  }
-
   return {
-    user: data?.fetchedUser,
+    user: data && data?.fetchedUser,
     isLoadingUser: isLoading,
     isError: error,
-    id: parseInt(storedId || "0"), // Return 0 if storedId is null
+    id: session?.user.id, // Return 0 if storedId is null
   };
 };
