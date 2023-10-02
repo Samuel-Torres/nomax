@@ -15,7 +15,6 @@ type postProps = {
 // components:
 import CreatePost from "./createPost/createPost";
 import PostCard from "./postCards/postCard";
-import NotificationCenter from "../notificationCenter/notificationCenter";
 
 export default function DashboardComponent({
   allPosts,

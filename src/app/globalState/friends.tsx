@@ -2,6 +2,7 @@
 import useSWR from "swr";
 import { useState } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 // GET POSTS:
 export const useUserFriends = (
@@ -10,21 +11,23 @@ export const useUserFriends = (
   fetchType: string
 ) => {
   //   const [error, setError] = useState<Error>();
+  const session = useSession();
   const [isError, setIsError] = useState<boolean>(false);
   const [status, setStatus] = useState<number>();
-
+  console.log("FETCH FRIENDS ID: ", session?.data?.user.id);
   const fetcher = async (url: string) =>
     axios
       .get(url, {
         headers: {
           "FETCH-TYPE": fetchType,
-          "LOGGED-ID": loggedInUserId,
+          "LOGGED-ID": session?.data?.user.id,
         },
       })
       .then(async (res) => {
         setIsError(false);
         setStatus(res.status);
         console.log("RES: ", res);
+
         return res?.data;
       })
       .catch((error) => {
@@ -57,7 +60,7 @@ export const useFetchFriends = (visitedUserId: number) => {
       .then((res) => res?.data?.data)
       .catch((err) => err);
   const { data, isLoading, mutate, error } = useSWR(
-    `/api/friendsList/${visitedUserId}`,
+    visitedUserId ? `/api/friendsList/${visitedUserId}` : null,
     fetcher
   );
   console.log("DATA: ", data);
