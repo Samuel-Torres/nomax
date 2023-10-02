@@ -29,7 +29,10 @@ const FriendRequestBtn = ({ visitedUser }: friendRequestBtnProps) => {
     window.location.reload();
   };
 
-  const handleFriendRequest = (receiverId: number, senderId: number) => {
+  const handleFriendRequest = (
+    receiverId: number,
+    senderId: number | undefined
+  ) => {
     axios
       .post(`/api/friendsRequest/${senderId}`, {
         senderId,

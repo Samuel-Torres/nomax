@@ -6,7 +6,7 @@ import axios from "axios";
 // GET POSTS:
 export const useUserFriends = (
   visitedUserId: number | null,
-  loggedInUserId: number | null,
+  loggedInUserId: number | undefined,
   fetchType: string
 ) => {
   //   const [error, setError] = useState<Error>();
