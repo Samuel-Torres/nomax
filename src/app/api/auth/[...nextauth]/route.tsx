@@ -3,6 +3,9 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { validatePassword } from "../../middleware/validatePassword";
 import prisma from "@/prisma/client/client";
+import { Users } from "@prisma/client";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { Adapter } from "next-auth/adapters";
 
 interface Auth {
   clientId: string;
@@ -26,6 +29,7 @@ interface GoogleOathUserObject {
 }
 
 const handler = NextAuth({
+  // adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     // Google Authentication Validaton:
     GoogleProvider({
@@ -89,6 +93,27 @@ const handler = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt: ({ token, user }) => {
+      const authorizedUser = user as unknown as Users;
+      if (user) {
+        return {
+          ...token,
+          id: authorizedUser.id,
+        };
+      }
+      return token;
+    },
+    session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      };
+    },
+  },
   pages: {
     error: "/auth",
   },
