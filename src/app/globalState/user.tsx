@@ -22,7 +22,7 @@ export const useLoggedInUser = () => {
   }
 
   return {
-    user: data?.fetchedUser,
+    user: data && data?.fetchedUser,
     isLoadingUser: isLoading,
     isError: error,
     id: session?.user.id, // Return 0 if storedId is null
