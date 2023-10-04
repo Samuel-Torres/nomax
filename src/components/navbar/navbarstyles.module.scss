@@ -4,16 +4,58 @@
 .container {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: $brandBlack;
-  height: 80px;
+  height: 120px;
+  padding: 0 5%;
+  background: rgb(147, 177, 193);
+  background: linear-gradient(
+    90deg,
+    rgba(147, 177, 193, 1) 12%,
+    rgba(59, 88, 117, 1) 100%
+  );
+
+  .psuedoContainer {
+    position: absolute;
+    background-color: black;
+    width: 100%;
+    height: 120px;
+    left: 0;
+    opacity: 0.2;
+    background: rgb(147, 177, 193);
+    background: linear-gradient(
+      90deg,
+      rgba(147, 177, 193, 0.6208858543417367) 0%,
+      rgba(0, 0, 0, 1) 90%
+    );
+  }
+
+  .logoImg {
+    position: relative;
+    bottom: 25px;
+    right: 10px;
+  }
+
+  .logoContainer {
+    display: flex;
+    justify-content: flex-start;
+    width: 20%;
+  }
+
   h1 {
-    color: $mainBrandColor;
+    color: white;
   }
   .btnContainer {
-    width: 40%;
+    width: 50%;
     display: flex;
     justify-content: space-around;
+  }
+  a {
+    font-size: 2.4rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: white;
+    z-index: 1;
   }
 }
 

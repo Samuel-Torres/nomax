@@ -1,6 +1,6 @@
 export const homePageHeroData = {
   heroImage:
-    "https://res.cloudinary.com/dvz91qyth/image/upload/v1689879602/Nomex/landing%20page%20assets/homePageHero/My_project-1_3_pt78yu.png",
+    "https://res.cloudinary.com/dvz91qyth/image/upload/v1696447065/Nomex/dashboard/people_nzgxqd.png",
   alt: "hero",
   header: "Creating Communities Abroad!",
   icons: [
