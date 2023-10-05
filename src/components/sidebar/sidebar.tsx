@@ -7,6 +7,9 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "@/app/globalState/posts";
+import { mutate } from "swr";
 
 // components:
 import LogoutBtn from "../logout/logoutBtn";
@@ -65,20 +68,18 @@ function Sidebar() {
                   : null
               )
               .then((res) => {
-                console.log("RESPONSE: ", res);
                 revalidateQueries();
                 setIsEditingPhoto(false);
                 setIsSubmitting(false);
+                mutate(unstable_serialize(getKey));
               })
               .catch((error) => {
-                console.log("SECOND ERROR: ", error);
                 setIsError(true);
                 setIsSubmitting(false);
               });
           }
         })
         .catch((error) => {
-          console.log("FIRST ERROR: ", error);
           setIsError(true);
           setIsSubmitting(false);
         });
