@@ -61,7 +61,7 @@ const Footer = () => {
       </div>
 
       <div className={styles.bottomSection}>
-        <p>&copy; 2023 Your Company Name. All Rights Reserved.</p>
+        <p>&copy; 2023 Nomax. All Rights Reserved.</p>
       </div>
     </footer>
   );
